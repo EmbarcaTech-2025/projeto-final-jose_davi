@@ -10,8 +10,9 @@ int main() {
 
   while (true) {
     char key = get_key();
-    // printf("%c\n", key);
-    sleep_ms(500);
+    if (key != '?')
+      printf("%c\n", key);
+    sleep_ms(250);
   }
 
   return 0;
