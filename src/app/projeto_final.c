@@ -3,6 +3,7 @@
 #include "../include/wifi_conn.h"
 #include "../include/led_rgb.h"
 #include "../include/buzzer.h"
+#include "../include/display_oled.h"
 #include "pico/stdio.h"
 #include "pico/time.h"
 #include <stdio.h>
@@ -15,6 +16,8 @@ int main() {
   led_rgb_init();
   
   buzzer_init();
+
+  display_init();
 
   // connect_to_wifi("Nome da Rede", "Senha da Rede");
   // mqtt_setup("bitdog1", "IP do Broker", "user", "password");

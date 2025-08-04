@@ -3,6 +3,8 @@ add_executable(projeto_final
   projeto_final.c
   ../drivers/led_rgb.c
   ../drivers/buzzer.c
+  ../drivers/display_oled.c
+  ../inc/ssd1306_i2c.c
 )
 
 pico_set_program_name(${PROJECT_NAME} "${PROJECT_NAME}")
@@ -23,6 +25,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}
 )
 
-target_link_libraries(projeto_final pico_stdlib hardware_gpio hardware_pwm)
+target_link_libraries(projeto_final pico_stdlib hardware_gpio hardware_pwm hardware_i2c)
 
 pico_add_extra_outputs(${PROJECT_NAME})
