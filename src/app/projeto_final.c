@@ -1,6 +1,8 @@
 #include "keyboard_handler.h"
 #include "../include/mqtt_comm.h"
 #include "../include/wifi_conn.h"
+#include "../include/led_rgb.h"
+#include "../include/buzzer.h"
 #include "pico/stdio.h"
 #include "pico/time.h"
 #include <stdio.h>
