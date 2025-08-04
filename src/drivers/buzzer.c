@@ -3,7 +3,7 @@
 #include "pico/stdlib.h" // Biblioteca padrão pico
 #include "hardware/pwm.h" // Biblioteca de PWM 
 #include "hardware/gpio.h" // Biblioteca de GPIOs
-#include "buzzer.h" 
+#include "../include/buzzer.h" 
 
 // Função para configuração do PWM do buzzer
 void buzzer_init(){

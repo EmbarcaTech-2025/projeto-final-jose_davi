@@ -2,7 +2,7 @@
 #include <stdio.h> // Biblioteca padrão
 #include "pico/stdlib.h" // Biblioteca padrão pico
 #include "hardware/gpio.h" // Biblioteca de GPIOs
-#include "led_rgb.h" 
+#include "../include/led_rgb.h" // Header do LED RGB
 
 // Função para configuração do LED RGB
 void led_rgb_init() {

@@ -12,6 +12,10 @@ int main() {
 
   keyboard_init();
 
+  led_rgb_init();
+  
+  buzzer_init();
+
   // connect_to_wifi("Nome da Rede", "Senha da Rede");
   // mqtt_setup("bitdog1", "IP do Broker", "user", "password");
 
