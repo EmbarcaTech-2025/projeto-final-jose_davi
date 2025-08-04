@@ -28,7 +28,7 @@ else()
   include(pico_sdk_import.cmake)
 endif()
 
-project($ENV{PROJECT_NAME} C CXX ASM)
+project(projeto_final C CXX ASM)
 
 pico_sdk_init()
 
@@ -43,5 +43,3 @@ elseif(TARGET_GROUP STREQUAL test)
 else()
   message(FATAL_ERROR "Given TARGET_GROUP unknown")
 endif()
-
-
