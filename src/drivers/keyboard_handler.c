@@ -2,6 +2,7 @@
 #include "hardware/gpio.h"
 #include <pico/time.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <string.h>
 
 const uint ROW_PINS[4] = {4, 8, 9, 16};
@@ -72,4 +73,17 @@ char read_keyboard(char *expected) {
   }
 
   return key_input;
+}
+
+int read_number(int len) {
+  int number = 0;
+
+  for (int i = 0; i < len; i++) {
+    int n = read_keyboard("1234567890") - '0';
+    number *= 10;
+    number += n;
+    printf("Codigo: %d\n", number);
+  }
+
+  return number;
 }

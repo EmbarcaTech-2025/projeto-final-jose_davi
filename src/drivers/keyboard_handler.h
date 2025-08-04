@@ -4,5 +4,6 @@
 extern void keyboard_init();
 extern char get_key();
 extern char read_keyboard(char *expected);
+extern int read_number(int len);
 
 #endif // !KEYBOARD_HANDLER_H
