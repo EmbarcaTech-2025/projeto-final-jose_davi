@@ -1,18 +1,24 @@
-{ pkgs, lib, config, inputs, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  inputs,
+  ...
+}:
 
 let
   pico-sdk = pkgs.pico-sdk.override { withSubmodules = true; };
 in
 {
-  packages = with pkgs; [ 
-    cmake 
-    ninja 
-    gcc 
-    gcc-arm-embedded 
+  packages = with pkgs; [
+    cmake
+    ninja
+    gcc-arm-embedded
     just
-    picotool 
-    libusb1 
-    newlib 
+    picolibc
+    picotool
+    libusb1
+    newlib
     pico-sdk
     minicom
     quirc

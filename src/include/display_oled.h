@@ -12,5 +12,9 @@
 #define DISPLAY_WIDTH 128
 #define DISPLAY_HEIGHT 64
 
+extern uint8_t ssd[ssd1306_buffer_length]; // Buffer do display OLED
+
+extern struct render_area frame_area; // Estrutura que define uma área de renderização
+
 void display_init(); // Função para inicializar o display OLED
 #endif

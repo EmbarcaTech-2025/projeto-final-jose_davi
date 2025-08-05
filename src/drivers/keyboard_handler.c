@@ -1,8 +1,9 @@
 #include "keyboard_handler.h"
 #include "hardware/gpio.h"
-#include "hardware/timer.h"
+#include <pico/time.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <string.h>
 
 const uint ROW_PINS[4] = {4, 8, 9, 16};
 const uint COLUMN_PINS[4] = {17, 18, 19, 20};
@@ -40,4 +41,49 @@ char get_key() {
   }
 
   return '?';
+}
+
+char read_keyboard(char *expected) {
+  char key_input = '?';
+  int len = strlen(expected);
+
+  // Ler até receber qualquer caractere caso
+  // não seja esperado um caractere especifico
+  if (!len) {
+    while (key_input == '?') {
+      key_input = get_key();
+      sleep_ms(250);
+    }
+  }
+
+  // Ler até receber um caractere esperado
+  else {
+    bool done = false;
+    while (!done) {
+      key_input = get_key();
+      sleep_ms(250);
+
+      for (int i = 0; i < len; i++) {
+        if (key_input == expected[i]) {
+          done = true;
+          break;
+        }
+      }
+    }
+  }
+
+  return key_input;
+}
+
+int read_number(int len) {
+  int number = 0;
+
+  for (int i = 0; i < len; i++) {
+    int n = read_keyboard("1234567890") - '0';
+    number *= 10;
+    number += n;
+    printf("Codigo: %d\n", number);
+  }
+
+  return number;
 }
