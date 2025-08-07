@@ -29,7 +29,7 @@ O **Diagrama de Hardware** detalha os componentes eletrônicos utilizados e suas
 ## **Diagrama de Hardware**
 O sistema embarcado apresentado adota uma **arquitetura distribuída**, composta por dois módulos BitDogLab que operam em conjunto na configuração mestre-escravo, interligados por meio do protocolo I2C. Essa abordagem proporciona maior modularidade, divisão de tarefas e escalabilidade ao projeto.
 
-A entrada principal do sistema é realizada por um **Teclado Matricial 4x4**, conectado ao **módulo BitDogLab (Escravo)** via GPIO, utilizando um conector IDC. Esse teclado permite a interação direta do usuário com o sistema, possibilitando a inserção da operação desejada e a quantidade de itens.
+Uma das principais entradas do sistema é realizada por um **Teclado Matricial 4x4**, conectado ao **módulo BitDogLab (Escravo)** via GPIO, utilizando um conector IDC. Esse teclado permite a interação direta do usuário com o sistema, possibilitando a inserção da operação desejada e a quantidade de itens.
 
 A **Câmera OV2640** é conectada também ao **módulo BitDogLab (Escravo)** por meio de uma interface paralela de 8 bits, utilizando um conector IDC via cabo jumper fêmea-macho. Essa câmera é responsável pela captura de imagens e pela leitura de QR Codes, etapa essencial para a identificação dos produtos no sistema.
 
@@ -56,7 +56,7 @@ A seguir é explicado a funcionalidade de cada bloco:
 * **Módulo de Captura de Imagem**: composto pela câmera OV2640, este módulo é responsável por capturar imagens e realizar a leitura de QR Codes. Os dados capturados são enviados ao módulo de processamento secundário para pré-processamento e repasse.
 * **Módulo de Interface com Usuário**: inclui o teclado matricial 4x4, utilizado para a entrada de comandos manuais por parte do usuário, informando ações como entrada ou saída de produto e suas respectivas quantidades.
 * **Módulo de Processamento Secundário**: este bloco representa o microcontrolador BitDogLab configurado como escravo. Ele é responsável por adquirir os dados da câmera e do teclado e repassar essas informações, de forma estruturada, ao microcontrolador mestre. Atua como um módulo de coleta e pré-processamento de dados.
-* **Módulo de Processamento Central**: neste bloco está o segundo microcontrolador BitDogLab, configurado como mestre. Ele é responsável por coordenar todo o sistema, processando as informações recebidas do módulo escravo, gerenciando o armazenamento local, enviando comandos para os periféricos de feedback e garantindo a comunicação com sistemas externos. Representa o núcleo lógico e decisório do sistema.
+* **Módulo de Processamento Central**: neste bloco está o segundo microcontrolador BitDogLab, configurado como mestre. Ele é responsável por coordenar todo o sistema, processando as informações recebidas do módulo escravo, gerenciando o armazenamento local, enviando comandos para os periféricos de feedback e garantindo a comunicação com sistemas externos, representando, assim, o núcleo do sistema.
 * **Módulo de Feedback**: consiste na interface de saída de informações detalhadas para o usuário, exibindo e indicando dados do produto, instruções de operação, confirmações, mensagens de erro e o resumo das transações. O display OLED, o LED RGB e o Buzzer representam esse módulo.
 * **Módulo de Armazenamento**: responsável por guardar os dados de estoque em um cartão SD, garantindo funcionamento offline e persistência.
 * **Módulo de Conectividade**: utiliza o Wi-Fi para conectar-se a um servidor ou sistema central, enviando e recebendo dados via MQTT.
