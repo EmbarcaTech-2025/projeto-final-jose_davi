@@ -6,7 +6,7 @@ Curso: Residência Tecnológica em Sistemas Embarcados
 
 Instituição: EmbarcaTech - HBr
 
-Brasília, Julho de 2025
+Brasília, agosto de 2025
 
 ---
 
@@ -69,8 +69,12 @@ A imagem a seguir explicita de forma visual os blocos funcionais do projeto:
 
 ## **Fluxograma do Software**
 
-O diagrama a seguir demonstra o fluxo de processos realizados pelo sistema,
-mostrando uma abstração do que será implementado em software:
+O diagrama a seguir demonstra o fluxo de processos realizados pelo sistema, mostrando uma
+abstração do que será implementado em software. No geral haverão dois tipos de processos
+executados pelo sistema, processos com input do usuário representados por retângulos azuis
+e processos sem input do usuário representados por retângulos brancos. Durante a execução dos
+processos com input do usuário a placa mestre manda uma mensagem para a placa escrava e recebe
+os dados coletados, essas comunicações foram suprimidas do fluxograma para deixá-lo mais enxuto.
 
 ![Fluxograma de Software](./imgs/Fluxograma_de_Software.png)
 
