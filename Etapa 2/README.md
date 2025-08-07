@@ -27,17 +27,19 @@ O **Diagrama de Hardware** detalha os componentes eletrônicos utilizados e suas
 ---
 
 ## **Diagrama de Hardware**
-O sistema embarcado proposto possui uma **arquitetura de hardware centrada na BitDogLab**, responsável por integrar e controlar todos os periféricos necessários ao funcionamento do projeto. 
+O sistema embarcado apresentado adota uma **arquitetura distribuída**, composta por dois módulos BitDogLab que operam em conjunto na configuração mestre-escravo, interligados por meio do protocolo I2C. Essa abordagem proporciona maior modularidade, divisão de tarefas e escalabilidade ao projeto.
 
-A entrada principal do sistema é feita por meio de um **Teclado Matricial 4x4**, conectado ao BitDogLab via GPIO utilizando um conector IDC. Esse teclado permite que o usuário interaja diretamente com o sistema, inserindo comandos como a operação desejada e a quantidade correspondente.
+A entrada principal do sistema é realizada por um **Teclado Matricial 4x4**, conectado ao **módulo BitDogLab (Escravo)** via GPIO, utilizando um conector IDC. Esse teclado permite a interação direta do usuário com o sistema, possibilitando a inserção da operação desejada e a quantidade de itens.
 
-A **Câmera OV2640** é responsável pela captura de imagens e leitura de QR Codes, comunicando-se com a BitDogLab através de uma interface paralela de 8 bits. A conexão física é realizada via conector IDC utilizando cabo jumper fêmea-macho, assegurando robustez e compatibilidade elétrica.
+A **Câmera OV2640** é conectada também ao **módulo BitDogLab (Escravo)** por meio de uma interface paralela de 8 bits, utilizando um conector IDC via cabo jumper fêmea-macho. Essa câmera é responsável pela captura de imagens e pela leitura de QR Codes, etapa essencial para a identificação dos produtos no sistema.
 
-Para armazenamento local, o sistema utiliza um **Cartão SD** conectado à BitDogLab via protocolo SPI, utilizando um conector IDC, o que permite o registro persistente das informações de estoque e a operação offline do sistema.
+Todos os dados capturados pelo módulo escravo são enviados para o **módulo BitDogLab (Mestre)** através do barramento I2C. Esse módulo centraliza as decisões e coordena os demais periféricos do sistema.
 
-A interface com o usuário também é composta por um **Display OLED (SSD1306)**, que se comunica com o BitDogLab via I2C. Esse display exibe informações úteis ao usuário, como o conteúdo do QR Code lido, instruções de operação, confirmações e mensagens de erro.
+Para o armazenamento dos dados, a **BitDogLab (Mestre)** utiliza um **Cartão SD**, conectado via protocolo SPI por meio de um conector IDC. Isso possibilita o registro persistente das informações processadas, assegurando a operação offline e a integridade dos dados do sistema.
 
-Para fornecer feedback adicional ao usuário, o sistema utiliza dois dispositivos conectados via GPIO: um **LED RGB**, que indica estados do sistema através de diferentes cores, e um **Buzzer**, que emite sinais sonoros de aviso ou confirmação.
+A comunicação com o usuário também é realizada por meio de um **Display OLED (SSD1306)**, conectado ao módulo mestre via I2C. Esse display exibe informações relevantes, como instruções, mensagens de erro, status do sistema e o conteúdo lido pelos QR Codes.
+
+Além disso, a **BitDogLab (Mestre)** controla dois dispositivos conectados via GPIO para fornecer feedback visual e sonoro ao usuário: um **LED RGB**, utilizado para indicar os estados do sistema através de diferentes cores, e um **Buzzer**, responsável por emitir sinais sonoros para alertas ou confirmações de operação.
 
 Essa organização do hardware garante modularidade e eficiência na comunicação entre os componentes, otimizando o desempenho do sistema embarcado e assegurando que ele atenda de forma confiável às suas funções principais.
 
@@ -48,11 +50,13 @@ O diagrama apresentado ilustra de maneira clara as conexões entre os componente
 ---
 
 ## **Blocos Funcionais**
-Como foi mencionado anteriormente, sistema foi projetada de forma modular para garantir clareza, escalabilidade e manutenibilidade. Dessa forma, cada bloco funcional é responsável por uma tarefa específica, e todos são orquestrados por uma unidade central de processamento. Vale destacar que alguns componentes podem integrar mais de um bloco funcional, desempenhando diferentes papéis dentro do sistema.
+Como foi mencionado anteriormente, sistema foi projetada de forma modular para garantir clareza, escalabilidade e manutenibilidade. Dessa forma, cada bloco funcional possui uma responsabilidade específica no fluxo de operação do sistema, sendo coordenado por uma arquitetura de processamento distribuída entre dois microcontroladores. Essa divisão permite melhor desempenho e paralelismo nas tarefas.
+
 A seguir é explicado a funcionalidade de cada bloco:
-* **Módulo de Captura de Imagem**: representado pela Câmera OV2640, esse módulo é responsável pela identificação de produtos através da leitura e decodificação de QR Codes.
-* **Módulo de Interface com Usuário**: permite a interação direta do usuário com o sistema. Por meio dele, é possível especificar a operação desejada (adição ou retirada) e a quantidade de produtos, além de identificar a ação do usuário exigida pelo sistema. Ele é representado pelo teclado matricial e o display OLED.
-* **Módulo de Processamento**: responsável por executar a lógica de controle principal. Ele processa os dados recebidos dos módulos de entrada, gerencia o banco de dados local, controla os módulos de saída para fornecer feedback ao usuário e gerencia a comunicação com o sistema externo.
+* **Módulo de Captura de Imagem**: composto pela câmera OV2640, este módulo é responsável por capturar imagens e realizar a leitura de QR Codes. Os dados capturados são enviados ao módulo de processamento secundário para pré-processamento e repasse.
+* **Módulo de Interface com Usuário**: inclui o teclado matricial 4x4, utilizado para a entrada de comandos manuais por parte do usuário, informando ações como entrada ou saída de produto e suas respectivas quantidades.
+* **Módulo de Processamento Secundário**: este bloco representa o microcontrolador BitDogLab configurado como escravo. Ele é responsável por adquirir os dados da câmera e do teclado e repassar essas informações, de forma estruturada, ao microcontrolador mestre. Atua como um módulo de coleta e pré-processamento de dados.
+* **Módulo de Processamento Central**: neste bloco está o segundo microcontrolador BitDogLab, configurado como mestre. Ele é responsável por coordenar todo o sistema, processando as informações recebidas do módulo escravo, gerenciando o armazenamento local, enviando comandos para os periféricos de feedback e garantindo a comunicação com sistemas externos. Representa o núcleo lógico e decisório do sistema.
 * **Módulo de Feedback**: consiste na interface de saída de informações detalhadas para o usuário, exibindo e indicando dados do produto, instruções de operação, confirmações, mensagens de erro e o resumo das transações. O display OLED, o LED RGB e o Buzzer representam esse módulo.
 * **Módulo de Armazenamento**: responsável por guardar os dados de estoque em um cartão SD, garantindo funcionamento offline e persistência.
 * **Módulo de Conectividade**: utiliza o Wi-Fi para conectar-se a um servidor ou sistema central, enviando e recebendo dados via MQTT.
