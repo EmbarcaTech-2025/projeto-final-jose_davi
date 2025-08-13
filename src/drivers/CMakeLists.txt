@@ -10,3 +10,18 @@ target_link_libraries(keyboard_handler
 target_include_directories(keyboard_handler PUBLIC
   ${CMAKE_CURRENT_LIST_DIR}
 )
+
+add_library(sd_card_handler STATIC
+  sd_card_handler.c
+  hw_config.c
+)
+
+target_link_libraries(sd_card_handler
+  pico_time
+  pico_types
+  no-OS-FatFS-SD-SDIO-SPI-RPi-Pico
+)
+
+target_include_directories(sd_card_handler PUBLIC
+  ${CMAKE_CURRENT_LIST_DIR}
+)
