@@ -13,19 +13,20 @@ in
   packages = with pkgs; [
     cmake
     ninja
+    gcc
     gcc-arm-embedded
     just
-    picolibc
     picotool
-    libusb1
-    newlib
     pico-sdk
-    minicom
+    python3
     quirc
+    minicom
   ];
 
-  env.PROJECT_NAME = "projeto_final";
-  env.PICO_SDK_PATH = "${pico-sdk}/lib/pico-sdk";
+  env = {
+    PROJECT_NAME = "sd_card";
+    PICO_SDK_PATH = "${pico-sdk}/lib/pico-sdk";
+  };
 
   scripts.picoserial.exec = ''
     sudo minicom --device /dev/ttyACM0

@@ -1,6 +1,7 @@
 # Add executable. Default name is the project name, version 0.1
 add_executable(projeto_final
   projeto_final.c
+  hw_config.c
   ../drivers/led_rgb.c
   ../drivers/buzzer.c
   ../drivers/display_oled.c
@@ -18,6 +19,7 @@ pico_enable_stdio_usb(${PROJECT_NAME} 1)
 target_link_libraries(${PROJECT_NAME}
   pico_stdlib
   keyboard_handler
+  no-OS-FatFS-SD-SDIO-SPI-RPi-Pico
 )
 
 # Add the standard include files to the build
