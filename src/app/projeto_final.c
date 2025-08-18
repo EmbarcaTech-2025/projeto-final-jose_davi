@@ -1,27 +1,64 @@
-#include "keyboard_handler.h"
-#include "../include/mqtt_comm.h"
-#include "../include/wifi_conn.h"
-#include "../include/led_rgb.h"
 #include "../include/buzzer.h"
 #include "../include/display_oled.h"
+#include "../include/led_rgb.h"
+#include "../include/mqtt_comm.h"
+#include "../include/wifi_conn.h"
+#include "bh1750.h"
+#include "bmp280.h"
+#include "keyboard_handler.h"
 #include "pico/stdio.h"
+#include <hardware/gpio.h>
+#include <hardware/i2c.h>
+#include <hardware/structs/io_bank0.h>
+#include <pico/time.h>
 #include <stdio.h>
 #include <string.h>
+
+void i2c1_init() {
+  i2c_init(i2c1, 400 * 1000);
+
+  gpio_set_function(2, GPIO_FUNC_I2C);
+  gpio_set_function(3, GPIO_FUNC_I2C);
+
+  gpio_pull_up(2);
+  gpio_pull_up(3);
+}
 
 int main() {
   // Funções de inicialização do sistema
   stdio_init_all();
+  i2c1_init();
+
+  // Teste sensores
+  bh1750_init();
+  bmp280_init();
+
+  float lux = 0;
+  float temp = 0;
+  float pres = 0;
+
+  while (true) {
+    get_temp_pres(&temp, &pres);
+    lux = get_lux();
+
+    printf("Temperatuta: %.2f C\n", temp);
+    printf("Pressao: %.3f kPa\n", pres);
+    printf("Luminosidade: %.2f lux\n", lux);
+
+    sleep_ms(1000);
+  }
+
   keyboard_init();
 
   led_rgb_init();
-  
+
   buzzer_init();
 
   display_init();
 
   // connect_to_wifi("Nome da Rede", "Senha da Rede");
   // mqtt_setup("bitdog1", "IP do Broker", "user", "password");
-  
+
   char key_input = '?';
 
   while (true) {

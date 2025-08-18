@@ -24,7 +24,7 @@ in
   ];
 
   env = {
-    PROJECT_NAME = "sd_card";
+    PROJECT_NAME = "projeto_final";
     PICO_SDK_PATH = "${pico-sdk}/lib/pico-sdk";
   };
 
