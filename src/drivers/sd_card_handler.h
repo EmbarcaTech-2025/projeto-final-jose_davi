@@ -12,6 +12,6 @@ typedef struct item {
 extern bool sd_mount();
 extern void sd_unmount();
 extern uint item_write(Item item);
-extern Item *item_read(char *code);
+extern Item *item_read(char code[6]);
 
 #endif

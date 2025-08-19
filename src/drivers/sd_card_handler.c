@@ -45,7 +45,7 @@ uint item_write(Item item) {
   return bw;
 }
 
-Item *item_read(char *code) {
+Item *item_read(char code[6]) {
   Item *item = malloc(sizeof(Item));
   uint br;
 

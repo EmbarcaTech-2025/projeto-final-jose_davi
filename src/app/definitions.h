@@ -1,0 +1,17 @@
+#ifndef DEFINITIONS_H
+#define DEFINITIONS_H
+
+typedef enum SLAVE_STATE {
+  READING,
+  WRITING,
+  UNAVAILABLE,
+  READY,
+  DONE
+} SLAVE_STATE;
+
+typedef enum MESSAGE_TYPE {
+  REQUEST_READ,
+  REQUEST_WRITE,
+} MESSAGE_TYPE;
+
+#endif
