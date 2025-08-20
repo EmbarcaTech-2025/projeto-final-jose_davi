@@ -5,6 +5,7 @@
 #include "../include/wifi_conn.h"
 #include "bh1750.h"
 #include "bmp280.h"
+#include "aht10.h"
 #include "keyboard_handler.h"
 #include "pico/stdio.h"
 #include <hardware/gpio.h>
@@ -25,14 +26,17 @@ int main() {
   float lux = 0;
   float temp = 0;
   float pres = 0;
+  float humidity = 0;
 
   while (true) {
     get_temp_pres(&temp, &pres);
     lux = get_lux();
+    humidity = GetHumidity();
 
     printf("Temperatuta: %.2f C\n", temp);
     printf("Pressao: %.3f kPa\n", pres);
     printf("Luminosidade: %.2f lux\n", lux);
+    printf("Umidade: %.2f %%\n", humidity);
 
     sleep_ms(1000);
   }

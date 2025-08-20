@@ -30,6 +30,7 @@ if(DEVICE STREQUAL "MASTER")
     keyboard_handler
     bmp280
     bh1750
+    aht10
   )
 
   # Add the standard include files to the build

@@ -48,3 +48,15 @@ target_link_libraries(bh1750
 target_include_directories(bh1750 PUBLIC
   ${CMAKE_CURRENT_LIST_DIR}
 )
+
+add_library(aht10 STATIC
+  aht10.c
+)
+
+target_link_libraries(aht10
+  hardware_i2c
+)
+
+target_include_directories(aht10 PUBLIC
+  ${CMAKE_CURRENT_LIST_DIR}
+)
