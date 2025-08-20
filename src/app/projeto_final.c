@@ -14,20 +14,9 @@
 #include <stdio.h>
 #include <string.h>
 
-void i2c1_init() {
-  i2c_init(i2c1, 400 * 1000);
-
-  gpio_set_function(2, GPIO_FUNC_I2C);
-  gpio_set_function(3, GPIO_FUNC_I2C);
-
-  gpio_pull_up(2);
-  gpio_pull_up(3);
-}
-
 int main() {
   // Funções de inicialização do sistema
   stdio_init_all();
-  i2c1_init();
 
   // Teste sensores
   bh1750_init();
