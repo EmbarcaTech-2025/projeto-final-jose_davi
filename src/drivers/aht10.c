@@ -25,8 +25,8 @@ unsigned long readSensor(bool GetDataCmd)
     unsigned long result;
     unsigned char temp[6];
 
-    i2c_write_blocking(I2C_PORT, ADDR, eSensorMeasureCmd, 3, true);  // true to keep master control of bus
-    i2c_read_blocking(I2C_PORT, ADDR, temp, 6, false);  // false - finished with bus
+    i2c_write_blocking(I2C_PORT, ADDR_AHT10, eSensorMeasureCmd, 3, true);  // true to keep master control of bus
+    i2c_read_blocking(I2C_PORT, ADDR_AHT10, temp, 6, false);  // false - finished with bus
 
     if(GetDataCmd)
     {

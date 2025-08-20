@@ -18,7 +18,7 @@
 #include "hardware/i2c.h"
 
 // device has default bus address of 0x38
-#define ADDR 0x38
+#define ADDR_AHT10 0x38
 #define WATER_VAPOR 17.62f
 #define BAROMETRIC_PRESSURE 243.5f
 
