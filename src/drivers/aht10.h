@@ -37,6 +37,7 @@ extern Sensor_CMD eSensorResetCmd ;
 extern bool    GetRHumidityCmd;
 extern bool    GetTempCmd;
 
+void aht10_init(void);
 unsigned long readSensor(bool GetDataCmd);
 float GetTemperature(void);
 float GetHumidity(void);

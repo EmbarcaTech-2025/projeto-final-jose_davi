@@ -39,6 +39,7 @@
     "raspberry-pi-pico.ninjaPath": "${HOME}/.pico-sdk/ninja/v1.12.1/ninja",
     "files.associations": {
         "time.h": "c",
-        "io_bank0.h": "c"
+        "io_bank0.h": "c",
+        "i2c_config.h": "c"
     }
 }

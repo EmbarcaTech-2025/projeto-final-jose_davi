@@ -7,6 +7,7 @@
 #include "bmp280.h"
 #include "aht10.h"
 #include "keyboard_handler.h"
+#include "i2c_config.h"
 #include "pico/stdio.h"
 #include <hardware/gpio.h>
 #include <hardware/i2c.h>
@@ -19,9 +20,18 @@ int main() {
   // Funções de inicialização do sistema
   stdio_init_all();
 
+  sleep_ms(5000);
+
+  i2c_init(I2C_PORT, 100 * 1000);
+  gpio_set_function(I2C_SDA_PIN, GPIO_FUNC_I2C);
+  gpio_set_function(I2C_SCL_PIN, GPIO_FUNC_I2C);
+  gpio_pull_up(I2C_SDA_PIN);
+  gpio_pull_up(I2C_SCL_PIN);
+
   // Teste sensores
   bh1750_init();
   bmp280_init();
+  aht10_init();
 
   float lux = 0;
   float temp = 0;
@@ -33,10 +43,10 @@ int main() {
     lux = get_lux();
     humidity = GetHumidity();
 
-    printf("Temperatuta: %.2f C\n", temp);
-    printf("Pressao: %.3f kPa\n", pres);
-    printf("Luminosidade: %.2f lux\n", lux);
-    printf("Umidade: %.2f %%\n", humidity);
+    printf("Temperatuta: %.2f C", temp);
+    printf("Pressao: %.3f kPa", pres);
+    printf("Luminosidade: %.2f lux", lux);
+    printf("Umidade: %.2f %%", humidity);
 
     sleep_ms(1000);
   }
