@@ -41,6 +41,7 @@
         "time.h": "c",
         "io_bank0.h": "c",
         "i2c_config.h": "c",
-        "unity_internals.h": "c"
+        "unity_internals.h": "c",
+        "stdlib.h": "c"
     }
 }

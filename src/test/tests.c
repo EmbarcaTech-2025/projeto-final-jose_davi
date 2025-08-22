@@ -15,20 +15,20 @@ void setUp(void) {
   //keyboard_init();
 
   // Inicialização da conectividade WI-Fi com o protocolo MQTT
-  //connect_to_wifi("SSID", "Senha");
-  //mqtt_setup("bitdoglab_mestre", "IP do Broker", "bitdoglab_mestre", "12345678");
-  //mqtt_comm_subscribe("bitdoglab_mestre/produto");
+  connect_to_wifi("UFC-MMA", "05142029");
+  mqtt_setup("bitdoglab_mestre", "192.168.0.146", "bitdoglab_mestre", "12345678");
+  mqtt_comm_subscribe("bitdoglab_mestre/produto");
 
   // Inicialização para o uso dos sensores
-  i2c_init(I2C_PORT, 100 * 1000);
-  gpio_set_function(I2C_SDA_PIN, GPIO_FUNC_I2C);
-  gpio_set_function(I2C_SCL_PIN, GPIO_FUNC_I2C);
-  gpio_pull_up(I2C_SDA_PIN);
-  gpio_pull_up(I2C_SCL_PIN);
+  //i2c_init(I2C_PORT, 100 * 1000);
+  //gpio_set_function(I2C_SDA_PIN, GPIO_FUNC_I2C);
+  //gpio_set_function(I2C_SCL_PIN, GPIO_FUNC_I2C);
+  //gpio_pull_up(I2C_SDA_PIN);
+  //gpio_pull_up(I2C_SCL_PIN);
 
-  bmp280_init();
-  bh1750_init();  
-  aht10_init();
+  //bmp280_init();
+  //bh1750_init();  
+  //aht10_init();
 
 };
 void tearDown(void) {};
@@ -110,7 +110,7 @@ int main(void) {
   sleep_ms(1000);
   UNITY_BEGIN();
 
-  RUN_TEST(test_sensors);
+  RUN_TEST(test_wifi_mqtt);
 
   UNITY_END();
 }

@@ -52,15 +52,18 @@ de um sistema capaz de receber dados acerca de produtos do estoque e
 registrar, de forma precisa, quais itens estão disponíveis e em que quantidade.
 
 O sistema também possibilita a interação com o usuário por meio do mecanismo de 
-conectividade, onde o usuário informar o nome do produto que será considerado. Além disso, o usuário tem a sua disposição um periférico que lhe permite, de forma prática e eficiente, o registro da quantidade de um determinado produto e se ele será incluído ou removido do estoque.
+conectividade, onde o usuário informar o nome do produto que será considerado.
+Além disso, o usuário tem a sua disposição um periférico que lhe permite, de
+forma prática e eficiente, o registro da quantidade de um determinado produto
+e se ele será incluído ou removido do estoque.
 
-Além disso, o sistema utiliza esse mecanismo de conectividade para se comunicar
+Ademais, o sistema utiliza esse mecanismo de conectividade para se comunicar
 com um sistema externo, enviando mensagens com informações relevantes
 para o gerenciamento do estoque — como a quantidade de itens adicionados ou
 retirados, a data e hora da operação, entre outros dados — contribuindo para um
 controle mais completo, seguro e integrado.
 
-Por fim, o sistema será capaz de fornecer, ao usuários, dados acerca das condições físicas do ambiente. Entrando em detalhes, essas condições são:
+Por fim, o sistema será capaz de fornecer, aos usuários, dados acerca das condições físicas do ambiente. Entrando em detalhes, essas condições são:
 - Temperatura
 - Umidade
 - Luminosidade
@@ -80,7 +83,7 @@ automatizado, contribuindo significativamente para a otimização da gestão de 
 
 O sistema deve poder atender os seguintes requisitos funcionais:
 
-- Receber o nome do produto por meio de um mecanismo de conectvidade com o usuário.
+- Receber o nome do produto por meio de um mecanismo de conectividade com o usuário.
 - Indicar ao usuário que o nome do produto foi recebido.
 - Permitir ao usuário a definição da quantidade de produtos que ele quer adicionar ou remover.
 - Indicar ao usuário que a quantidade desejada foi recebida.
@@ -130,11 +133,11 @@ Obs.: Para esse projeto, serão utilizadas duas BitDogLabs.
 
 A fim de cumprir os requisitos funcionais, o sistema seguirá as seguintes especificações:
 
-- Utilizando o mecanismo de conectividade WI-FI, utilizando o protocolo MQTT, o sistema se inscreve em m tópico específico e recebe o nome do produto que será registrado ou removido pelo usuário.
+- Utilizando o mecanismo de conectividade WI-FI, utilizando o protocolo MQTT, o sistema se inscreve em um tópico específico e recebe o nome do produto que será registrado ou removido pelo usuário.
 - Utilizando o teclado matricial, o usuário pode especificar ao sistema se ele quer adicionar ou remover o produto e a quantidade do produto considerado.
 - Utilizando o Display OLED será apresentado ao usuário informações sobre o produto, instruções para realizar as diversas operações permitidas pelo sistema, entre outras informações.
 - Utilizando a comunicação I2C, a BitDogLab fará o envio desses dados para outra BitDogLab, que apresenta a placa adaptadora de SD Card.
 - O cartão SD será utilizado a fim de armazenar informações sobre o estoque local, permitindo a operação do sistema mesmo em caso de queda do servidor central.
-- O sistema enviará feedbacks extras, além do Display OLED, ao usuário acerca de suas operações por meio de um buzzer e um LED RGB. Exemplo: após a leitura do QR Code, o sistema indicará que o produto foi identificado por meio do som do buzzer e a cor verde do LED RGB.
+- O sistema enviará feedbacks extras, além do Display OLED, ao usuário acerca de suas operações por meio de um buzzer e um LED RGB. Exemplo: após receber uma mensagem via MQTT, o sistema indicará que o produto foi identificado por meio do som do buzzer e a cor verde do LED RGB.
 - Também por meio do módulo Wi-Fi da BitDogLab, utilizando o protocolo MQTT, o sistema será capaz de enviar e receber dados acerca da quantidade de determinado produto no estoque, número de produtos adicionados ou retirados, entre outros.
 - A temperatura (Sensor BMP280), umidade (Sensor AHT10), luminosidade (Sensor BH1750) e pressão (Sensor BMP280) serão obtidas por meio de seus respectivos sensores e apresentados ao usuário por meio do display oled mediante uma requisição do usuário utilizando o teclado matricial.

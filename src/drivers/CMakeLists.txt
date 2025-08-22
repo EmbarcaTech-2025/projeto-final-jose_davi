@@ -18,6 +18,7 @@ add_library(sd_card_handler STATIC
 
 target_link_libraries(sd_card_handler
   pico_stdlib
+  hardware_i2c
   no-OS-FatFS-SD-SDIO-SPI-RPi-Pico
 )
 
@@ -74,6 +75,7 @@ target_link_libraries(wifi_conn
 )
 
 target_include_directories(wifi_conn PUBLIC
+  ${CMAKE_CURRENT_LIST_DIR}
   ${CMAKE_CURRENT_LIST_DIR}/../include
 )
 
@@ -90,6 +92,7 @@ target_link_libraries(mqtt_comm
 )
 
 target_include_directories(mqtt_comm PUBLIC
+  ${CMAKE_CURRENT_LIST_DIR}
   ${CMAKE_CURRENT_LIST_DIR}/../include
 )
 
