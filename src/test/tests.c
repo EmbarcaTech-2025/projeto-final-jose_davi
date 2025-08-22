@@ -15,8 +15,8 @@ void setUp(void) {
   //keyboard_init();
 
   // Inicialização da conectividade WI-Fi com o protocolo MQTT
-  connect_to_wifi("UFC-MMA", "05142029");
-  mqtt_setup("bitdoglab_mestre", "192.168.0.146", "bitdoglab_mestre", "12345678");
+  connect_to_wifi("SSID", "Senha");
+  mqtt_setup("bitdoglab_mestre", "IP do Broker", "bitdoglab_mestre", "12345678");
   mqtt_comm_subscribe("bitdoglab_mestre/produto");
 
   // Inicialização para o uso dos sensores
