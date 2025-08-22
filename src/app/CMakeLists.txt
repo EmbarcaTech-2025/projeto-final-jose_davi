@@ -1,7 +1,7 @@
 # Mude essa variável para escolher o dispositivo
 # "MASTER" para o dispositivo mestre
 # "SLAVE" para o dispositivo escravo
-set(DEVICE "MASTER")
+set(DEVICE "SLAVE")
 
 if(DEVICE STREQUAL "MASTER")
   add_executable(projeto_final
@@ -41,7 +41,7 @@ if(DEVICE STREQUAL "MASTER")
   pico_add_extra_outputs(${PROJECT_NAME})
 else()
   add_executable(projeto_final
-    slave.c
+    bitdoglab_escrava.c
   )
 
   add_compile_definitions(USE_PRINTF USE_DBG_PRINTF)
@@ -55,8 +55,8 @@ else()
 
   # Add the standard library to the build
   target_link_libraries(${PROJECT_NAME}
-    pico_stdlib
     pico_i2c_slave
+    hardware_gpio
     hardware_i2c
     sd_card_handler
   )

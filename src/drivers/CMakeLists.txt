@@ -18,6 +18,7 @@ add_library(sd_card_handler STATIC
 
 target_link_libraries(sd_card_handler
   pico_stdlib
+  hardware_i2c
   no-OS-FatFS-SD-SDIO-SPI-RPi-Pico
 )
 
