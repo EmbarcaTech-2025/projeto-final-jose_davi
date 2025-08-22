@@ -1,13 +1,15 @@
 #include "lwip/apps/mqtt.h"       // Biblioteca MQTT do lwIP
-#include "include/mqtt_comm.h"    // Header file com as declarações locais
+#include "../include/mqtt_comm.h"    // Header file com as declarações locais
 // Base: https://github.com/BitDogLab/BitDogLab-C/blob/main/wifi_button_and_led/lwipopts.h
-#include "lwipopts.h"             // Configurações customizadas do lwIP
+#include "../include/lwipopts.h"             // Configurações customizadas do lwIP
 #include <string.h>                 // Para funções de string como strlen()
 #include "pico/stdlib.h" 
 
 /* Variável global estática para armazenar a instância do cliente MQTT
  * 'static' limita o escopo deste arquivo */
 static mqtt_client_t *client;
+
+char ultima_mensagem_recebida[256] = "";
 
 uint32_t ultima_timestamp_recebida = 0; // Usando uint32_t para maior clareza
 
@@ -57,25 +59,14 @@ static void mqtt_incoming_publish_cb(void *arg, const char *topic, u32_t tot_len
 }
 
 void on_message(char* topic, char* msg) {
-    // 1. Parse do JSON (exemplo simplificado)
-    uint32_t nova_timestamp;
-    float valor;
-    if (sscanf(msg, "{\"valor\":%f,\"ts\":%lu}", &valor, &nova_timestamp) != 2) {
-        printf("Erro no parse da mensagem!\n");
-        return;
-    }
+    strncpy(ultima_mensagem_recebida, msg, sizeof(ultima_mensagem_recebida) - 1);
 
-    // 2. Verificação de replay
-    if (nova_timestamp > ultima_timestamp_recebida) {
-        ultima_timestamp_recebida = nova_timestamp;
-        printf("Nova leitura: %.2f (ts: %lu)\n", valor, nova_timestamp);
-        
-        // --> Processar dados aqui <--
-        
-    } else {
-        printf("Replay detectado (ts: %lu <= %lu)\n", nova_timestamp, ultima_timestamp_recebida);
-    }
+    ultima_mensagem_recebida[sizeof(ultima_mensagem_recebida) - 1] = '\0';
+
+    // printf("Mensagem foi salva com sucesso na variavel global!\n");
+    // printf("Conteudo da variavel global: %s\n", ultima_mensagem_recebida);
 }
+
 
 /* Callback de recepção de dados MQTT
  * Chamado sempre que um fragmento de payload de uma publicação MQTT é recebido.

@@ -21,14 +21,10 @@ bool    GetRHumidityCmd        = true;
 bool    GetTempCmd             = false;
 
 void aht10_init(void) {
-    // É uma boa prática esperar um pouco após a energização antes de se comunicar
-    sleep_ms(20); 
 
     // Envia o comando de calibração para o sensor
     i2c_write_blocking(I2C_PORT, ADDR_AHT10, eSensorCalibrateCmd, 3, false);
 
-    // Aguarda o sensor completar a calibração
-    sleep_ms(300); 
 }
 
 unsigned long readSensor(bool GetDataCmd)

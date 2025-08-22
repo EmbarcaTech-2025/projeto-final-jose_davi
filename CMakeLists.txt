@@ -35,6 +35,7 @@ pico_sdk_init()
 add_subdirectory(./src/include/no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/src build)
 
 add_subdirectory(src/drivers)
+add_subdirectory(src/test)
 # add_subdirectory(src/hal)
 
 if(TARGET_GROUP STREQUAL production)
