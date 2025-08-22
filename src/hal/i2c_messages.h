@@ -1,10 +1,10 @@
-#ifndef I2C_DEFINITIONS_H
-#define I2C_DEFINITIONS_H
+#ifndef I2C_MESSAGES_H
+#define I2C_MESSAGES_H
 
 #include "sd_card_handler.h"
 
-const uint SLAVE_ADDR = 0x26;
-const uint I2C_BAUDRATE = 10000;
+static const uint SLAVE_ADDRESS = 0x26;
+static const uint I2C_BAUDRATE = 10 * 1000;
 
 #define SLAVE_PORT i2c0
 #define MASTER_PORT i2c1
@@ -31,5 +31,9 @@ typedef struct {
   SLAVE_STATE state;
   Item item;
 } SlaveMessage;
+
+extern void i2c_init_master();
+extern Item *slave_read_item(uint32_t code);
+extern bool slave_write_item(Item item);
 
 #endif

@@ -1,6 +1,6 @@
 #include "hardware/gpio.h"
 #include "hardware/i2c.h"
-#include "i2c_definitions.h"
+#include "i2c_messages.h"
 #include "pico/i2c_slave.h"
 #include "sd_card_handler.h"
 #include <stdint.h>
@@ -50,7 +50,7 @@ static void setup_slave() {
   gpio_pull_up(I2C_SLAVE_SCL_PIN);
 
   i2c_init(SLAVE_PORT, I2C_BAUDRATE);
-  i2c_slave_init(SLAVE_PORT, SLAVE_ADDR, &i2c_slave_handler);
+  i2c_slave_init(SLAVE_PORT, SLAVE_ADDRESS, &i2c_slave_handler);
 }
 
 int main() {
