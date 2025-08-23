@@ -11,6 +11,11 @@ Brasília, agosto de 2025
 ---
 
 ## **Introdução**
+Tendo como base as descrições do sistema definida no [documento da 1° etapa](<../Etapa 1/README.md>) e no [documento da 2° etapa](<../Etapa 2/README.md>) do projeto final da segunda fase do EmbarcaTech 2025, foi elaborado o presente arquivo. O conteúdo aqui reunido tem como propósito detalhar o protótipo funcional atualmente desenvolvido, o qual, embora já represente de forma consistente a proposta inicial, ainda demanda ajustes e refinamentos para alcançar a versão idealizada no planejamento do projeto. 
+
+Esta documentação busca fornecer uma visão abrangente sobre o estado atual do protótipo. Para isso, apresenta registros em vídeo e fotografias da montagem física, bem como os resultados obtidos nos testes práticos realizados até o momento. Além disso, são descritos os principais desafios encontrados durante o processo de desenvolvimento, destacando tanto questões técnicas quanto de integração entre os diferentes módulos.
+
+Por fim, o documento inclui uma listagem dos ajustes pendentes e das melhorias previstas, que servirão de base para a evolução do projeto rumo à sua versão final. Dessa forma, pretende-se não apenas registrar o estágio atual, mas também orientar os próximos passos necessários para consolidar o sistema conforme os objetivos estabelecidos.
 
 ---
 
@@ -19,13 +24,44 @@ Brasília, agosto de 2025
 ---
 
 ## **Testes**
+Utilizando Unity, framework de testes unitários amplamente utilizado em sistemas embarcados e C em geral em razão de ser leve, simples e portável, foram elaborados os seguintes testes:
+* **Teste de Verificação de Funcionamento do Teclado Matricial**: o teclado matricial será utilizado para receber as entradas do usuário relacionadas a quantidade do produto e operação desejada (Cadastro ou Retirada). Portanto, diante dessa funcionalidade essencial, foi elaborado um teste interativo, pelo terminal, que verifica o pressionamento de todo botão e informa sucesso ou fracasso ao usuário.
+
+A imagem a seguir demonstra o funcionamento do teste no terminal:
+![Teste do Teclado Matricial](./imgs/teste_keyboard.png)
+
+* **Teste da Conectividade Wi-Fi**: o mecanismo de conectividade Wi-Fi utilizando o protocolo MQTT se demonstra como um essencial pilar do projeto em decorrência de sua utilização para envio e reebimento do produto a ser registrado pelo usuário. Para garantir a robustez dessa comunicação, foi elaborado o seguinte teste de integração de ponta a ponta que simula o fluxo completo de recebimento de um comando:
+    1. **Conexão à Rede Wi-Fi**: Primeiramente, o teste verifica a capacidade do dispositivo de se conectar à rede local utilizando as credenciais fornecidas (SSID e senha).
+    2. **Conexão e Autenticação ao Broker MQTT**: Uma vez conectado à rede, o dispositivo estabelece a conexão com o servidor MQTT, utilizando o IP, ID de cliente e credenciais de segurança.
+    3. **Inscrição em Tópico (Subscribe)**: Após a conexão com o broker, o sistema se inscreve no tópico `bitdoglab_mestre/produto`, preparando-se para receber mensagens.
+    4. **Recebimento e Validação da Mensagem**: A etapa final consiste em verificar se o dispositivo recebe corretamente a mensagem publicada ("Produto") externamente no tópico subscrito.
+
+A imagem a seguir demonstra o funcionamento do teste no terminal:
+![Teste de Conectividade](./imgs/teste_wifi_mqtt.png)
+
+* **Teste dos Sensores do Ambiente**: a parte de sensoriamento do projeto agrupa o uso de três sensores para a captura dos seguintes dados do ambiente: temperatura, pressão, luminosidade e umidade. Portanto, é necessário verificar se os dados estão sendo capturados e se são de fatos confiáveis. Diante disso, foi elaborado um teste que verifica se os dados retornados pelos sensores estão em valores compatíveis com o ambiente de teste. Foi verificado que as leituras estão na faixa:
+    - **0°C a 50°C** para Temperatura
+    - **87.5 kPa a 107.5 kPa** para Pressão Atmosférica
+    - **Acima de 0 lux** para Luminosidade
+    - **5% a 95%** de Umidade Relativa
+
+A imagem a seguir demonstra o funcionamento do teste no terminal:
+![Teste dos Sensores](./imgs/teste_sensors.png)
 
 ---
 
 ## **Desafios Encontrados**
+Entre os maiores desafios encontrados, destacam-se:
+* **Limitação de Pinos Disponíveis**: devido ao grande número de componentes disponíveis e o limitado número de pinos disponíveis da BitDogLab, foram necessárias constantes refatorações na implementação e arquitetura do sistema a fim de cumprir os requisitos do projeto.
+* **Integração com duas BitDogLabs**: O protocolo I2C, por si só, gerencia o endereçamento e a transmissão de bytes no barramento, mas não define uma estrutura para a troca de mensagens complexas. Dessa forma, para utilizar a comunicação I2C entre as duas BitDogLabs, foi necessários projetar, implementar e depurar um protocolo de aplicação customizado sobre o I2C. Além disso, foi necessário distribuir as responsabilidades entre as BitDogLabs, o que exigiu o desenvolvimento de dois firmwares distintos.
+* **Gerenciamento de uma Complexa Estrutura de Pastas**: em razão do grande número de componentes e dependências, foi necessário gerenciar uma complexa estrutura de pastas para que o sistema funcionasse de forma correta.
 
 ---
 
 ## **Melhorias Planejadas**
+Entre as melhorias planejadas para a entrega da versão final, destacam-se:
+* **Mecanismos de Seguração**: além da autenticação, já implementada para combater ataques de *spoofing*, planeja-se implementar mecanismos para combater *sniffing* e *replay* com o uso de criptografia de transporte e timestamps, respectivamente.
+* **Melhor Organização da Estrutura de Pastas**: a fim de permitir a facilidade de uso do projeto por outros usuários e expansão de suas funcionalidade, é necessário uma melhor organização da estrutura de pastas, focando, assim, em modularidade.
+* **Expandir o uso da conectividade Wi-Fi com o protocolo MQTT**: para ampliar a utilidade do projeto e sua área de aplicações, extender o uso do mecanismo de conectividade é essencial. Um exemplo disso seria o uso dessa conectividade para enviar dados que estão armazenados no cartão SD.
 
 ---
