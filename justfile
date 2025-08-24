@@ -1,6 +1,6 @@
 [positional-arguments]
-build target="production":
-    cmake -G Ninja -S . -B build -D TARGET_GROUP={{ target }}
+build device="MASTER":
+    cmake -G Ninja -S . -B build -D DEVICE={{ device }}
     ninja -C build
 
 [confirm("Clean build folder? (y/n)")]
