@@ -31,7 +31,7 @@ O sistema embarcado apresentado adota uma **arquitetura distribuída**, composta
 
 Uma das principais entradas do sistema é realizada por um **Teclado Matricial 4x4**, conectado ao módulo **BitDogLab (Mestre)** via GPIO, utilizando um conector IDC. Esse periférico é fundamental para a interação do usuário, permitindo a inserção da quantidade de produtos, a seleção entre adicionar ou remover itens do estoque e a requisição de dados ambientais.
 
-O monitoramento das condições de armazenamento é realizado por um conjunto de sensores conectados ao **módulo BitDogLab (Mestre)** através de um **IDC Extender** e do barramento I2C. Os sensores utilizados são:
+O monitoramento das condições de armazenamento é realizado por um conjunto de sensores conectados ao **módulo BitDogLab (Mestre)** através do protocolo de comunicação I2C com um **I2C Extender**. Os sensores utilizados são:
 
 * **BMP280**: para medição de temperatura e pressão atmosférica.
 
@@ -40,7 +40,7 @@ O monitoramento das condições de armazenamento é realizado por um conjunto de
 * **BH1750**: para captar os níveis de luminosidade.
 Esses dados são cruciais para garantir a qualidade do armazenamento e permitir que o usuário tome ações preventivas.
 
-Todos os dados capturados e os comandos inseridos no módulo mestre são enviados para o módulo **BitDogLab (Escravo)** através da comunicação I2C. Este módulo atua como o controlador secundário, responsável por executar as tarefas de armazenamento e notificação.
+Todos os dados capturados e os comandos inseridos no módulo mestre são enviados para o módulo **BitDogLab (Escravo)** através também da comunicação I2C, mas com outras linhas SDA e SCL. Este módulo atua como o controlador secundário, responsável por executar as tarefas de armazenamento e notificação.
 
 Para o armazenamento persistente dos dados de estoque, o módulo BitDogLab (Escravo) utiliza um **Cartão SD**, conectado via protocolo SPI por meio de um conector IDC. Isso garante que o sistema possa operar de forma autônoma, registrando todas as transações e mantendo a integridade do inventário mesmo em caso de falha de comunicação com um servidor externo.
 

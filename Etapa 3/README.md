@@ -20,6 +20,22 @@ Por fim, o documento inclui uma listagem dos ajustes pendentes e das melhorias p
 ---
 
 ## **Vídeos e Fotos da Montagem**
+As imagens a seguir registram a montagem do protótipo, ilustrando a integração física dos componentes que formam o sistema. Esta etapa foi fundamental para validar a arquitetura proposta e realizar os testes práticos descritos neste documento.
+
+Ao centro, destacam-se as **duas placas BitDogLab**, que atuam como as unidades de processamento centrais. Conforme detalhado nos desafios do projeto, uma placa foi configurada como mestre, responsável por gerenciar as entradas do usuário e a lógica principal, enquanto a outra atua como escrava, dedicada ao gerenciamento de dados, como o armazenamento em memória externa. A comunicação entre ambas é realizada via protocolo I2C, uma das integrações mais importantes do projeto.
+
+No protótipo, podemos observar os seguintes periféricos conectados:
+
+* O **teclado matricial**, posicionado à frente, é o principal meio de interação do usuário para entrada de dados, como códigos e quantidades de produtos.
+
+* O módulo de **cartão SD**, acoplado à placa escrava, serve como unidade de armazenamento persistente para o inventário.
+
+* Os diversos fios e módulos menores à direita representam a conexão com os **sensores de ambiente** (temperatura, umidade, pressão e luminosidade), responsáveis por coletar dados contextuais.
+
+Esta montagem representa a materialização do sistema, permitindo a depuração do firmware embarcado e a verificação do funcionamento conjunto de hardware e software, passo crucial para a evolução rumo à versão final do projeto.
+
+![Imagem 1 do Protótipo](./imgs/imagem_1_prototipo.jpeg)
+![Imagem 2 do Protótipo](./imgs/imagem_2_prototipo.jpeg)
 
 ---
 
@@ -60,6 +76,7 @@ Entre os maiores desafios encontrados, destacam-se:
 
 ## **Melhorias Planejadas**
 Entre as melhorias planejadas para a entrega da versão final, destacam-se:
+* **Aprimoramento da Interface de Usuário**: para tornar a interação com o sistema mais intuitiva e responsiva, planeja-se o uso do do módulo buzzer, LED RGB e display OLED. Estes componentes fornecerão feedbacks sonoros e visuais ao usuário, indicando o status da operação (ex: sucesso e erro) e confirmando ações, como o pressionamento de teclas, satisfazendo a proposta inicial do projeto..
 * **Mecanismos de Seguração**: além da autenticação, já implementada para combater ataques de *spoofing*, planeja-se implementar mecanismos para combater *sniffing* e *replay* com o uso de criptografia de transporte e timestamps, respectivamente.
 * **Melhor Organização da Estrutura de Pastas**: a fim de permitir a facilidade de uso do projeto por outros usuários e expansão de suas funcionalidade, é necessário uma melhor organização da estrutura de pastas, focando, assim, em modularidade.
 * **Expandir o uso da conectividade Wi-Fi com o protocolo MQTT**: para ampliar a utilidade do projeto e sua área de aplicações, extender o uso do mecanismo de conectividade é essencial. Um exemplo disso seria o uso dessa conectividade para enviar dados que estão armazenados no cartão SD.
