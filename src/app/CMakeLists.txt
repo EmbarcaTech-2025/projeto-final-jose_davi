@@ -55,6 +55,7 @@ elseif(DEVICE STREQUAL "SLAVE")
   # Add the standard library to the build
   target_link_libraries(${PROJECT_NAME}
     pico_i2c_slave
+    pico_stdio
     hardware_gpio
     hardware_i2c
     sd_card_handler
