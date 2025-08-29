@@ -13,7 +13,7 @@ Brasília, agosto de 2025
 ## **Introdução**
 Tendo como base as descrições do sistema definida no [documento da 1° etapa](<../Etapa 1/README.md>) e no [documento da 2° etapa](<../Etapa 2/README.md>) do projeto final da segunda fase do EmbarcaTech 2025, foi elaborado o presente arquivo. O conteúdo aqui reunido tem como propósito detalhar o protótipo funcional atualmente desenvolvido, o qual, embora já represente de forma consistente a proposta inicial, ainda demanda ajustes e refinamentos para alcançar a versão idealizada no planejamento do projeto. 
 
-Esta documentação busca fornecer uma visão abrangente sobre o estado atual do protótipo. Para isso, apresenta registros em vídeo e fotografias da montagem física, bem como os resultados obtidos nos testes práticos realizados até o momento. Além disso, são descritos os principais desafios encontrados durante o processo de desenvolvimento, destacando tanto questões técnicas quanto de integração entre os diferentes módulos.
+Esta documentação busca fornecer uma visão abrangente sobre o estado atual do protótipo. Para isso, apresenta registros em fotografias da montagem física, bem como os resultados obtidos nos testes práticos realizados até o momento. Além disso, são descritos os principais desafios encontrados durante o processo de desenvolvimento, destacando tanto questões técnicas quanto de integração entre os diferentes módulos.
 
 Por fim, o documento inclui uma listagem dos ajustes pendentes e das melhorias previstas, que servirão de base para a evolução do projeto rumo à sua versão final. Dessa forma, pretende-se não apenas registrar o estágio atual, mas também orientar os próximos passos necessários para consolidar o sistema conforme os objetivos estabelecidos.
 
@@ -22,7 +22,7 @@ Por fim, o documento inclui uma listagem dos ajustes pendentes e das melhorias p
 ## **Vídeos e Fotos da Montagem**
 As imagens a seguir registram a montagem do protótipo, ilustrando a integração física dos componentes que formam o sistema. Esta etapa foi fundamental para validar a arquitetura proposta e realizar os testes práticos descritos neste documento.
 
-Ao centro, destacam-se as **duas placas BitDogLab**, que atuam como as unidades de processamento centrais. Conforme detalhado nos desafios do projeto, uma placa foi configurada como mestre, responsável por gerenciar as entradas do usuário e a lógica principal, enquanto a outra atua como escrava, dedicada ao gerenciamento de dados, como o armazenamento em memória externa. A comunicação entre ambas é realizada via protocolo I2C, uma das integrações mais importantes do projeto.
+Ao centro, destacam-se as **duas placas BitDogLab**, que atuam como as unidades de processamento centrais. Conforme detalhado nas entregas anteriores, uma placa foi configurada como mestre, responsável por gerenciar as entradas do usuário e a lógica principal, enquanto a outra atua como escrava, dedicada ao gerenciamento de dados, como o armazenamento em memória externa. A comunicação entre ambas é realizada via protocolo I2C, uma das integrações mais importantes do projeto.
 
 No protótipo, podemos observar os seguintes periféricos conectados:
 
@@ -46,9 +46,9 @@ Utilizando Unity, framework de testes unitários amplamente utilizado em sistema
 A imagem a seguir demonstra o funcionamento do teste no terminal:
 ![Teste do Teclado Matricial](./imgs/teste_keyboard.png)
 
-* **Teste da Conectividade Wi-Fi**: o mecanismo de conectividade Wi-Fi utilizando o protocolo MQTT se demonstra como um essencial pilar do projeto em decorrência de sua utilização para envio e reebimento do produto a ser registrado pelo usuário. Para garantir a robustez dessa comunicação, foi elaborado o seguinte teste de integração de ponta a ponta que simula o fluxo completo de recebimento de um comando:
+* **Teste da Conectividade Wi-Fi**: o mecanismo de conectividade Wi-Fi utilizando o protocolo MQTT se demonstra como um essencial pilar do projeto em decorrência de sua utilização para envio e recebimento do produto a ser registrado pelo usuário. Para garantir a robustez dessa comunicação, foi elaborado o seguinte teste de integração de ponta a ponta que simula o fluxo completo de recebimento de um comando:
     1. **Conexão à Rede Wi-Fi**: Primeiramente, o teste verifica a capacidade do dispositivo de se conectar à rede local utilizando as credenciais fornecidas (SSID e senha).
-    2. **Conexão e Autenticação ao Broker MQTT**: Uma vez conectado à rede, o dispositivo estabelece a conexão com o servidor MQTT, utilizando o IP, ID de cliente e credenciais de segurança.
+    2. **Conexão e Autenticação ao Broker MQTT**: Uma vez conectado à rede, o dispositivo estabelece a conexão com o broker MQTT, utilizando o IP, ID de cliente e credenciais de segurança.
     3. **Inscrição em Tópico (Subscribe)**: Após a conexão com o broker, o sistema se inscreve no tópico `bitdoglab_mestre/produto`, preparando-se para receber mensagens.
     4. **Recebimento e Validação da Mensagem**: A etapa final consiste em verificar se o dispositivo recebe corretamente a mensagem publicada ("Produto") externamente no tópico subscrito.
 
@@ -64,11 +64,13 @@ A imagem a seguir demonstra o funcionamento do teste no terminal:
 A imagem a seguir demonstra o funcionamento do teste no terminal:
 ![Teste dos Sensores](./imgs/teste_sensors.png)
 
+**Observação**: para mais detalhes acerc da implementação desses testes com a biblioteca *Unity*, confira a pasta `src/test`
+
 ---
 
 ## **Desafios Encontrados**
 Entre os maiores desafios encontrados, destacam-se:
-* **Limitação de Pinos Disponíveis**: devido ao grande número de componentes disponíveis e o limitado número de pinos disponíveis da BitDogLab, foram necessárias constantes refatorações na implementação e arquitetura do sistema a fim de cumprir os requisitos do projeto.
+* **Limitação de Pinos Disponíveis**: devido ao grande número de componentes utilizados e o limitado número de pinos disponíveis da BitDogLab, foram necessárias constantes refatorações na implementação e arquitetura do sistema a fim de cumprir os requisitos do projeto.
 * **Integração com duas BitDogLabs**: O protocolo I2C, por si só, gerencia o endereçamento e a transmissão de bytes no barramento, mas não define uma estrutura para a troca de mensagens complexas. Dessa forma, para utilizar a comunicação I2C entre as duas BitDogLabs, foi necessários projetar, implementar e depurar um protocolo de aplicação customizado sobre o I2C. Além disso, foi necessário distribuir as responsabilidades entre as BitDogLabs, o que exigiu o desenvolvimento de dois firmwares distintos.
 * **Gerenciamento de uma Complexa Estrutura de Pastas**: em razão do grande número de componentes e dependências, foi necessário gerenciar uma complexa estrutura de pastas para que o sistema funcionasse de forma correta.
 
@@ -78,6 +80,7 @@ Entre os maiores desafios encontrados, destacam-se:
 Entre as melhorias planejadas para a entrega da versão final, destacam-se:
 * **Aprimoramento da Interface de Usuário**: para tornar a interação com o sistema mais intuitiva e responsiva, planeja-se o uso do do módulo buzzer, LED RGB e display OLED. Estes componentes fornecerão feedbacks sonoros e visuais ao usuário, indicando o status da operação (ex: sucesso e erro) e confirmando ações, como o pressionamento de teclas, satisfazendo a proposta inicial do projeto..
 * **Mecanismos de Seguração**: além da autenticação, já implementada para combater ataques de *spoofing*, planeja-se implementar mecanismos para combater *sniffing* e *replay* com o uso de criptografia de transporte e timestamps, respectivamente.
+* **Elaboração de Mais Testes**: para garantir o funcionamento robusto do sistema, planeja-se o desenvolvimento de mais testes com o framework *Unity*, especialmente relacionados à comunicação I2C entre as BitDogLabs e à interface de usuário.
 * **Melhor Organização da Estrutura de Pastas**: a fim de permitir a facilidade de uso do projeto por outros usuários e expansão de suas funcionalidade, é necessário uma melhor organização da estrutura de pastas, focando, assim, em modularidade.
 * **Expandir o uso da conectividade Wi-Fi com o protocolo MQTT**: para ampliar a utilidade do projeto e sua área de aplicações, extender o uso do mecanismo de conectividade é essencial. Um exemplo disso seria o uso dessa conectividade para enviar dados que estão armazenados no cartão SD.
 
