@@ -2,7 +2,7 @@
 # "MASTER" para o dispositivo mestre
 # "SLAVE" para o dispositivo escravo
 # qualquer outra coisa para compilar projeto_final.c
-set(DEVICE "MASTER")
+set(DEVICE "MASTER" CACHE STRING "Dispositivo alvo")
 
 if(DEVICE STREQUAL "MASTER")
   add_executable(${PROJECT_NAME}
