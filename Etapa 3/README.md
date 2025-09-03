@@ -19,7 +19,7 @@ Por fim, o documento inclui uma listagem dos ajustes pendentes e das melhorias p
 
 ---
 
-## **Vídeos e Fotos da Montagem**
+## **Fotos da Montagem**
 As imagens a seguir registram a montagem do protótipo, ilustrando a integração física dos componentes que formam o sistema. Esta etapa foi fundamental para validar a arquitetura proposta e realizar os testes práticos descritos neste documento.
 
 Ao centro, destacam-se as **duas placas BitDogLab**, que atuam como as unidades de processamento centrais. Conforme detalhado nas entregas anteriores, uma placa foi configurada como mestre, responsável por gerenciar as entradas do usuário e a lógica principal, enquanto a outra atua como escrava, dedicada ao gerenciamento de dados, como o armazenamento em memória externa. A comunicação entre ambas é realizada via protocolo I2C, uma das integrações mais importantes do projeto.
@@ -35,7 +35,6 @@ No protótipo, podemos observar os seguintes periféricos conectados:
 Esta montagem representa a materialização do sistema, permitindo a depuração do firmware embarcado e a verificação do funcionamento conjunto de hardware e software, passo crucial para a evolução rumo à versão final do projeto.
 
 ![Imagem 1 do Protótipo](./imgs/imagem_1_prototipo.jpeg)
-![Imagem 2 do Protótipo](./imgs/imagem_2_prototipo.jpeg)
 
 ---
 
@@ -47,10 +46,10 @@ A imagem a seguir demonstra o funcionamento do teste no terminal:
 ![Teste do Teclado Matricial](./imgs/teste_keyboard.png)
 
 * **Teste da Conectividade Wi-Fi**: o mecanismo de conectividade Wi-Fi utilizando o protocolo MQTT se demonstra como um essencial pilar do projeto em decorrência de sua utilização para envio e recebimento do produto a ser registrado pelo usuário. Para garantir a robustez dessa comunicação, foi elaborado o seguinte teste de integração de ponta a ponta que simula o fluxo completo de recebimento de um comando:
-    1. **Conexão à Rede Wi-Fi**: Primeiramente, o teste verifica a capacidade do dispositivo de se conectar à rede local utilizando as credenciais fornecidas (SSID e senha).
-    2. **Conexão e Autenticação ao Broker MQTT**: Uma vez conectado à rede, o dispositivo estabelece a conexão com o broker MQTT, utilizando o IP, ID de cliente e credenciais de segurança.
-    3. **Inscrição em Tópico (Subscribe)**: Após a conexão com o broker, o sistema se inscreve no tópico `bitdoglab_mestre/produto`, preparando-se para receber mensagens.
-    4. **Recebimento e Validação da Mensagem**: A etapa final consiste em verificar se o dispositivo recebe corretamente a mensagem publicada ("Produto") externamente no tópico subscrito.
+    1. **Conexão à Rede Wi-Fi**: primeiramente, o teste verifica a capacidade do dispositivo de se conectar à rede local utilizando as credenciais fornecidas (SSID e senha).
+    2. **Conexão e Autenticação ao Broker MQTT**: uma vez conectado à rede, o dispositivo estabelece a conexão com o broker MQTT, utilizando o IP, ID de cliente e credenciais de segurança.
+    3. **Inscrição em Tópico (Subscribe)**: após a conexão com o broker, o sistema se inscreve no tópico `bitdoglab_mestre/produto`, preparando-se para receber mensagens.
+    4. **Recebimento e Validação da Mensagem**: a etapa final consiste em verificar se o dispositivo recebe corretamente a mensagem publicada ("Produto") externamente no tópico subscrito.
 
 A imagem a seguir demonstra o funcionamento do teste no terminal:
 ![Teste de Conectividade](./imgs/teste_wifi_mqtt.png)
@@ -64,7 +63,7 @@ A imagem a seguir demonstra o funcionamento do teste no terminal:
 A imagem a seguir demonstra o funcionamento do teste no terminal:
 ![Teste dos Sensores](./imgs/teste_sensors.png)
 
-**Observação**: para mais detalhes acerc da implementação desses testes com a biblioteca *Unity*, confira a pasta `src/test`
+**Observação**: para mais detalhes acerca da implementação desses testes com a biblioteca *Unity*, confira a pasta `src/test`
 
 ---
 
@@ -81,7 +80,7 @@ Entre as melhorias planejadas para a entrega da versão final, destacam-se:
 * **Aprimoramento da Interface de Usuário**: para tornar a interação com o sistema mais intuitiva e responsiva, planeja-se o uso do do módulo buzzer, LED RGB e display OLED. Estes componentes fornecerão feedbacks sonoros e visuais ao usuário, indicando o status da operação (ex: sucesso e erro) e confirmando ações, como o pressionamento de teclas, satisfazendo a proposta inicial do projeto..
 * **Mecanismos de Seguração**: além da autenticação, já implementada para combater ataques de *spoofing*, planeja-se implementar mecanismos para combater *sniffing* e *replay* com o uso de criptografia de transporte e timestamps, respectivamente.
 * **Elaboração de Mais Testes**: para garantir o funcionamento robusto do sistema, planeja-se o desenvolvimento de mais testes com o framework *Unity*, especialmente relacionados à comunicação I2C entre as BitDogLabs e à interface de usuário.
-* **Melhor Organização da Estrutura de Pastas**: a fim de permitir a facilidade de uso do projeto por outros usuários e expansão de suas funcionalidade, é necessário uma melhor organização da estrutura de pastas, focando, assim, em modularidade.
+* **Melhor Organização da Estrutura de Pastas**: a fim de permitir a facilidade de uso do projeto por outros usuários e expansão de suas funcionalidade, é necessária uma melhor organização da estrutura de pastas, focando, assim, em modularidade.
 * **Expandir o uso da conectividade Wi-Fi com o protocolo MQTT**: para ampliar a utilidade do projeto e sua área de aplicações, extender o uso do mecanismo de conectividade é essencial. Um exemplo disso seria o uso dessa conectividade para enviar dados que estão armazenados no cartão SD.
 
 ---

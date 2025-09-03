@@ -1,4 +1,4 @@
-# Projeto Final: Sistema de Gestão e Monitoramento de Estoques - EmbarcaTech 2025
+# Projeto Final: Sistema de Sensoriamento e Controle de Acesso a Ambientes - EmbarcaTech 2025
 
 Autor: **Davi Henrique Vieira Lima e José Augusto Alves de Moraes**
 
@@ -12,33 +12,42 @@ Brasília, agosto de 2025
 
 ## **Sobre o Projeto**
 
-Este projeto se trata de um sistema inteligente para a gestão e monitoramento de estoques.
-O projeto possibilita a aferição de fatores importantes para a preservação de certos produtos
-como luminosidade, temperatura, pressão e umidade do ambiente. Além disso, o sistema possibilita
-o cadastro de produtos num banco de dados interno ao dispositivo, permitindo que seja registrada
-a chegada e a retirada de produtos. Por fim, o sistema é capaz de se comunicar utilizando o protocolo
-MQTT, enviando os dados coletados a outro dispositivo.
+Este projeto se trata de um sistema inteligente para o sensoriamento
+e o controle de entrada de ambientes de acesso restrito, como laboratórios
+e ambientes industriais em que é importante saber quem está tendo acesso ao local
+e quais as condições do ambiente.
+
+Para isso, criamos um sistema que usa um sensor RFID para registrar a entrada e saída
+de pessoas, além de sensores de temperatura, pressão e umidade. Os dados do ambiente são
+mandados via MQTT para serem visualizados por uma interface Web, enquanto os registros de
+entrada e saída são armazenados internamente.
 
 ---
 
 ## **Bibliotecas Utilizadas**
 
 - [pico-sdk](https://github.com/raspberrypi/pico-sdk)
+
   Autor: [Raspberry Pi](https://github.com/raspberrypi)
 
 - [no-OS-FatFS-SD-SPI-RPi-Pico](https://github.com/carlk3/no-OS-FatFS-SD-SPI-RPi-Pico/tree/sdio)
+
   Autor: [Carl J Kugler III](https://github.com/carlk3)
 
 - [Unity](https://github.com/ThrowTheSwitch/Unity)
+
   Autor: [Throw The Switch](https://github.com/ThrowTheSwitch)
 
 - [Driver AHT10](https://github.com/jrfo-hwit/hlab/tree/main/firmware/c_cpp/examples/3_aht10_i2c_uart0)
+
   Autor: [Juliano Oliveira](https://github.com/jrfo-hwit)
 
 - [Driver BH1750](https://github.com/jrfo-hwit/hlab/tree/main/firmware/c_cpp/examples/7_bh1750_i2c_uart0)
+
   Autor: [Juliano Oliveira](https://github.com/jrfo-hwit)
 
 - [Driver BMP280](https://github.com/jrfo-hwit/hlab/tree/main/firmware/c_cpp/examples/4_bmp280_i2c_uart0)
+
   Autor: [Juliano Oliveira](https://github.com/jrfo-hwit)
 
 ---
@@ -46,6 +55,17 @@ MQTT, enviando os dados coletados a outro dispositivo.
 ## **Montagem**
 
 ### **Materiais Utilizados**
+
+| Componente        | Quantidade |
+| ----------------- | ---------- |
+| Raspberry Pico W  | 2          |
+| Buzzer            | 1          |
+| Cartão SD         | 1          |
+| Display OLED      | 1          |
+| LED RGB           | 1          |
+| Sensor BH1750     | 1          |
+| Sensor AHT10      | 1          |
+| Sensor BMP280     | 1          |
 
 ### **Esquema de Montagem**
 

@@ -6,11 +6,11 @@
 static const uint SLAVE_ADDRESS = 0x26;
 static const uint I2C_BAUDRATE = 100 * 1000;
 
-#define SLAVE_PORT i2c0
+#define SLAVE_PORT i2c1
 #define MASTER_PORT i2c0
 
-#define I2C_SLAVE_SDA_PIN 0
-#define I2C_SLAVE_SCL_PIN 1
+#define I2C_SLAVE_SDA_PIN 2
+#define I2C_SLAVE_SCL_PIN 3
 #define I2C_MASTER_SDA_PIN 0
 #define I2C_MASTER_SCL_PIN 1
 

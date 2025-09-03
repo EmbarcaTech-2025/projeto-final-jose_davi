@@ -3,7 +3,10 @@
 #include "i2c_messages.h"
 #include "pico/i2c_slave.h"
 #include "sd_card_handler.h"
+#include <pico/stdio.h>
+#include <pico/time.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -15,8 +18,8 @@ SLAVE_STATE state = DONE;
 MasterMessage master_message;
 uint8_t master_message_buf[64];
 
-SlaveMessage slave_message;
-uint8_t slave_message_buf[64];
+SlaveMessage out_message;
+uint8_t out_message_buf[64];
 
 static void i2c_slave_handler(i2c_inst_t *i2c, i2c_slave_event_t event) {
   switch (event) {
@@ -29,7 +32,7 @@ static void i2c_slave_handler(i2c_inst_t *i2c, i2c_slave_event_t event) {
     }
     break;
   case I2C_SLAVE_REQUEST:
-    i2c_write_byte_raw(i2c, slave_message_buf[address]);
+    i2c_write_byte_raw(i2c, out_message_buf[address]);
     address = (address + 1) % 64;
     break;
   case I2C_SLAVE_FINISH: // master has signalled Stop / Restart
@@ -54,18 +57,26 @@ static void setup_slave() {
 }
 
 int main() {
-  sd_mount();
+  stdio_init_all();
+  sleep_ms(3000);
+  // i2c_init_master();
   setup_slave();
+
+  // Item item = {"Teste2", 43, 4};
+
+  // slave_write_item(item);
+  // slave_read_item(item.code);
 
   while (true) {
     Item item;
     switch (state) {
     case READING:
+      sd_mount();
       Item *item_r = item_read(master_message.item.code);
 
       if (item_r != NULL) {
         state = DONE;
-        memcpy(&slave_message.item, item_r, sizeof(Item));
+        memcpy(&out_message.item, item_r, sizeof(Item));
         free(item_r);
       }
 
@@ -74,23 +85,24 @@ int main() {
         free(item_r);
       }
 
-      slave_message.state = state;
-      memcpy(slave_message_buf, &slave_message, sizeof(SlaveMessage));
+      out_message.state = state;
+      memcpy(out_message_buf, &out_message, sizeof(SlaveMessage));
 
+      sd_unmount();
       break;
     case WRITING:
+      sd_mount();
       uint bw = item_write(master_message.item);
       state = bw == sizeof(Item) ? DONE : WRITE_ERROR;
-      slave_message.state = state;
-      memcpy(slave_message_buf, &slave_message, sizeof(SlaveMessage));
+      out_message.state = state;
+      memcpy(out_message_buf, &out_message, sizeof(SlaveMessage));
+      sd_unmount();
 
       break;
     default:
       break;
     }
   }
-
-  sd_unmount();
 
   return 0;
 }

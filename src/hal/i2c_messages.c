@@ -3,6 +3,7 @@
 #include "hardware/i2c.h"
 #include <pico/time.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <string.h>
 
 void i2c_init_master() {
@@ -31,10 +32,16 @@ Item *slave_read_item(uint32_t code) {
       item,
   };
 
+  puts("Leitura iniciada");
   memcpy(msg_buf, &message, sizeof(MasterMessage));
-  i2c_write_blocking(MASTER_PORT, SLAVE_ADDRESS, msg_buf, msg_len, false);
+  int bw =
+      i2c_write_blocking(MASTER_PORT, SLAVE_ADDRESS, msg_buf, msg_len, true);
+  printf("Bytes enviados: %d\n", bw);
+  if (bw != 64) {
+    return NULL;
+  }
 
-  sleep_us(100);
+  sleep_ms(250);
 
   while (true) {
     i2c_read_blocking(MASTER_PORT, SLAVE_ADDRESS, slave_msg_buf, msg_len,
@@ -45,18 +52,25 @@ Item *slave_read_item(uint32_t code) {
     else if (slave_message.state == READ_ERROR)
       return NULL;
     else
-      sleep_us(100);
+      sleep_ms(100);
   }
 }
 
 bool slave_write_item(Item item) {
   MasterMessage message = {
-      READING,
+      WRITING,
       item,
   };
 
+  puts("Escrita iniciada");
   memcpy(msg_buf, &message, sizeof(MasterMessage));
-  sleep_us(100);
+  int bw =
+      i2c_write_blocking(MASTER_PORT, SLAVE_ADDRESS, msg_buf, msg_len, true);
+  printf("Bytes enviados: %d\n", bw);
+  if (bw != 64) {
+    return false;
+  }
+  sleep_ms(250);
 
   while (true) {
     i2c_read_blocking(MASTER_PORT, SLAVE_ADDRESS, slave_msg_buf, msg_len,
@@ -67,6 +81,6 @@ bool slave_write_item(Item item) {
     else if (slave_message.state == WRITE_ERROR)
       return false;
     else
-      sleep_us(100);
+      sleep_ms(100);
   }
 }

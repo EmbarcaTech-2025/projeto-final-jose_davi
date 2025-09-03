@@ -1,11 +1,11 @@
 #include "sd_card_handler.h"
-#include "f_util.h"
 #include "ff.h"
 #include <pico/time.h>
 #include <pico/types.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 FATFS fs;
 FRESULT fr;
@@ -17,29 +17,42 @@ bool sd_mount() {
     return false;
   }
 
+  // puts("SD Card Mounted");
   return true;
 }
 
-void sd_unmount() { f_unmount(""); }
+void sd_unmount() {
+  f_unmount("");
+  // puts("SD Card Unmounted");
+}
 
 uint item_write(Item item) {
   uint bw;
-  char code[8];
+  uint8_t buf[60];
+  char path[12];
 
-  sprintf(code, "%u", item.code);
+  // puts("Writing");
 
-  fr = f_open(&fil, code, FA_CREATE_ALWAYS | FA_WRITE | FA_READ);
+  sprintf(path, "%06u.txt", item.code);
+
+  fr = f_open(&fil, path, FA_CREATE_ALWAYS | FA_WRITE | FA_READ);
   if (FR_OK != fr && FR_EXIST != fr) {
     return 1;
   }
 
-  fr = f_write(&fil, &item, sizeof(Item), &bw);
+  memcpy(buf, &item, 60);
+  fr = f_write(&fil, buf, sizeof(Item), &bw);
   if (FR_OK != fr) {
     return 1;
   }
 
+  f_sync(&fil);
+  // printf("Bytes written: %u\n", bw);
+
   fr = f_close(&fil);
+  sleep_ms(100);
   if (FR_OK != fr) {
+    printf("f_close error: %d\n", fr);
     return 1;
   }
 
@@ -47,28 +60,32 @@ uint item_write(Item item) {
 }
 
 Item *item_read(uint32_t code) {
-  char path[8];
   uint br;
+  uint8_t buf[60];
+  char path[12];
 
   Item *item = malloc(sizeof(Item));
-  sprintf(path, "%u", code);
+  sprintf(path, "%06u.txt", code);
+  puts(path);
 
-  fr = f_open(&fil, path, FA_OPEN_EXISTING | FA_WRITE | FA_READ);
+  fr = f_open(&fil, path, FA_OPEN_EXISTING | FA_READ);
   if (FR_OK != fr && FR_EXIST != fr) {
-    panic("f_open(%s) error: %s (%d)\n", code, FRESULT_str(fr), fr);
+    free(item);
+    return NULL;
   }
 
-  fr = f_read(&fil, item, sizeof(Item), &br);
-  if (FR_OK != fr) {
-    panic("f_write(%s) error: %s (%d)\n", code, FRESULT_str(fr), fr);
-  }
+  fr = f_read(&fil, buf, sizeof(Item), &br);
+  memcpy(item, buf, 60);
+  // printf("N %s\nC %u\nQ %u\n", item->name, item->code, item->count);
 
   fr = f_close(&fil);
   if (FR_OK != fr) {
-    printf("f_close error: %s (%d)\n", FRESULT_str(fr), fr);
+    free(item);
+    return NULL;
   }
 
   if (br == sizeof(Item))
     return item;
+  free(item);
   return NULL;
 }

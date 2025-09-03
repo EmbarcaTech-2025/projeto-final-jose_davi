@@ -19,7 +19,6 @@ in
     picotool
     pico-sdk
     python3
-    quirc
     minicom
   ];
 

@@ -3,7 +3,7 @@
 # "SLAVE" para o dispositivo escravo
 # "RFID_WRITTER" para um programa de teste de escrita no cartão
 # qualquer outra coisa para compilar projeto_final.c
-set(DEVICE "MASTER")
+set(DEVICE "MASTER" CACHE STRING "Dispositivo alvo")
 
 if(DEVICE STREQUAL "MASTER")
   add_executable(${PROJECT_NAME}
@@ -61,6 +61,7 @@ elseif(DEVICE STREQUAL "SLAVE")
   target_link_libraries(${PROJECT_NAME}
     pico_stdlib
     pico_i2c_slave
+    pico_stdio
     hardware_gpio
     hardware_i2c
     sd_card_handler
