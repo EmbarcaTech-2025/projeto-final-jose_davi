@@ -32,9 +32,12 @@ if(DEVICE STREQUAL "MASTER")
     i2c_messages
     mfrc522
     pico_mbedtls
-    led_rgb       # Biblioteca para controlar o LED RGB
-    buzzer        # Biblioteca para controlar o buzzer
-    display_oled  # Biblioteca para controlar o display OLED
+    led_rgb  
+    buzzer        
+    display_oled  
+    bmp280
+    bh1750
+    aht10
   )
 
   # Add the standard include files to the build

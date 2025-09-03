@@ -132,9 +132,9 @@ static void mqtt_incoming_data_cb(void *arg, const u8_t *data, u16_t len,
 static void mqtt_connection_cb(mqtt_client_t *client, void *arg,
                                mqtt_connection_status_t status) {
   if (status == MQTT_CONNECT_ACCEPTED) {
-    // printf("Conectado ao broker MQTT com sucesso!\n");
+    printf("Conectado ao broker MQTT com sucesso!\n");
   } else {
-    // printf("Falha ao conectar ao broker, código: %d\n", status);
+    printf("Falha ao conectar ao broker, código: %d\n", status);
   }
 }
 
@@ -206,7 +206,7 @@ static void mqtt_sub_request_cb(void *arg, err_t err) {
   if (err == ERR_OK) {
     printf("Inscrição no tópico bem-sucedida!\n");
   } else {
-    // printf("Falha na inscrição, código de erro: %d\n", err);
+    printf("Falha na inscrição, código de erro: %d\n", err);
   }
 }
 
@@ -247,4 +247,16 @@ void mqtt_comm_subscribe(const char *topic) {
   if (status != ERR_OK) {
     // printf("mqtt_subscribe falhou: %d\n", status);
   }
+}
+
+void mqqt_publish_sensor_data(float temperature, float pressure, float humidity, float lux) {
+    char payload[128];
+    int len = snprintf(payload, sizeof(payload),
+                       "{\"temperature\": %.2f, \"pressure\": %.2f, \"humidity\": %.2f, \"lux\": %.2f}",
+                       temperature, pressure, humidity, lux);
+    if (len < 0 || len >= sizeof(payload)) {
+        return;
+    }
+
+    mqtt_comm_publish("bitdoglab/sensor_data", (uint8_t *)payload, len);
 }

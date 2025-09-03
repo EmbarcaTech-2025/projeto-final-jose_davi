@@ -8,6 +8,13 @@
 #include "led_rgb.h"
 #include "buzzer.h"
 #include "display_oled.h"
+#include "mqtt_comm.h"
+#include "wifi_conn.h"
+#include "aht10.h"
+#include "bh1750.h"
+#include "bmp280.h"
+#include "i2c_config.h"
+#include "pico/cyw43_arch.h"
 
 // Chave Secreta para HMAC
 const uint8_t HMAC_SECRET_KEY[32] = {
@@ -48,6 +55,28 @@ int main() {
   display_init();
   buzzer_init();
 
+  // Configurações de rede (WiFi e MQTT)
+  // Para nosso projeto, implementamos autenticação ao broker MQTT
+  connect_to_wifi("SSID", "Senha WiFi");
+  mqtt_setup("bitdoglab_mestre", "IP do Broker", "bitdoglab_mestre", "12345678");
+
+  i2c_init(I2C_PORT, 100 * 1000);
+  gpio_set_function(I2C_SDA_PIN, GPIO_FUNC_I2C);
+  gpio_set_function(I2C_SCL_PIN, GPIO_FUNC_I2C);
+  gpio_pull_up(I2C_SDA_PIN);
+  gpio_pull_up(I2C_SCL_PIN);
+
+  bmp280_init();
+  bh1750_init();  
+  aht10_init();
+
+  float lux = 0;
+  float temp = 0;
+  float pres = 0;
+  float humidity = 0;
+
+  uint64_t last_publish_time = 0;
+
   while (true) {
     memset(ssd, 0, ssd1306_buffer_length);
     draw_centered_string(ssd, 10, "Aproxime o");
@@ -56,7 +85,23 @@ int main() {
     ssd1306_send_buffer(ssd, ssd1306_buffer_length);
 
     // Aguarda até que um novo cartão seja detectado
-    while (!PICC_IsNewCardPresent(mfrc));
+    // Enquanto aguarda, os dados dos sensores são atualizados e enviados via MQTT
+    while (!PICC_IsNewCardPresent(mfrc)){
+      // Pega o tempo atual
+      uint64_t current_time = time_us_64() / 1000; 
+
+      // Verifica se já se passaram 5 segundos desde a última publicação
+      if (current_time - last_publish_time > 5000) {
+        last_publish_time = current_time; 
+
+        get_temp_pres(&temp, &pres);
+        lux = get_lux();
+        humidity = GetHumidity();
+
+        mqqt_publish_sensor_data(temp, pres, humidity, lux); 
+      }
+      sleep_ms(10); 
+    }
 
     // Lê o serial do cartão
     if (!PICC_ReadCardSerial(mfrc)) {
@@ -108,6 +153,7 @@ int main() {
     bool read_success = true;
     uint8_t current_block = START_BLOCK + 1;
     for (int i = 0; i < blocks_to_read_more; i++) {
+      cyw43_arch_poll();
       while ((current_block + 1) % 4 == 0) { 
         current_block++;
       }
@@ -164,7 +210,10 @@ int main() {
       gpio_put(LED_RGB_GREEN, 1); 
       play_buzzer();
 
-      sleep_ms(2000);
+      for (int i = 0; i < 200; i++) {
+        cyw43_arch_poll();
+        sleep_ms(10);
+      }
       gpio_put(LED_RGB_GREEN, 0);
 
     } else {
@@ -176,7 +225,10 @@ int main() {
       gpio_put(LED_RGB_RED, 1);
       play_buzzer();
 
-      sleep_ms(2000);
+      for (int i = 0; i < 200; i++) {
+        cyw43_arch_poll();
+        sleep_ms(10);
+      }
       gpio_put(LED_RGB_RED, 0);
     }
 
