@@ -6,18 +6,22 @@
 #include "bmp280.h"
 #include "bh1750.h"
 #include "aht10.h"
+#include "sd_card_handler.h"
+#include "i2c_messages.h"
 #include "../drivers/i2c_config.h"
 #include "pico/stdlib.h"
+#include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 void setUp(void) {
   // Inicialização do teclado matricial
   //keyboard_init();
 
   // Inicialização da conectividade WI-Fi com o protocolo MQTT
-  connect_to_wifi("SSID", "Senha");
-  mqtt_setup("bitdoglab_mestre", "IP do Broker", "bitdoglab_mestre", "12345678");
-  mqtt_comm_subscribe("bitdoglab_mestre/produto");
+  //connect_to_wifi("SSID", "Senha");
+  //mqtt_setup("bitdoglab_mestre", "IP do Broker", "bitdoglab_mestre", "12345678");
+  //mqtt_comm_subscribe("bitdoglab_mestre/produto");
 
   // Inicialização para o uso dos sensores
   //i2c_init(I2C_PORT, 100 * 1000);
@@ -29,6 +33,8 @@ void setUp(void) {
   //bmp280_init();
   //bh1750_init();  
   //aht10_init();
+
+  i2c_init_master();
 
 };
 void tearDown(void) {};
@@ -103,6 +109,46 @@ void test_sensors(void) {
   humidity = GetHumidity(); // O primeiro retorno da umidade pode ser 0
   // --- Teste de Umidade ---
   TEST_ASSERT_FLOAT_WITHIN_MESSAGE(45.0, 50.0, humidity, "A umidade está fora do intervalo aceitável (5% a 95%)");
+}
+
+void test_i2c_write_and_readback(void) {
+  printf("Iniciando teste de escrita e leitura I2C...\n");
+  printf("Certifique-se de que o dispositivo escravo está conectado e executando o código.\n");
+  sleep_ms(4000);
+
+  Item item_to_send;
+  item_to_send.code = 9999;
+  item_to_send.count = 123;
+  strcpy(item_to_send.name, "TesteI2C");
+
+  // Escrever o item no escravo
+  printf("--> Enviando item para o escravo: { code: %lu, count: %d, name: '%s' }\n",
+    item_to_send.code, item_to_send.count, item_to_send.name);
+           
+  bool write_success = slave_write_item(item_to_send);
+
+  TEST_ASSERT_TRUE_MESSAGE(write_success, "A função slave_write_item() retornou 'false'. A comunicação I2C falhou.");
+  printf("Escrita I2C confirmada pelo mestre! \u2705\n");
+  sleep_ms(500); // Pequeno delay para o escravo processar
+
+  // Tenta ler o mesmo item de volta
+  printf("--> Lendo o item de volta do escravo...\n");
+  Item *received_item = slave_read_item(item_to_send.code);
+
+  TEST_ASSERT_NOT_NULL_MESSAGE(received_item, "A leitura falhou. O item não foi encontrado no escravo após a escrita.");
+  printf("Leitura I2C bem-sucedida! \u2705\n");
+
+  // Compara os dados enviados com os recebidos
+  printf("--> Verificando a integridade dos dados...\n");
+  TEST_ASSERT_EQUAL_UINT32(item_to_send.code, received_item->code);
+  TEST_ASSERT_EQUAL_INT(item_to_send.count, received_item->count);
+  TEST_ASSERT_EQUAL_STRING(item_to_send.name, received_item->name);
+
+  printf("Dados verificados com sucesso! \u2705\n");
+
+  if (received_item != NULL) {
+    free(received_item);
+  }
 }
 
 int main(void) {

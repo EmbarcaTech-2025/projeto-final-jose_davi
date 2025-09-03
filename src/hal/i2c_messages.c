@@ -56,7 +56,6 @@ bool slave_write_item(Item item) {
   };
 
   memcpy(msg_buf, &message, sizeof(MasterMessage));
-  i2c_write_blocking(MASTER_PORT, SLAVE_ADDRESS, msg_buf, msg_len, false);
   sleep_us(100);
 
   while (true) {

@@ -96,4 +96,63 @@ target_include_directories(mqtt_comm PUBLIC
   ${CMAKE_CURRENT_LIST_DIR}/../include
 )
 
+add_library(mfrc522 STATIC
+  mfrc522.c
+)
+
+target_link_libraries(mfrc522
+  hardware_spi
+  pico_stdlib
+)
+
+target_include_directories(mfrc522 PUBLIC
+  ${CMAKE_CURRENT_LIST_DIR}
+)
+
+add_library(led_rgb STATIC
+  led_rgb.c
+)
+
+target_link_libraries(led_rgb
+  pico_stdlib
+  hardware_gpio
+)
+
+target_include_directories(led_rgb PUBLIC
+  ${CMAKE_CURRENT_LIST_DIR}
+  ${CMAKE_CURRENT_LIST_DIR}/../include
+)
+
+add_library(buzzer STATIC
+  buzzer.c
+)
+
+target_link_libraries(buzzer
+  pico_stdlib
+  hardware_gpio
+  hardware_pwm
+)
+
+target_include_directories(buzzer PUBLIC
+  ${CMAKE_CURRENT_LIST_DIR}
+  ${CMAKE_CURRENT_LIST_DIR}/../include
+)
+
+add_library(display_oled STATIC
+  display_oled.c
+  ../inc/ssd1306_i2c.c
+)
+
+target_link_libraries(display_oled
+  pico_stdlib
+  hardware_gpio
+  hardware_i2c
+)
+
+target_include_directories(display_oled PUBLIC
+  ${CMAKE_CURRENT_LIST_DIR}
+  ${CMAKE_CURRENT_LIST_DIR}/../include
+  ${CMAKE_CURRENT_LIST_DIR}/../inc
+)
+
 

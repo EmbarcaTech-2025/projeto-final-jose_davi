@@ -18,6 +18,8 @@ target_link_libraries(tests
   bh1750
   aht10
   hardware_i2c
+  i2c_messages
+  sd_card_handler
 )
 
 pico_add_extra_outputs(tests)

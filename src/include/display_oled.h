@@ -17,4 +17,5 @@ extern uint8_t ssd[ssd1306_buffer_length]; // Buffer do display OLED
 extern struct render_area frame_area; // Estrutura que define uma área de renderização
 
 void display_init(); // Função para inicializar o display OLED
+void draw_centered_string(uint8_t* buffer, int y, char* text); // Função para desenhar texto centralizado
 #endif

@@ -29,7 +29,7 @@ void buzzer_init(){
 void play_buzzer() {
   pwm_set_gpio_level(BUZZER_PIN, 5000); // Liga o buzzer 
 
-  sleep_ms(1500); // Toca por 1 segundo
+  sleep_ms(800); // Toca por 0,8 segundo
 
   pwm_set_gpio_level(BUZZER_PIN, 0); // Desliga o buzzer
 }

@@ -27,3 +27,18 @@ void display_init(){
   // Limpeza do buffer do display
   memset(ssd, 0, ssd1306_buffer_length);
 }
+
+void draw_centered_string(uint8_t* buffer, int y, char* text) {
+  const int FONT_CHAR_WIDTH = 8; 
+
+  int text_len = strlen(text);
+  int text_width = text_len * FONT_CHAR_WIDTH;
+
+  int x = (DISPLAY_WIDTH - text_width) / 2;
+
+  if (x < 0) {
+    x = 0;
+  }
+
+  ssd1306_draw_string(buffer, x, y, text);
+}

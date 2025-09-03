@@ -30,6 +30,8 @@ endif()
 
 project(projeto_final C CXX ASM)
 
+include_directories(${CMAKE_SOURCE_DIR})
+
 pico_sdk_init()
 
 add_subdirectory(./src/include/no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/src build)
