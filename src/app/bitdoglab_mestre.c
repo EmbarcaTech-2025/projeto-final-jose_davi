@@ -8,12 +8,8 @@
 #include "led_rgb.h"
 #include "buzzer.h"
 #include "display_oled.h"
-#include "mqtt_comm.h"
 #include "wifi_conn.h"
-#include "aht10.h"
-#include "bh1750.h"
-#include "bmp280.h"
-#include "i2c_config.h"
+#include "current_time.h"
 #include "pico/cyw43_arch.h"
 
 // Chave Secreta para HMAC
@@ -50,30 +46,12 @@ int main() {
   gpio_set_function(mosi_pin, GPIO_FUNC_SPI);
   PCD_Init(mfrc, spi0);
 
+  setup_rtc_from_ntp();
+
   // Inicializa os periféricos: LED RGB, Display OLED e Buzzer
   led_rgb_init(); 
   display_init();
   buzzer_init();
-
-  // Configurações de rede (WiFi e MQTT)
-  // Para nosso projeto, implementamos autenticação ao broker MQTT
-  connect_to_wifi("SSID", "Senha WiFi");
-  mqtt_setup("bitdoglab_mestre", "IP do Broker", "bitdoglab_mestre", "12345678");
-
-  i2c_init(I2C_PORT, 100 * 1000);
-  gpio_set_function(I2C_SDA_PIN, GPIO_FUNC_I2C);
-  gpio_set_function(I2C_SCL_PIN, GPIO_FUNC_I2C);
-  gpio_pull_up(I2C_SDA_PIN);
-  gpio_pull_up(I2C_SCL_PIN);
-
-  bmp280_init();
-  bh1750_init();  
-  aht10_init();
-
-  float lux = 0;
-  float temp = 0;
-  float pres = 0;
-  float humidity = 0;
 
   uint64_t last_publish_time = 0;
 
@@ -85,23 +63,13 @@ int main() {
     ssd1306_send_buffer(ssd, ssd1306_buffer_length);
 
     // Aguarda até que um novo cartão seja detectado
-    // Enquanto aguarda, os dados dos sensores são atualizados e enviados via MQTT
     while (!PICC_IsNewCardPresent(mfrc)){
-      // Pega o tempo atual
-      uint64_t current_time = time_us_64() / 1000; 
-
-      // Verifica se já se passaram 5 segundos desde a última publicação
-      if (current_time - last_publish_time > 5000) {
-        last_publish_time = current_time; 
-
-        get_temp_pres(&temp, &pres);
-        lux = get_lux();
-        humidity = GetHumidity();
-
-        mqqt_publish_sensor_data(temp, pres, humidity, lux); 
-      }
-      sleep_ms(10); 
+      cyw43_arch_poll(); 
+      sleep_ms(10);
     }
+
+    char timestamp[25]; 
+    get_current_timestamp_str(timestamp, sizeof(timestamp));
 
     // Lê o serial do cartão
     if (!PICC_ReadCardSerial(mfrc)) {
@@ -215,6 +183,8 @@ int main() {
         sleep_ms(10);
       }
       gpio_put(LED_RGB_GREEN, 0);
+
+      printf("ACESSO LIBERADO: %s - %s - %s\n", timestamp, cpf, nome);
 
     } else {
       memset(ssd, 0, ssd1306_buffer_length);

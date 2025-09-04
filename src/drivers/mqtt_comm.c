@@ -168,7 +168,8 @@ void mqtt_setup(const char *client_id, const char *broker_ip, const char *user,
   struct mqtt_connect_client_info_t ci = {
       .client_id = client_id, // ID do cliente
       .client_user = user,    // Usuário (opcional)
-      .client_pass = pass     // Senha (opcional)
+      .client_pass = pass,     // Senha (opcional)
+      .keep_alive = 60
   };
 
   // Inicia a conexão com o broker

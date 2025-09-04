@@ -46,6 +46,9 @@
 #define LWIP_TCP                    1
 #define LWIP_UDP                    1
 #define LWIP_DNS                    1
+#define SNTP_SERVER_DNS             1
+#define SNTP_GET_LAST_TIME          1
+#define SNTP_SYNC_TIME_CALLBACK     1
 #define LWIP_TCP_KEEPALIVE          1
 #define LWIP_NETIF_TX_SINGLE_PBUF   1
 #define DHCP_DOES_ARP_CHECK         0
