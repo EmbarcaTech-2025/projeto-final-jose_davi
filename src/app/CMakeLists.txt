@@ -3,7 +3,7 @@
 # "SLAVE" para o dispositivo escravo
 # "RFID_WRITTER" para um programa de teste de escrita no cartão
 # qualquer outra coisa para compilar projeto_final.c
-set(DEVICE "MASTER" CACHE STRING "Dispositivo alvo")
+set(DEVICE "MASTER")
 
 if(DEVICE STREQUAL "MASTER")
   add_executable(${PROJECT_NAME}
@@ -39,6 +39,7 @@ if(DEVICE STREQUAL "MASTER")
     bh1750
     aht10
     current_time
+    uart_comm
   )
 
   # Add the standard include files to the build
@@ -70,6 +71,16 @@ elseif(DEVICE STREQUAL "SLAVE")
     hardware_i2c
     sd_card_handler
     i2c_messages
+    pico_cyw43_arch_lwip_threadsafe_background
+    pico_lwip_mqtt
+    pico_lwip
+    pico_cyw43_driver
+    wifi_conn
+    mqtt_comm
+    bmp280
+    bh1750
+    aht10
+    uart_comm
   )
 
   # Add the standard include files to the build

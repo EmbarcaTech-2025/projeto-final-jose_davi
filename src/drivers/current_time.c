@@ -1,20 +1,13 @@
-// current_time.c
-
 #include <string.h>
 #include <time.h>
-
 #include "pico/stdlib.h"
 #include "pico/cyw43_arch.h"
 #include "hardware/rtc.h"
-
 #include "lwip/dns.h"
 #include "lwip/pbuf.h"
 #include "lwip/udp.h"
-
 #include "wifi_conn.h" 
 
-#define WIFI_SSID "UFC-MMA"
-#define WIFI_PASS "05142029"
 #define NTP_SERVER "pool.ntp.org"
 #define NTP_MSG_LEN 48
 #define NTP_PORT 123
@@ -111,7 +104,7 @@ static NTP_STATE_T* ntp_client_init(void) {
 void setup_rtc_from_ntp() {
     g_rtc_set_ok = false;
     rtc_init();
-    connect_to_wifi(WIFI_SSID, WIFI_PASS);
+    connect_to_wifi("UFC-MMA", "05142029");
 
     NTP_STATE_T *state = ntp_client_init();
     if (!state) {
@@ -153,7 +146,27 @@ void get_current_timestamp_str(char* buf, size_t len) {
     datetime_t now;
     rtc_get_datetime(&now);
 
+    now.hour -= 3;
+    if (now.hour < 0) {
+        now.hour += 24;
+        now.day -= 1;
+        if (now.day < 1) {
+            now.month -= 1;
+            if (now.month < 1) {
+                now.month = 12;
+                now.year -= 1;
+            }
+            if (now.month == 2) {
+                now.day = (now.year % 4 == 0 && (now.year % 100 != 0 || now.year % 400 == 0)) ? 29 : 28;
+            } else if (now.month == 4 || now.month == 6 || now.month == 9 || now.month == 11) {
+                now.day = 30;
+            } else {
+                now.day = 31;
+            }
+        }
+    }
+
     snprintf(buf, len, "%02d/%02d/%04d %02d:%02d:%02d",
              now.day, now.month, now.year,
-             now.hour-3, now.min, now.sec);
+             now.hour, now.min, now.sec);
 }

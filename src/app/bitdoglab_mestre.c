@@ -11,6 +11,9 @@
 #include "wifi_conn.h"
 #include "current_time.h"
 #include "pico/cyw43_arch.h"
+#include "uart_comm.h"
+
+#define LOCK_PIN 4
 
 // Chave Secreta para HMAC
 const uint8_t HMAC_SECRET_KEY[32] = {
@@ -30,6 +33,32 @@ void get_first_name(const char* full_name, char* first_name_buffer, size_t buffe
         i++;
     }
     first_name_buffer[i] = '\0';
+}
+
+#define CPF_LEN 15 
+#define MAX_USERS_INSIDE 50 
+
+char users_inside_list[MAX_USERS_INSIDE][CPF_LEN];
+int current_user_count = 0;
+
+bool manage_access_list(const char* cpf) {
+  for (int i = 0; i < current_user_count; i++) {
+    if (strcmp(users_inside_list[i], cpf) == 0) {
+      for (int j = i; j < current_user_count - 1; j++) {
+        strcpy(users_inside_list[j], users_inside_list[j + 1]);
+      }
+      current_user_count--;
+      return false;
+    }
+  }
+
+  if (current_user_count < MAX_USERS_INSIDE) {
+    strcpy(users_inside_list[current_user_count], cpf);
+    current_user_count++;
+    return true; 
+  } else {
+    return false; 
+  }
 }
 
 int main() {
@@ -53,6 +82,12 @@ int main() {
   display_init();
   buzzer_init();
 
+  //gpio_init(LOCK_PIN);
+  //gpio_set_dir(LOCK_PIN, GPIO_OUT);
+  //gpio_put(LOCK_PIN, 1);
+
+  uart_comm_init(); // Inicializa a UART
+
   uint64_t last_publish_time = 0;
 
   while (true) {
@@ -68,8 +103,8 @@ int main() {
       sleep_ms(10);
     }
 
-    char timestamp[25]; 
-    get_current_timestamp_str(timestamp, sizeof(timestamp));
+    AccessLog log_entry;
+    get_current_timestamp_str(log_entry.timestamp, sizeof(log_entry.timestamp));
 
     // Lê o serial do cartão
     if (!PICC_ReadCardSerial(mfrc)) {
@@ -152,6 +187,7 @@ int main() {
     char* cpf = (char*)reconstructed_payload;
     char* nome = cpf + strlen(cpf) + 1;
     char first_name[10];
+    bool is_entrance = false;
     uint8_t* received_hmac = reconstructed_payload + strlen(cpf) + 1 + strlen(nome) + 1;
 
     // Prepara os dados que foram originalmente assinados (UID + CPF + Nome)
@@ -169,22 +205,47 @@ int main() {
     // Comparar o HMAC recebido do cartão com o HMAC que acabamos de calcular
     if (memcmp(received_hmac, calculated_hmac, 32) == 0) {
       get_first_name(nome, first_name, 10);
-      memset(ssd, 0, ssd1306_buffer_length);
-      draw_centered_string(ssd, 10, "Seja bem-vindo");
-      draw_centered_string(ssd, 29, first_name);
-      draw_centered_string(ssd, 48, "Acesso Liberado");
-      ssd1306_send_buffer(ssd, ssd1306_buffer_length);
+      is_entrance = manage_access_list(cpf);
+
+      strncpy(log_entry.name, nome, sizeof(log_entry.name) - 1);
+      log_entry.name[sizeof(log_entry.name) - 1] = '\0';
+
+      if (is_entrance){
+        memset(ssd, 0, ssd1306_buffer_length);
+        draw_centered_string(ssd, 10, "Seja bem-vindo");
+        draw_centered_string(ssd, 29, first_name);
+        draw_centered_string(ssd, 48, "Acesso Liberado");
+        ssd1306_send_buffer(ssd, ssd1306_buffer_length);
+
+        strcpy(log_entry.operation, "Entrada");
+      } else{
+        memset(ssd, 0, ssd1306_buffer_length);
+        draw_centered_string(ssd, 10, "Volte Sempre");
+        draw_centered_string(ssd, 29, first_name);
+        draw_centered_string(ssd, 48, "Acesso Liberado");
+        ssd1306_send_buffer(ssd, ssd1306_buffer_length);
+
+        strcpy(log_entry.operation, "Saida");
+      }
 
       gpio_put(LED_RGB_GREEN, 1); 
       play_buzzer();
 
-      for (int i = 0; i < 200; i++) {
+      //printf("Destrancando a porta por 5 segundos...\n");
+      //gpio_put(LOCK_PIN, 0);
+
+      for (int i = 0; i < 500; i++) {
         cyw43_arch_poll();
         sleep_ms(10);
       }
+
+      //printf("Trancando a porta.\n");
+      //gpio_put(LOCK_PIN, 1);
       gpio_put(LED_RGB_GREEN, 0);
 
-      printf("ACESSO LIBERADO: %s - %s - %s\n", timestamp, cpf, nome);
+      printf("ACESSO LIBERADO: %s - %s - %s\n", log_entry.timestamp, cpf, nome);
+
+      uart_send_log(&log_entry);
 
     } else {
       memset(ssd, 0, ssd1306_buffer_length);

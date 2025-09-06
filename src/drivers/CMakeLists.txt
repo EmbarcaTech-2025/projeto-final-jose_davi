@@ -172,4 +172,17 @@ target_include_directories(current_time PUBLIC
   ${CMAKE_SOURCE_DIR}
 )
 
+add_library(uart_comm STATIC
+  uart_comm.c
+)
+
+target_link_libraries(uart_comm
+  hardware_uart
+  pico_stdlib
+)
+
+target_include_directories(uart_comm PUBLIC
+  ${CMAKE_CURRENT_LIST_DIR}
+)
+
 
