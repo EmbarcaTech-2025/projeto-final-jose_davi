@@ -3,7 +3,7 @@
 # "SLAVE" para o dispositivo escravo
 # "RFID_WRITTER" para um programa de teste de escrita no cartão
 # qualquer outra coisa para compilar projeto_final.c
-set(DEVICE "SLAVE")
+set(DEVICE "MASTER")
 
 if(DEVICE STREQUAL "MASTER")
   add_executable(${PROJECT_NAME}

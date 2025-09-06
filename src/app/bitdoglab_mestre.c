@@ -82,9 +82,9 @@ int main() {
   display_init();
   buzzer_init();
 
-  //gpio_init(LOCK_PIN);
-  //gpio_set_dir(LOCK_PIN, GPIO_OUT);
-  //gpio_put(LOCK_PIN, 1);
+  gpio_init(LOCK_PIN);
+  gpio_set_dir(LOCK_PIN, GPIO_OUT);
+  gpio_put(LOCK_PIN, 1);
 
   uart_comm_init(); // Inicializa a UART
 
@@ -231,16 +231,16 @@ int main() {
       gpio_put(LED_RGB_GREEN, 1); 
       play_buzzer();
 
-      //printf("Destrancando a porta por 5 segundos...\n");
-      //gpio_put(LOCK_PIN, 0);
+      printf("Destrancando a porta por 5 segundos...\n");
+      gpio_put(LOCK_PIN, 0);
 
       for (int i = 0; i < 500; i++) {
         cyw43_arch_poll();
         sleep_ms(10);
       }
 
-      //printf("Trancando a porta.\n");
-      //gpio_put(LOCK_PIN, 1);
+      printf("Trancando a porta.\n");
+      gpio_put(LOCK_PIN, 1);
       gpio_put(LED_RGB_GREEN, 0);
 
       printf("ACESSO LIBERADO: %s - %s - %s\n", log_entry.timestamp, cpf, nome);
