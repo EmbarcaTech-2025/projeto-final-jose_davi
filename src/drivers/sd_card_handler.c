@@ -2,6 +2,7 @@
 #include "ff.h"
 #include <pico/time.h>
 #include <pico/types.h>
+#include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,21 +18,15 @@ bool sd_mount() {
     return false;
   }
 
-  // puts("SD Card Mounted");
   return true;
 }
 
-void sd_unmount() {
-  f_unmount("");
-  // puts("SD Card Unmounted");
-}
+void sd_unmount() { f_unmount(""); }
 
 uint item_write(Item item) {
   uint bw;
   uint8_t buf[60];
   char path[12];
-
-  // puts("Writing");
 
   sprintf(path, "%06u.txt", item.code);
 
@@ -47,7 +42,6 @@ uint item_write(Item item) {
   }
 
   f_sync(&fil);
-  // printf("Bytes written: %u\n", bw);
 
   fr = f_close(&fil);
   sleep_ms(100);
@@ -76,7 +70,6 @@ Item *item_read(uint32_t code) {
 
   fr = f_read(&fil, buf, sizeof(Item), &br);
   memcpy(item, buf, 60);
-  // printf("N %s\nC %u\nQ %u\n", item->name, item->code, item->count);
 
   fr = f_close(&fil);
   if (FR_OK != fr) {
@@ -88,4 +81,34 @@ Item *item_read(uint32_t code) {
     return item;
   free(item);
   return NULL;
+}
+
+uint write_log(AccessLog log) {
+  uint bw;
+  size_t log_len = sizeof(log);
+  uint8_t buf[log_len];
+  char path[sizeof(log.timestamp) + 5];
+
+  sprintf(path, "%s.txt", log.timestamp);
+
+  fr = f_open(&fil, path, FA_CREATE_ALWAYS | FA_WRITE | FA_READ);
+  if (FR_OK != fr && FR_EXIST != fr) {
+    return 1;
+  }
+
+  memcpy(buf, &log, log_len);
+  fr = f_write(&fil, buf, log_len, &bw);
+  if (FR_OK != fr) {
+    return 1;
+  }
+
+  f_sync(&fil);
+
+  fr = f_close(&fil);
+  sleep_ms(100);
+  if (FR_OK != fr) {
+    return 1;
+  }
+
+  return bw;
 }
