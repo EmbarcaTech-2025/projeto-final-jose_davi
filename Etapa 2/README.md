@@ -108,13 +108,15 @@ A comunicação eficiente entre os diversos componentes é um pilar fundamental 
 ## **Fluxograma do Software**
 
 O diagrama a seguir demonstra o fluxo de processos realizados pelo sistema, mostrando uma
-abstração do que será implementado em software. No geral haverão dois tipos de processos
-executados pelo sistema, processos com input do usuário representados por retângulos azuis
-e processos sem input do usuário representados por retângulos brancos.
+abstração do que será implementado em software, sem distinguir em qual placa será executado
+cada processo. 
 
-Os processos que fornecem algum tipo de feedback para o usuário são realizadas pela placa escrava
-utilizando os inputs e dados coletados da placa mestre usando a comunicação I2C, essa processo de
-comunicação entre as placas foi suprimido no fluxograma por simplicidade.
+Este fluxograma demonstra um ciclo completo executado nos loops principais de cada placa do sistema,
+começando com a checagem se o leitor RFID identifica algum cartão, se sim o sistema verifica se o
+cartão é válido e libera ou bloqueia o acesso conforme o verificado, sinalizando o estado dessa
+verificação utilizando o buzzer, o led RGB e o display OLED. Por fim, o sistema obtém os dados dos
+sensores e manda esses dados via MQTT para a interface Web, para então repetir este mesmo ciclo
+até que o sistema seja desligado.
 
 ![Fluxograma de Software](./imgs/Fluxograma_de_Software.png)
 
