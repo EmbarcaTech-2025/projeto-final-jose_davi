@@ -58,16 +58,32 @@ entrada e saída são armazenados internamente.
 
 | Componente        | Quantidade |
 | ----------------- | ---------- |
-| Raspberry Pico W  | 2          |
-| Buzzer            | 1          |
-| Cartão SD         | 1          |
-| Display OLED      | 1          |
-| LED RGB           | 1          |
-| Sensor BH1750     | 1          |
-| Sensor AHT10      | 1          |
-| Sensor BMP280     | 1          |
+| **Raspberry Pi Pico W**            | 2          |
+| **Buzzer**            | 1          |
+| **Display OLED**      | 1          |
+| **LED RGB**           | 1          |
+| **Módulo Leitor RFID-RC522**            | 1          |
+| **Mini Fechadura Solenoide Eletrônica - 12V**           | 1          |
+| **Módulo Relé 5V de 1 Canal**           | 1          |
+| **Fonte de Alimentação Externa de 12V**           | 1          |
+| **Adaptador P4 Fêmea com Borne**           | 1          |
+| **Cartão SD**         | 1          |
+| **Sensor BH1750**     | 1          |
+| **Sensor AHT10**      | 1          |
+| **Sensor BMP280**     | 1          |
 
 ### **Esquema de Montagem**
+
+Abaixo pode ser visto o esquema de montagem do projeto, dividido
+em um esquema mostrando a placa mestre e os componentes conectados
+diretamente a ela e outro esquema mostrando a placa escrava. Caso
+queira montar o projeto sem utilizar as placas BitDogLab, utilizando
+duas Raspberry Pi Pico W, se refira ao [projeto da BitDogLab](https://github.com/BitDogLab/BitDogLab)
+quanto as conexões do buzzer, display OLED e LED RGB.
+
+![Placa Mestre](./media/Montagem_mestre.png)
+
+![Placa Escrava](./media/Montagem_escrava.png)
 
 ---
 

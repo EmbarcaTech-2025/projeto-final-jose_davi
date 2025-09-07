@@ -1,27 +1,24 @@
-#include "pico/stdlib.h"
-#include "sd_card_handler.h" 
-#include "uart_comm.h"       
 #include "aht10.h"
 #include "bh1750.h"
 #include "bmp280.h"
-#include "wifi_conn.h"
 #include "mqtt_comm.h"
 #include "pico/cyw43_arch.h"
+#include "pico/stdlib.h"
+#include "sd_card_handler.h"
+#include "uart_comm.h"
+#include "wifi_conn.h"
 #include <stdio.h>
 
 int main() {
   stdio_init_all();
-  sleep_ms(3000); 
 
-  uart_comm_init(); 
-
-  sleep_ms(5000);
-  printf("BitDogLab Escrava Iniciada\n");
+  uart_comm_init();
 
   AccessLog received_log;
 
   connect_to_wifi("SSID", "Senha WiFi");
-  mqtt_setup("bitdoglab_mestre", "IP do Broker", "bitdoglab_mestre","12345678");
+  mqtt_setup("bitdoglab_mestre", "IP do Broker", "bitdoglab_mestre",
+             "12345678");
 
   bmp280_init();
   bh1750_init();
@@ -41,7 +38,18 @@ int main() {
       printf("  Data/Hora: %s\n", received_log.timestamp);
       printf("  Tipo: %s\n", received_log.operation);
 
-      sleep_ms(1); 
+      sd_mount();
+
+      uint bw = write_log(received_log);
+
+      if (bw != sizeof(received_log)) {
+        printf("Erro na escrita do log!\n");
+      } else {
+        printf("Log escrito com sucesso!\n");
+      }
+      sd_unmount();
+
+      sleep_ms(1);
     }
 
     uint64_t current_time = time_us_64() / 1000;
