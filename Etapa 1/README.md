@@ -1,4 +1,4 @@
-# Projeto Final: Etapa 1 - EmbarcaTech 2025
+# Projeto Final: Etapa 1 (EmbarcaTech 2025) - **Sistema Inteligente para Ambientes Sensíveis/Críticos**
 
 Autor: **Davi Henrique Vieira Lima e José Augusto Alves de Moraes**
 
@@ -10,72 +10,35 @@ Brasília, julho de 2025
 
 ---
 
+### *Uma Solução Integrada de Controle de Acesso Físico com Registro de Auditoria e Sensores Ambientais*
+
+---
+
 ## Descrição do Problema
 
-Atualmente, o controle de estoque é um dos principais desafios enfrentados
-por empresas de diversos setores, impactando diretamente a eficiência operacional,
-os custos logísticos, a lucratividade e até mesmo a satisfação do cliente.
-Um estoque mal gerenciado pode causar desde a falta de produtos essenciais,
-comprometendo vendas e a reputação da empresa, até o excesso de mercadorias paradas,
-que ocupam espaço, imobilizam capital e geram desperdícios.
+A gestão de ambientes sensíveis/críticos — como salas de servidores, laboratórios, almoxarifados de alto valor, acervos históricos, entre outros — depende de um controle rigoroso sobre quem acessa o local e das condições em que ele opera. No entanto, as abordagens tradicionais para essa gestão apresentam falhas críticas em três áreas: controle de acesso, auditoria e monitoramento ambiental.
 
-Ainda é comum o uso de técnicas manuais, como planilhas eletrônicas e pranchetas,
-para a gestão de estoque, o que dificulta o acompanhamento preciso de inventários
-sujeitos a flutuações constantes. Essa abordagem torna o processo mais lento,
-impreciso e vulnerável a erros humanos, como registros incorretos, perdas por
-vencimento e falhas na previsão de demanda, comprometendo a reposição adequada e
-gerando prejuízos financeiros consideráveis.
+No **controle de acesso**, muitas vezes não há autenticação robusta e integrada, permitindo brechas de segurança. Um grande exemplo desse problema são os roubos de medicamentos controlados, como opioides e vacinas caras, constituindo um problema crônico em hospitais. Muitas vezes, o acesso às farmácias internas é feito com chaves convencionais ou senhas compartilhadas, impossibilitando a identificação do responsável que acessou a área.
 
-Além disso, a falta de visibilidade em tempo real sobre o estado dos estoques
-prejudica a tomada de decisões estratégicas, como a negociação com fornecedores,
-o planejamento de compras e a resposta a oscilações de mercado. Em empresas que
-operam com grande variedade de itens, como redes varejistas e indústrias, a
-complexidade do controle se torna ainda maior.
+Na **auditoria**, a ausência de registros confiáveis e com marcação temporal precisa compromete a rastreabilidade das ações dos usuários. Em casos de acidentes, roubos, entre outros, ter um histórico confiável do acesso dos inidivíduos ao ambiente é essencial para investigações. Frequentemente, em acidentes laborais, a perícia não consegue determinar se o acidente foi causado por erro operacional, falha de manutenção ou sabotagem. Se o acesso à área do acidente fosse registrado, a auditoria mostraria a identidade da última pessoa que acessou o local antes do acidente, direcionando a investigação e fornecendo dados cruciais para o processo. 
 
-Diante de um cenário de digitalização acelerada e aumento da competitividade,
-torna-se essencial a adoção de sistemas automatizados e inteligentes. Essas
-ferramentas não apenas asseguram um controle mais preciso e ágil, como também
-permitem previsões de demanda, alertas automáticos de reposição, rastreabilidade
-de produtos e redução significativa de perdas e desperdícios.
+Já no **monitoramento ambiental**, dados essenciais como temperatura, umidade, pressão e luminosidade frequentemente não são coletados ou analisados em tempo real, dificultando a prevenção de falhas operacionais. Em 2018, o incêndio do Museu Nacional do Rio de Janeiro, apesar da conjunta falta de monitoramento das condições elétricas, poderia ter seus danos amenizados com o monitoramento das condições do ambiente.
 
-Portanto, investir na modernização do controle de estoque não é apenas uma escolha
-estratégica, mas uma necessidade para a sobrevivência e crescimento sustentável das
-empresas no contexto atual.
+Assim, torna-se necessário um sistema integrado que supere essas limitações e ofereça segurança, confiabilidade e visibilidade completa sobre o ambiente.
 
 ---
 
 ## Proposta
 
-Com o objetivo de mitigar a problemática mencionada, este trabalho propõe o
-desenvolvimento de uma solução automatizada para controle de estoque, por meio
-de um sistema capaz de receber dados acerca de produtos do estoque e
-registrar, de forma precisa, quais itens estão disponíveis e em que quantidade.
+Diante disso, o presente projeto propõe o desenvolvimento de um sistema integrado para controle de acesso seguro e monitoramento ambiental em tempo real. O acesso é realizado por meio de cartões RFID, que permitem a identificação confiável do usuário, garantindo registros válidos e associados a data e hora.
 
-O sistema também possibilita a interação com o usuário por meio do mecanismo de 
-conectividade, onde o usuário informar o nome do produto que será considerado.
-Além disso, o usuário tem a sua disposição um periférico que lhe permite, de
-forma prática e eficiente, o registro da quantidade de um determinado produto
-e se ele será incluído ou removido do estoque.
+Esses registros são armazenados em um cartão SD dedicado, assegurando a auditoria histórica das entradas e saídas. Além disso, o sistema conta com uma interface de interação com o usuário, que orienta e fornece feedback imediato sobre as operações realizadas.
 
-Ademais, o sistema utiliza esse mecanismo de conectividade para se comunicar
-com um sistema externo, enviando mensagens com informações relevantes
-para o gerenciamento do estoque — como a quantidade de itens adicionados ou
-retirados, a data e hora da operação, entre outros dados — contribuindo para um
-controle mais completo, seguro e integrado.
+No caso de acesso autorizado, o sistema é capaz de acionar uma fechadura eletromagnética, viabilizando a aplicação prática em portas de ambientes que demandam maior controle.
 
-Por fim, o sistema será capaz de fornecer, aos usuários, dados acerca das condições físicas do ambiente. Entrando em detalhes, essas condições são:
-- Temperatura
-- Umidade
-- Luminosidade
-- Pressão
-Assim, o sistema também fornece insights cruciais sobre o ambiente de armazenamento, medindo continuamente esses aspectos. Com esses dados em mãos, o usuário pode otimizar a gestão de seu estoque e tomar ações preventivas.
+Complementarmente, o projeto realiza a coleta de dados ambientais e os envia, por meio de um mecanismo de conectividade sem fio, para uma interface, permitindo o acompanhamento remoto das condições do ambiente.
 
-Como conclusão, o desenvolvimento deste sistema representa uma alternativa viável
-e eficiente para modernizar o controle de estoque, reduzindo falhas humanas, aumentando
-a precisão das informações e promovendo maior integração entre os processos internos e
-externos das organizações. Ao aliar tecnologias, a solução proposta demonstra
-potencial para atender às demandas de um cenário empresarial cada vez mais dinâmico e
-automatizado, contribuindo significativamente para a otimização da gestão de inventário.
+A proposta, portanto, é oferecer uma solução simples, segura e acessível, unificando controle de acesso, auditoria e monitoramento ambiental em um único sistema.
 
 ---
 
@@ -83,15 +46,19 @@ automatizado, contribuindo significativamente para a otimização da gestão de 
 
 O sistema deve poder atender os seguintes requisitos funcionais:
 
-- Receber o nome do produto por meio de um mecanismo de conectividade com o usuário.
-- Indicar ao usuário que o nome do produto foi recebido.
-- Permitir ao usuário a definição da quantidade de produtos que ele quer adicionar ou remover.
-- Indicar ao usuário que a quantidade desejada foi recebida.
-- Permitir a interação com usuário para que ele tanto adicione produtos quanto remova produtos.
-- Indicar ao usuário, visualmente, se o sistema está operando em modo para adicionar produtos ou para remover produtos.
-- Armazenar e atualizar a quantidade de produtos.
-- Fornecer dados acerca temperatura, umidade, luminosidade e pressão do ambiente ao usuário.
-- Enviar e receber dados sobre o estoque via MQTT.
+| Código | Requisito Funcional |
+|--------|-------------------|
+| RF01   | O sistema deve ser capaz de detectar a aproximação do cartão RFID e extrair as informações do cartão. |
+| RF02   | O sistema deve ser capaz de autenticar o usuário por meio de mecanismo de criptografia. |
+| RF03   | O sistema deve ser capaz de abrir a fechadura caso o usuário seja autenticado. |
+| RF04   | O sistema deve ser capaz de manter a fechadura fechada caso o usuário seja inválido. |
+| RF05   | O sistema deve ser capaz de identificar se a operação do usuário é uma Entrada ou Saída. |
+| RF06   | O sistema deve ser capaz de interagir com o usuário, orientando as suas ações e dando feedback a ele. |
+| RF07   | O sistema deve ser capaz de obter a data e horário real por meio de mecanismo de conectividade sem fio. |
+| RF08   | O sistema deve ser capaz de manter um registro histórico de acesso do usuário, sendo armazenados o nome, a data, o horário e o tipo da operação (Entrada/Saída). |
+| RF09   | O sistema deve ser capaz de coletar os seguintes dados ambientais: temperatura, pressão, luminosidade e umidade. |
+| RF10   | O sistema deve ser capaz de enviar os dados ambientais para uma interface via mecanismo de conectividade sem fio. |
+
 
 ---
 
@@ -99,45 +66,72 @@ O sistema deve poder atender os seguintes requisitos funcionais:
 
 O sistema deve poder atender os seguintes requisitos não-funcionais:
 
-- Confiabilidade: o sistema deve operar de forma estável e previsível.
-- Portabilidade: o sistema deve ser portátil, ou seja, que pode ser transferido com facilidade.
-- Baixo Consumo de Energia: o sistema deve operar com um baixo consumo de energia.
-- Longo Período de Funcionamento: o sistema deve ser capaz de operar de forma robusta por longos períodos.
-- Segurança: deve ser garantido a autenticidade e integridade dos dados.
-- Escalabilidade: o sistema deve ser capaz de expandir suas funcionalidades e integrar novos módulos.
-- Usabilidade: a interface de interação com usuário deve ser fácil e interativa.
+| Código | Requisito Não Funcional |
+|--------|------------------------|
+| RNF01  | **Confiabilidade**: o sistema deve operar de forma estável e previsível. |
+| RNF02  | **Baixa Latência na Validação de Acesso**: o tempo total entre a aproximação do cartão RFID pelo usuário e a resposta final do sistema deve ser a mais baixa possível. |
+| RNF03  | **Portabilidade**: o sistema deve ser portátil, ou seja, que pode ser transferido com facilidade. |
+| RNF04  | **Baixo Consumo de Energia**: o sistema deve operar com um baixo consumo de energia. |
+| RNF05  | **Longo Período de Funcionamento**: o sistema deve ser capaz de operar de forma robusta por longos períodos. |
+| RNF06  | **Segurança**: deve ser garantida a autenticidade e integridade dos dados. |
+| RNF07  | **Adequada Frequência de Telemetria**: os dados ambientais devem ser lidos e publicados no tópico MQTT com uma frequência adequada de operação. |
+| RNF08  | **Escalabilidade**: o sistema deve ser capaz de expandir suas funcionalidades e integrar novos módulos. |
+| RNF09  | **Modularidade**: o firmware do projeto deve ser desenvolvido de forma modular. |
+| RNF10  | **Usabilidade**: a interface de interação com usuário deve ser fácil e interativa. |
 
 ---
 
 ## Componentes Utilizados
 
 Para possibilitar a satisfação dos requisitos técnicos do sistema serão utilizados
-os seguintes componentes, alguns presentes na BitDogLab, outros não:
+os seguintes componentes:
 
 | Componente        | Quantidade |
 | ----------------- | ---------- |
-| Buzzer            | 1          |
-| Cartão SD         | 1          |
-| Display OLED      | 1          |
-| LED RGB           | 1          |
-| Teclado Matricial | 1          |
-| Sensor BH1750     | 1          |
-| Sensor AHT10      | 1          |
-| Sensor BMP280     | 1          |
+| **Raspberry Pi Pico W**            | 2          |
+| **Buzzer**            | 1          |
+| **Display OLED**      | 1          |
+| **LED RGB**           | 1          |
+| **Módulo Leitor RFID-RC522**            | 1          |
+| **Mini Fechadura Solenoide Eletrônica - 12V**           | 1          |
+| **Módulo Relé 5V de 1 Canal**           | 1          |
+| **Fonte de Alimentação Externa de 12V**           | 1          |
+| **Adaptador P4 Fêmea com Borne**           | 1          |
+| **Cartão SD**         | 1          |
+| **Sensor BH1750**     | 1          |
+| **Sensor AHT10**      | 1          |
+| **Sensor BMP280**     | 1          |
 
-Obs.: Para esse projeto, serão utilizadas duas BitDogLabs.
+Observação.: Para esse projeto, também será utilizado um número razoável de **fios e jumpers**.
 
 ---
 
 ## Especificações
 
-A fim de cumprir os requisitos funcionais, o sistema seguirá as seguintes especificações:
+A fim de cumprir os requisitos do projeto, o sistema seguirá as seguintes especificações:
 
-- Utilizando o mecanismo de conectividade WI-FI, utilizando o protocolo MQTT, o sistema se inscreve em um tópico específico e recebe o nome do produto que será registrado ou removido pelo usuário.
-- Utilizando o teclado matricial, o usuário pode especificar ao sistema se ele quer adicionar ou remover o produto e a quantidade do produto considerado.
-- Utilizando o Display OLED será apresentado ao usuário informações sobre o produto, instruções para realizar as diversas operações permitidas pelo sistema, entre outras informações.
-- Utilizando a comunicação I2C, a BitDogLab fará o envio desses dados para outra BitDogLab, que apresenta a placa adaptadora de SD Card.
-- O cartão SD será utilizado a fim de armazenar informações sobre o estoque local, permitindo a operação do sistema mesmo em caso de queda do servidor central.
-- O sistema enviará feedbacks extras, além do Display OLED, ao usuário acerca de suas operações por meio de um buzzer e um LED RGB. Exemplo: após receber uma mensagem via MQTT, o sistema indicará que o produto foi identificado por meio do som do buzzer e a cor verde do LED RGB.
-- Também por meio do módulo Wi-Fi da BitDogLab, utilizando o protocolo MQTT, o sistema será capaz de enviar e receber dados acerca da quantidade de determinado produto no estoque, número de produtos adicionados ou retirados, entre outros.
-- A temperatura (Sensor BMP280), umidade (Sensor AHT10), luminosidade (Sensor BH1750) e pressão (Sensor BMP280) serão obtidas por meio de seus respectivos sensores e apresentados ao usuário por meio do display oled mediante uma requisição do usuário utilizando o teclado matricial.
+- Utilizando o leitor RFID, o sistema detecta a aproximação do cartão RFID e extrai as informações armazenadas, como nome, CPF e token, garantindo que os dados do usuário estejam disponíveis para autenticação.
+- Utilizando mecanismos de criptografia HMAC-SHA256, para cada cartão, o UID é combinado com os dados do usuário (nome e CPF) para gerar um hash criptográfico assinado com uma chave secreta, que é gravado no cartão. Assim, para autenticar o usuário, o sistema recalcula o HMAC com os mesmos dados e compara com o valor armazenado.
+- Caso o usuário seja autenticado com sucesso, o sistema aciona a fechadura solenoide, permitindo a abertura da porta de forma segura e temporizada para evitar aquecimento prolongado.
+- Caso o usuário não seja autenticado, a fechadura permanece fechada, impedindo o acesso ao ambiente.
+- O sistema identifica se a operação do usuário é uma Entrada ou Saída, por meio de uma lista que armazena de forma dinâmica o CPF dos usuário que acessaram o ambiente.
+- Utilizando o Display OLED, buzzer e LED RGB, o sistema fornece informações e feedbacks ao usuário, orientando-o sobre as operações e indicando sucesso ou falha na autenticação.
+- Utilizando conectividade Wi-Fi, o sistema realiza uma requisição NTP a "pool.ntp.org" e, assim, obtém a data e horário reais, garantindo que todos os registros sejam carimbados com informações temporais precisas.
+- O sistema mantém um registro histórico de acesso do usuário, armazenando nome, data, horário e tipo de operação (Entrada/Saída) em um cartão SD, permitindo auditoria e rastreabilidade.
+- A temperatura (sensor BMP280), pressão (sensor BMP280), umidade (sensor AHT10) e luminosidade (sensor BH1750) são capturadas de forma contínua, fornecendo monitoramento ambiental do local.
+- Utilizando conectividade Wi-Fi e protocolo MQTT, os dados ambientais são enviados a um tópico específico, sendo recebidos por um script Python que exibe essas informações em uma interface, permitindo monitoramento remoto em tempo real. (Observação: a interface não é um dos focos de apresentação do projeto. Ela apenas exemplifica uma aplicação válida e prática de umas das funcionalidades do projeto)
+
+---
+
+## Referências
+- **Integrated Security and Environmental Monitoring in Critical Facilities**  
+
+  *Fonte: ResearchGate, 2019*
+
+- **Smart Building and Environmental Monitoring** 
+
+  *Fonte: MDPI, 2021* 
+
+- **Security Issues in RFID-based Access Control Systems**  
+ 
+  *Fonte: IEEE Xplore, 2019*
