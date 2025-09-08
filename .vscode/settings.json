@@ -43,6 +43,7 @@
         "i2c_config.h": "c",
         "unity_internals.h": "c",
         "stdlib.h": "c",
-        "md.h": "c"
+        "md.h": "c",
+        "sd_card_handler.h": "c"
     }
 }

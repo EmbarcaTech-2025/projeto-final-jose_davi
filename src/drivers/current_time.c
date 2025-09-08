@@ -104,7 +104,7 @@ static NTP_STATE_T* ntp_client_init(void) {
 void setup_rtc_from_ntp() {
     g_rtc_set_ok = false;
     rtc_init();
-    connect_to_wifi("UFC-MMA", "05142029");
+    connect_to_wifi("iPhone de Davi", "16290101");
 
     NTP_STATE_T *state = ntp_client_init();
     if (!state) {
