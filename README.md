@@ -110,6 +110,16 @@ quanto as conexões do buzzer, display OLED e LED RGB.
   Tendo compilado o projeto, o binário compilado pode ser passado para a placa utilizando o comando
   `picotool load -f build/src/app/projeto_final.elf`.
 
+### **Interface MQTT**
+
+Para obter os dados dos sensores via MQTT é preciso configurar um broker e
+alterar as configurações do Wi-Fi e do broker no arquivo `bitdoglab_escrava.c`
+e no arquivo `interface.py`.
+
+Com tudo configurado, utilize o comando `uv run interface.py` para rodar a interface
+pelo computador. Caso não tenha o uv instalado utilize o comando `pip install uv` para
+instalá-lo.
+
 ### **Instruções de Uso do Sistema**
 
 ---
