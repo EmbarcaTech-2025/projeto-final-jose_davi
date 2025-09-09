@@ -50,6 +50,10 @@ entrada e saída são armazenados internamente.
 
   Autor: [Juliano Oliveira](https://github.com/jrfo-hwit)
 
+- [Driver MFRC522](https://github.com/BenjaminModica/pico-mfrc522.git)
+
+  Autor: [Benjamin Modica](https://github.com/BenjaminModica)
+
 ---
 
 ## **Montagem**
@@ -84,6 +88,17 @@ quanto as conexões do buzzer, display OLED e LED RGB.
 ![Placa Mestre](./media/Montagem_mestre.png)
 
 ![Placa Escrava](./media/Montagem_escrava.png)
+
+---
+
+### **Destaques Tecnológicos**
+Para criar uma solução robusta e inteligente, o projeto integra tecnologias-chave que o diferenciam de sistemas embarcados convencionais. A seguir, detalhamos os destaques tecnológicos do projeto:
+* **RFID**: tecnologia de identificação e transferência de dados por meio de ondas de rádio entre um leitor e uma tag. No caso de tags passivas, utilizadas no projeto, não há bateria interna; elas são energizadas pelo campo eletromagnético gerado pelo leitor. Esse campo ativa o chip da tag, que responde transmitindo os dados gravados em sua memória para o leitor. Essa tecnologia foi empregada como base para o controle de acesso e o registro dos usuários.
+* **Protocolo NTP**: o *Network Time Protocol* é um protocolo amplamente utilizado para sincronizar relógios em sistemas conectados à rede. No projeto, o microcontrolador conecta-se ao Wi-Fi e envia uma requisição a um servidor NTP, que retorna uma referência de data e hora atualizada. Esses dados são então processados pelo microcontrolador e, assim, o RTC é ajustado corretamente, garantindo o registro preciso dos horários de acesso dos usuários.
+* **MQTT**: no projeto, o MQTT foi fundamental para o envio dos dados coletados pelos sensores até a interface web de monitoramento. Ele consiste em um protocolo leve, assíncrono e orientado a mensagens, projetado para dispositivos com recursos limitados. Ele adota a arquitetura publish/subscribe, na qual:
+    - o **broker** atua como servidor, intermediando toda a comunicação;
+    - o **publisher** é o dispositivo que publica mensagens em tópicos específicos;
+    - o **subscriber** é o dispositivo que se inscreve em tópicos para receber mensagens correspondentes.
 
 ---
 
