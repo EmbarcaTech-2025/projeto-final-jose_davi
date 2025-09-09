@@ -55,6 +55,52 @@ O diagrama apresentado ilustra de maneira clara as conexões entre os componente
 
 ![Diagrama de Hardware](./imgs/Diagrama_de_Hardware.png)
 
+Em razão da limitação de espaço na imagem acima, segue-se as tabelas das pinagens para ambas BitDogLabs (Mestre e Escravo):
+
+**BitDogLab Mestre**
+| GPIO       | Função |
+| ----------------- | ---------- |
+| **0**         | TX (UART)              |
+| **1**         | RX (UART)              |
+| **4**         | Controle da Fechadura  |
+| **8**         | RST (MFRC522)          |
+| **11**        | Cor Verde (LED RGB)    |
+| **12**        | Cor Azul (LED RGB)     |
+| **13**        | Cor Vermelha (LED RGB) |
+| **14**        | SDA (Display OLED)     |
+| **15**        | SCL (Display OLED)     |
+| **16**        | MISO (MFRC522)         |
+| **17**        | CS (MFRC522)           |
+| **18**        | SCK (MFRC522)          |
+| **19**        | MOSI (MFRC522)         |
+| **21**        | Controle do Buzzer     |
+
+<br>
+
+**BitDogLab Escravo**
+| GPIO       | Função |
+| ----------------- | ---------- |
+| **0**         | TX (UART)              |
+| **1**         | RX (UART)              |
+| **2**         | SDA (Sensores)         |
+| **3**         | SCL (Sensores)         |
+| **16**        | MISO (Cartão SD)       |
+| **17**        | CS (Cartão SD)         |
+| **18**        | SCK (Cartão SD)        |
+| **19**        | MOSI (Cartão SD)       |
+
+---
+
+## **Esquema de Montagem**
+
+As imagens abaixo ilustram a montagem final utilizando as placas de circuito impresso (PCB) customizadas do projeto.
+
+**Para a montagem manual** utilizando duas placas Raspberry Pi Pico W padrão, consulte as **tabelas de pinagem (GPIO) detalhadas na seção anterior** para realizar todas as conexões. O [projeto original da BitDogLab](https://github.com/BitDogLab/BitDogLab) serve como um excelente guia visual de referência para conectar os componentes individuais (Buzzer, Display OLED e LED RGB.).
+
+![Placa Mestre](../media/Montagem_mestre.png)
+
+![Placa Escrava](../media/Montagem_escrava.png)
+
 ---
 
 ## **Blocos Funcionais**
