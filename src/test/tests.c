@@ -115,7 +115,7 @@ void test_ntp(void) {
   get_current_timestamp_str(timestamp, sizeof(timestamp));
   printf("Timestamp atual: %s\n", timestamp);
   // Verifica se o timestamp não é uma string vazia
-  TEST_ASSERT_NOT_EQUAL_MESSAGE("RTC nao sincronizado", timestamp[0], "O timestamp não deve ser uma string vazia.");
+  TEST_ASSERT_NOT_EQUAL(0, strcmp("RTC nao sincronizado", timestamp));
 }
 
 // Teste do protocolo UART para recepção de logs de acesso

@@ -44,6 +44,7 @@
         "unity_internals.h": "c",
         "stdlib.h": "c",
         "md.h": "c",
-        "sd_card_handler.h": "c"
+        "sd_card_handler.h": "c",
+        "bmp280.h": "c"
     }
 }
