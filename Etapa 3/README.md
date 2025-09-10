@@ -24,11 +24,11 @@ Por fim, o documento inclui uma listagem dos ajustes pendentes e das melhorias p
 ---
 
 ## **Fotos da Montagem**
-As imagens a seguir registram a montagem final do protótipo, ilustrando a integração física de todos os componentes que formam o sistema de controle de acesso e monitoramento ambiental. Esta etapa foi fundamental para validar a arquitetura proposta e realizar os testes práticos descritos neste documento.
+A imagem a seguir registra a montagem final do protótipo, ilustrando a integração física de todos os componentes que formam o sistema de controle de acesso e monitoramento ambiental. Esta etapa foi fundamental para validar a arquitetura proposta e realizar os testes práticos descritos neste documento.
 
-Ao centro, destacam-se as **duas placas BitDogLab**, que constituem a arquitetura de processamento distribuída do sistema. Conforme a arquitetura proposta, uma placa foi nomeada como **Mestre**, responsável por gerenciar a autenticação de usuários e a interface de feedback, enquanto a outra foi nomeada como **Escrava**, dedicada ao monitoramento das condições ambientais e ao armazenamento dos registros de acesso. A comunicação entre ambas é realizada via protocolo **UART**, uma das integrações mais importantes do projeto.
+Ao centro, destacam-se as **duas placas BitDogLab**, que constituem a arquitetura de processamento distribuída do sistema. Conforme a arquitetura proposta, uma placa foi nomeada como **Mestre**, à direita, responsável por gerenciar a autenticação de usuários e a interface de feedback, enquanto a outra foi nomeada como **Escrava**, à esquerda, dedicada ao monitoramento das condições ambientais e ao armazenamento dos registros de acesso. A comunicação entre ambas é realizada via protocolo **UART**, uma das integrações mais importantes do projeto.
 
-No protótipo, podemos observar os seguintes periféricos conectados:
+No protótipo, à direita, ligados à BitDogLab Mestre, podemos observar os seguintes periféricos conectados:
 
 * O **Módulo Leitor RFID-RC522** é o principal meio de autenticação do usuário, permitindo a leitura dos cartões de acesso.
 
@@ -36,37 +36,48 @@ No protótipo, podemos observar os seguintes periféricos conectados:
 
 * A **Fechadura Solenoide** e o **Módulo Relé** são os atuadores que materializam o controle de acesso físico, permitindo ou negando a abertura da porta conforme a autorização.
 
+Já à esquerda, ligados à BitDogLab Escravo, podemos observar os seguintes periféricos conectados:
 * O **módulo de Cartão SD**, acoplado à placa Escrava, serve como unidade de armazenamento persistente para o registro de auditoria, gravando cada evento de acesso com data e hora.
 
 * O **conjunto de sensores ambientais (BMP280, AHT10 e BH1750)** é responsável por coletar continuamente os dados de temperatura, umidade, pressão e luminosidade para garantir a integridade do ambiente.
 
+Como um detalhe extra, à direita da BitDogLab Escravo, podemos ver duas tags RFID, utilizadas nos testes do sistema.
+
 Esta montagem representa a materialização do sistema, permitindo a depuração do firmware embarcado e a verificação do funcionamento conjunto de hardware e software, passo crucial para validar a eficácia da solução integrada de segurança, auditoria e monitoramento ambiental.
 
-![Imagem 1 do Protótipo](./imgs/imagem_1_prototipo.jpeg)
+![Imagem do Protótipo](./imgs/imagem_prototipo.JPG)
 
 ---
 
 ## **Testes**
-Utilizando Unity, framework de testes unitários amplamente utilizado em sistemas embarcados e C em geral em razão de ser leve, simples e portável, foram elaborados os seguintes testes:
-* **Teste da Conectividade Wi-Fi**: o mecanismo de conectividade Wi-Fi utilizando o protocolo MQTT se demonstra como um essencial pilar do projeto em decorrência de sua utilização para envio e recebimento do produto a ser registrado pelo usuário. Para garantir a robustez dessa comunicação, foi elaborado o seguinte teste de integração de ponta a ponta que simula o fluxo completo de recebimento de um comando:
-    1. **Conexão à Rede Wi-Fi**: primeiramente, o teste verifica a capacidade do dispositivo de se conectar à rede local utilizando as credenciais fornecidas (SSID e senha).
-    2. **Conexão e Autenticação ao Broker MQTT**: uma vez conectado à rede, o dispositivo estabelece a conexão com o broker MQTT, utilizando o IP, ID de cliente e credenciais de segurança.
-    3. **Inscrição em Tópico (Subscribe)**: após a conexão com o broker, o sistema se inscreve no tópico `bitdoglab_mestre/produto`, preparando-se para receber mensagens.
-    4. **Recebimento e Validação da Mensagem**: a etapa final consiste em verificar se o dispositivo recebe corretamente a mensagem publicada ("Produto") externamente no tópico subscrito.
+Utilizando Unity, framework de testes unitários amplamente utilizado em sistemas embarcados e C em geral em razão de ser leve, simples e portável, foram elaborados um conjunto de testes para verificar o funcionamento individual de cada periférico e protocolo do sistema. A abordagem de testes unitários permitiu validar cada componente de hardware e software de forma isolada, garantindo sua correta operação antes da integração final. Os testes desenvolvidos estão descritos a seguir:
 
-A imagem a seguir demonstra o funcionamento do teste no terminal:
-![Teste de Conectividade](./imgs/teste_wifi_mqtt.png)
+* **Teste de Conectividade Wi-Fi e MQTT (`test_wifi_mqtt`)**: este teste avalia a capacidade do sistema de se conectar à rede Wi-Fi e interagir com um broker MQTT. Nele, o sistema conecta a uma rede Wi-Fi, se inscreve em um tópico MQTT de teste e publica uma mensagem pré-determinada nesse mesmo tópico. O teste passa se a mensagem recebida for idêntica à enviada, validando todo o ciclo de comunicação.
 
-* **Teste dos Sensores do Ambiente**: a parte de sensoriamento do projeto agrupa o uso de três sensores para a captura dos seguintes dados do ambiente: temperatura, pressão, luminosidade e umidade. Portanto, é necessário verificar se os dados estão sendo capturados e se são de fatos confiáveis. Diante disso, foi elaborado um teste que verifica se os dados retornados pelos sensores estão em valores compatíveis com o ambiente de teste. Foi verificado que as leituras estão na faixa:
+* **Teste dos Sensores do Ambiente (`test_sensors`)**: a parte de sensoriamento do projeto agrupa o uso de três sensores para a captura dos seguintes dados do ambiente: temperatura, pressão, luminosidade e umidade. Portanto, é necessário verificar se os dados estão sendo capturados e se são de fatos confiáveis. Diante disso, foi elaborado um teste que verifica se os dados retornados pelos sensores estão em valores compatíveis com o ambiente de teste. Foi verificado que as leituras estão na faixa:
     - **0°C a 50°C** para Temperatura
     - **87.5 kPa a 107.5 kPa** para Pressão Atmosférica
     - **Acima de 0 lux** para Luminosidade
     - **5% a 95%** de Umidade Relativa
 
-A imagem a seguir demonstra o funcionamento do teste no terminal:
-![Teste dos Sensores](./imgs/teste_sensors.png)
+* **Teste de Sincronização de Tempo via NTP (`test_ntp`)**: nessa etapa, há a verificação se o microcontrolador consegue sincronizar corretamente seu RTC (Real-Time Clock) a partir da comunicação com um servidor NTP. Após a requisição e processamento, o teste solicita o timestamp atual e valida se a string retornada é diferente de "RTC nao sincronizado", confirmando que a sincronização de rede e o ajuste do Relógio de Tempo Real (RTC) foram bem-sucedidos.
+
+* **Teste de Comunicação UART (`test_uart`):** esse teste valida a comunicação serial entre as placas Mestre e Escrava, o que é essencial para o registro do acesso de usuários. Ele coloca o sistema em modo de escuta e aguarda o recebimento de uma estrutura de log (`AccessLog`) pela porta UART. O teste é concluído com sucesso ao receber e processar um pacote de dados válido, confirmando que o protocolo de comunicação customizado está funcional.
+
+* **Teste de Leitura RFID (`test_rfid`):** esse teste é responsável por validar todo o fluxo de leitura e decodificação de um cartão RFID a partir de dados, já conhecidos, em uma tag RFID. O teste exige a aproximação de um cartão pré-gravado e então executa os seguintes passos: detecção, leitura do UID (Identificador Único da Tag), autenticação dos blocos de memória e leitura completa do payload. Por fim, ele utiliza as asserções do Unity para verificar se o Nome e o CPF extraídos do cartão correspondem exatamente aos valores esperados, o que confirma a confiabilidade da tecnologia RFID no controle de acesso.
+
+* **Teste de Acionamento da Fechadura (`test_fechadura`):** consiste em um teste simples e direto para verificar o controle do pino GPIO responsável por acionar o relé da fechadura eletrônica. Ele ativa o pino por 3 segundos e depois o desativa, permitindo a verificação visual do correto funcionamento do circuito da fechadura.
 
 **Observação**: para mais detalhes acerca da implementação desses testes com a biblioteca *Unity*, confira a pasta `src/test`
+
+Com o funcionamento adequado de todos esses testes, foram realizados **testes de integração** para avaliar o comportamento do sistema completo, unindo todas as funcionalidades em seus respectivos firmwares (Mestre e Escravo).
+
+Os principais pontos validados foram:
+* **Fluxo de autenticação de usuários**: a apresentação de uma tag RFID válida no módulo Mestre resultou no envio do log de acesso via UART ao módulo Escravo, que então registrou o evento com data/hora sincronizada via NTP.
+* **Controle físico da fechadura**: após a validação da tag RFID, o comando de abertura foi enviado e a fechadura respondeu de forma confiável.
+* **Monitoramento ambiental**: os dados dos sensores coletados pelo Escravo foram publicados periodicamente no broker MQTT, comprovando o envio contínuo e confiável de informações ambientais.
+
+Esses testes demonstraram que o sistema funciona de maneira coesa, sincronizada e resiliente, integrando hardware e protocolos de comunicação para atender aos requisitos do projeto.
 
 ---
 

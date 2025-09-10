@@ -20,6 +20,9 @@ target_link_libraries(tests
   hardware_i2c
   i2c_messages
   sd_card_handler
+  current_time
+  uart_comm
+  mfrc522
 )
 
 pico_add_extra_outputs(tests)
