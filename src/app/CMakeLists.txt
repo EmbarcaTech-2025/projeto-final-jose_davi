@@ -3,13 +3,11 @@
 # "SLAVE" para o dispositivo escravo
 # "RFID_WRITTER" para um programa de teste de escrita no cartão
 # qualquer outra coisa para compilar projeto_final.c
-set(DEVICE "MASTER")
+set(DEVICE "SLAVE")
 
 if(DEVICE STREQUAL "MASTER")
   add_executable(${PROJECT_NAME}
       bitdoglab_mestre.c
-      ../drivers/mqtt_comm.c
-      ../drivers/wifi_conn.c
     )
 
   pico_set_program_name(${PROJECT_NAME} "bitdoglab_mestre")
@@ -28,8 +26,6 @@ if(DEVICE STREQUAL "MASTER")
     pico_cyw43_driver
     hardware_i2c
     sd_card_handler
-    keyboard_handler
-    i2c_messages
     mfrc522
     pico_mbedtls
     led_rgb
@@ -40,6 +36,7 @@ if(DEVICE STREQUAL "MASTER")
     aht10
     current_time
     uart_comm
+    wifi_conn
   )
 
   # Add the standard include files to the build
@@ -51,8 +48,6 @@ if(DEVICE STREQUAL "MASTER")
 elseif(DEVICE STREQUAL "SLAVE")
   add_executable(${PROJECT_NAME}
     bitdoglab_escrava.c
-    ../drivers/mqtt_comm.c
-    ../drivers/wifi_conn.c
   )
 
   add_compile_definitions(USE_PRINTF USE_DBG_PRINTF)
@@ -77,7 +72,6 @@ elseif(DEVICE STREQUAL "SLAVE")
     hardware_gpio
     hardware_i2c
     sd_card_handler
-    i2c_messages
     pico_cyw43_arch_lwip_threadsafe_background
     pico_lwip_mqtt
     pico_lwip
@@ -153,7 +147,6 @@ else()
     hardware_gpio
     hardware_pwm
     hardware_i2c
-    keyboard_handler
     bmp280
     bh1750
     aht10

@@ -1,8 +1,8 @@
 #ifndef DISPLAY_OLED_H
 #define DISPLAY_OLED_H
 
-#include "../inc/ssd1306.h"  // Biblioteca do display OLED SSD1306
-#include "../inc/ssd1306_i2c.h" // Biblioteca de I2C do SSD1306
+#include "inc/ssd1306.h"  // Biblioteca do display OLED SSD1306
+#include "inc/ssd1306_i2c.h" // Biblioteca de I2C do SSD1306
 
 // Define os pinos GPIO conectados ao SDA e SCL do display OLED
 #define I2C_SDA 14

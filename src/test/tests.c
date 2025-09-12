@@ -5,7 +5,7 @@
 #include "bmp280.h"
 #include "bh1750.h"
 #include "aht10.h"
-#include "../drivers/i2c_config.h"
+#include "../include/i2c_config.h"
 #include "current_time.h"
 #include "uart_comm.h"
 #include "mfrc522.h"

@@ -11,7 +11,7 @@
  */
 
 #include "aht10.h"
-#include "i2c_config.h"
+#include "../include/i2c_config.h"
 
 Sensor_CMD eSensorCalibrateCmd[3] = {0xE1, 0x08, 0x00};
 Sensor_CMD eSensorNormalCmd[3]    = {0xA8, 0x00, 0x00};

@@ -45,6 +45,7 @@
         "stdlib.h": "c",
         "md.h": "c",
         "sd_card_handler.h": "c",
-        "bmp280.h": "c"
+        "bmp280.h": "c",
+        "wifi_conn.h": "c"
     }
 }

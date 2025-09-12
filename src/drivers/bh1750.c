@@ -1,5 +1,5 @@
 #include "bh1750.h"
-#include "i2c_config.h"
+#include "../include/i2c_config.h"
 #include <stdint.h>
 
 void bh1750_write_command(uint8_t command) {

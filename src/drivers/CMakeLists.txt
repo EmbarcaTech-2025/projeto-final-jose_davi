@@ -1,16 +1,3 @@
-add_library(keyboard_handler STATIC
-  keyboard_handler.c
-)
-
-target_link_libraries(keyboard_handler
-  pico_stdlib
-  hardware_timer
-)
-
-target_include_directories(keyboard_handler PUBLIC
-  ${CMAKE_CURRENT_LIST_DIR}
-)
-
 add_library(sd_card_handler STATIC
   sd_card_handler.c
   hw_config.c
@@ -24,6 +11,8 @@ target_link_libraries(sd_card_handler
 
 target_include_directories(sd_card_handler PUBLIC
   ${CMAKE_CURRENT_LIST_DIR}
+  ${CMAKE_CURRENT_LIST_DIR}/../include
+  ${CMAKE_CURRENT_LIST_DIR}/../hal
 )
 
 add_library(bmp280 STATIC
@@ -36,6 +25,7 @@ target_link_libraries(bmp280
 
 target_include_directories(bmp280 PUBLIC
   ${CMAKE_CURRENT_LIST_DIR}
+  ${CMAKE_CURRENT_LIST_DIR}/../include
 )
 
 add_library(bh1750 STATIC
@@ -48,6 +38,7 @@ target_link_libraries(bh1750
 
 target_include_directories(bh1750 PUBLIC
   ${CMAKE_CURRENT_LIST_DIR}
+  ${CMAKE_CURRENT_LIST_DIR}/../include
 )
 
 add_library(aht10 STATIC
@@ -60,6 +51,7 @@ target_link_libraries(aht10
 
 target_include_directories(aht10 PUBLIC
   ${CMAKE_CURRENT_LIST_DIR}
+  ${CMAKE_CURRENT_LIST_DIR}/../include
 )
 
 add_library(wifi_conn STATIC
@@ -107,6 +99,7 @@ target_link_libraries(mfrc522
 
 target_include_directories(mfrc522 PUBLIC
   ${CMAKE_CURRENT_LIST_DIR}
+  ${CMAKE_CURRENT_LIST_DIR}/../include
 )
 
 add_library(led_rgb STATIC
@@ -140,7 +133,7 @@ target_include_directories(buzzer PUBLIC
 
 add_library(display_oled STATIC
   display_oled.c
-  ../inc/ssd1306_i2c.c
+  ../include/inc/ssd1306_i2c.c
 )
 
 target_link_libraries(display_oled
@@ -152,37 +145,6 @@ target_link_libraries(display_oled
 target_include_directories(display_oled PUBLIC
   ${CMAKE_CURRENT_LIST_DIR}
   ${CMAKE_CURRENT_LIST_DIR}/../include
-  ${CMAKE_CURRENT_LIST_DIR}/../inc
+  ${CMAKE_CURRENT_LIST_DIR}/../include/inc
 )
-
-add_library(current_time STATIC
-  current_time.c
-)
-
-target_link_libraries(current_time
-  pico_stdlib
-  hardware_rtc       
-  pico_cyw43_arch_lwip_threadsafe_background
-  wifi_conn 
-  pico_lwip_sntp
-)
-
-target_include_directories(current_time PUBLIC
-  ${CMAKE_CURRENT_LIST_DIR}
-  ${CMAKE_SOURCE_DIR}
-)
-
-add_library(uart_comm STATIC
-  uart_comm.c
-)
-
-target_link_libraries(uart_comm
-  hardware_uart
-  pico_stdlib
-)
-
-target_include_directories(uart_comm PUBLIC
-  ${CMAKE_CURRENT_LIST_DIR}
-)
-
 

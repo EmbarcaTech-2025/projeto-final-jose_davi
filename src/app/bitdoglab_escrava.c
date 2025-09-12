@@ -35,7 +35,7 @@ int main() {
 
     connect_to_wifi("SSID", "Senha");
 
-    mqtt_setup("bitdoglab_escravo", "IP do Broker", "bitdoglab_escravo", "12345678");
+    mqtt_setup("bitdoglab_escravo", "172.20.10.2 ", "bitdoglab_escravo", "12345678");
 
     float lux = 0;
     float temp = 0;

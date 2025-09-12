@@ -4,7 +4,7 @@
 // convert it, and retrieve calibration parameters.
 
 #include "bmp280.h"
-#include "i2c_config.h"
+#include "../include/i2c_config.h"
 #include <stdint.h>
 
 static struct bmp280_calib_param params;
