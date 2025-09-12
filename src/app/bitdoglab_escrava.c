@@ -27,12 +27,6 @@ int main() {
     bh1750_init();
     aht10_init();
 
-    if (sd_mount()) {
-        printf("Cartao SD montado com sucesso.\n");
-    } else {
-        printf("Falha ao montar o cartao SD!\n");
-    }
-
     connect_to_wifi("SSID", "Senha");
 
     mqtt_setup("bitdoglab_escravo", "172.20.10.2 ", "bitdoglab_escravo", "12345678");
@@ -44,6 +38,7 @@ int main() {
     uint64_t last_publish_time = 0;
     while (true) {
         if (uart_receive_log(&received_log)) {
+            sd_mount();
             printf("  -> Nome: %s, Op: %s, Time: %s\n", received_log.name, received_log.operation, received_log.timestamp);
 
             uint bw = write_log(received_log);
@@ -52,6 +47,8 @@ int main() {
             } else {
                 printf("[ERRO] Falha ao escrever log no cartao SD!\n");
             }
+
+            sd_unmount();
         }
 
         uint64_t current_time = time_us_64() / 1000;

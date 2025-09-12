@@ -31,7 +31,9 @@ uint item_write(Item item) {
   sprintf(path, "%06u.txt", item.code);
 
   fr = f_open(&fil, path, FA_CREATE_ALWAYS | FA_WRITE | FA_READ);
-  if (FR_OK != fr && FR_EXIST != fr) {
+  if (FR_OK != fr) {
+    printf("%s\n", path);
+    puts("Erro ao abrir");
     return 1;
   }
 
@@ -89,16 +91,30 @@ uint write_log(AccessLog log) {
   uint8_t buf[log_len];
   char path[sizeof(log.timestamp) + 5];
 
-  sprintf(path, "%s.txt", log.timestamp);
+  char real_time[15];
+
+  int h = 0;
+
+  for (int i = 0; i < sizeof(log.timestamp); i++) {
+    if (log.timestamp[i] != ' ' && log.timestamp[i] != ':' && log.timestamp[i] != '/') {
+      real_time[h] = log.timestamp[i];
+      h++;
+    } 
+    real_time[h] = '\0';
+  }
+
+  sprintf(path, "%s.txt", real_time);
 
   fr = f_open(&fil, path, FA_CREATE_ALWAYS | FA_WRITE | FA_READ);
-  if (FR_OK != fr && FR_EXIST != fr) {
+  if (FR_OK != fr) {
+    puts("Erro ao abrir");
     return 1;
   }
 
   memcpy(buf, &log, log_len);
   fr = f_write(&fil, buf, log_len, &bw);
   if (FR_OK != fr) {
+    puts("Erro ao escrever");
     return 1;
   }
 
@@ -107,6 +123,7 @@ uint write_log(AccessLog log) {
   fr = f_close(&fil);
   sleep_ms(100);
   if (FR_OK != fr) {
+    puts("Erro ao fechar");
     return 1;
   }
 
