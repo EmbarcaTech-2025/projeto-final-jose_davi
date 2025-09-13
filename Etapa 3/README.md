@@ -23,7 +23,7 @@ Por fim, o documento inclui uma listagem dos ajustes pendentes e das melhorias p
 
 ---
 
-## **Fotos da Montagem**
+## **Fotos e Vídeos da Montagem**
 A imagem a seguir registra a montagem final do protótipo, ilustrando a integração física de todos os componentes que formam o sistema de controle de acesso e monitoramento ambiental. Esta etapa foi fundamental para validar a arquitetura proposta e realizar os testes práticos descritos neste documento.
 
 Ao centro, destacam-se as **duas placas BitDogLab**, que constituem a arquitetura de processamento distribuída do sistema. Conforme a arquitetura proposta, uma placa foi nomeada como **Mestre**, à direita, responsável por gerenciar a autenticação de usuários e a interface de feedback, enquanto a outra foi nomeada como **Escrava**, à esquerda, dedicada ao monitoramento das condições ambientais e ao armazenamento dos registros de acesso. A comunicação entre ambas é realizada via protocolo **UART**, uma das integrações mais importantes do projeto.
@@ -45,7 +45,21 @@ Como um detalhe extra, à direita da BitDogLab Escravo, podemos ver duas tags RF
 
 Esta montagem representa a materialização do sistema, permitindo a depuração do firmware embarcado e a verificação do funcionamento conjunto de hardware e software, passo crucial para validar a eficácia da solução integrada de segurança, auditoria e monitoramento ambiental.
 
-![Imagem do Protótipo](../media/imagem_prototipo.JPG)
+![Imagem 1 da Montagem](../media/imagem_montagem1.JPG)
+
+<br>
+
+Outras imagens do protótipo são apresentadas por outros ângulos nas imagens a seguir:
+![Imagem 2 da Montagem](../media/imagem_montagem2.jpeg)
+![Imagem 3 da Montagem](../media/imagem_montagem3.jpeg)
+
+<br>
+
+A seguir é apresentado o **vídeo do funcionamento da montagem**:
+
+[Assista ao vídeo no YouTube](https://youtu.be/VB5bjEYOj1M)
+
+
 
 ---
 

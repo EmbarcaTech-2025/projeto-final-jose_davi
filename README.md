@@ -247,5 +247,39 @@ Para obter os dados coletados pelos sensores certifique-se de que o broker MQTT 
 ---
 
 ## **Imagens e Vídeo Demonstrativos**
+A imagem a seguir registra a montagem final do sistema, ilustrando a integração física de todos os componentes que formam o sistema de controle de acesso e monitoramento ambiental. 
+
+Ao centro, destacam-se as **duas placas BitDogLab**, que constituem a arquitetura de processamento distribuída do sistema. Conforme a arquitetura proposta, uma placa foi nomeada como **Mestre**, à direita, responsável por gerenciar a autenticação de usuários e a interface de feedback, enquanto a outra foi nomeada como **Escrava**, à esquerda, dedicada ao monitoramento das condições ambientais e ao armazenamento dos registros de acesso. A comunicação entre ambas é realizada via protocolo **UART**, uma das integrações mais importantes do projeto.
+
+No protótipo, à direita, ligados à BitDogLab Mestre, podemos observar os seguintes periféricos conectados:
+
+* O **Módulo Leitor RFID-RC522** é o principal meio de autenticação do usuário, permitindo a leitura dos cartões de acesso.
+
+* O **Display OLED**, o **LED RGB** e o **Buzzer** compõem o sistema de feedback, fornecendo ao usuário informações visuais e sonoras sobre o status da sua tentativa de acesso.
+
+* A **Fechadura Solenoide** e o **Módulo Relé** são os atuadores que materializam o controle de acesso físico, permitindo ou negando a abertura da porta conforme a autorização.
+
+Já à esquerda, ligados à BitDogLab Escravo, podemos observar os seguintes periféricos conectados:
+* O **módulo de Cartão SD**, acoplado à placa Escrava, serve como unidade de armazenamento persistente para o registro de auditoria, gravando cada evento de acesso com data e hora.
+
+* O **conjunto de sensores ambientais (BMP280, AHT10 e BH1750)** é responsável por coletar continuamente os dados de temperatura, umidade, pressão e luminosidade para garantir a integridade do ambiente.
+
+Como um detalhe extra, à direita da BitDogLab Escravo, podemos ver duas tags RFID, utilizadas nos testes do sistema.
+
+Esta montagem representa a materialização do sistema, permitindo a depuração do firmware embarcado e a verificação do funcionamento conjunto de hardware e software, passo crucial para validar a eficácia da solução integrada de segurança, auditoria e monitoramento ambiental.
+
+![Imagem 1 da Montagem](media/imagem_montagem1.JPG)
+
+<br>
+
+Outras imagens do sistema são apresentadas por outros ângulos nas imagens a seguir:
+![Imagem 2 da Montagem](media/imagem_montagem2.jpeg)
+![Imagem 3 da Montagem](media/imagem_montagem3.jpeg)
+
+<br>
+
+A seguir é apresentado o **vídeo do funcionamento da montagem**:
+
+[Assista ao vídeo no YouTube](https://youtu.be/VB5bjEYOj1M)
 
 ---
