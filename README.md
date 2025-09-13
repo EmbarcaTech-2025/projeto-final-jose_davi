@@ -56,6 +56,92 @@ entrada e saída são armazenados internamente.
 
 ---
 
+## **Estrutura do Projeto**
+Para garantir a clareza e a manutenibilidade, o projeto foi dividido em diretórios com responsabilidades bem definidas. O código-fonte principal reside na pasta `src`, que por sua vez é modularizada em `app`, `drivers`, `hal...`. A seguir, é apresentada a árvore de arquivos completa com a descrição dos componentes relevantes.
+```text
+projeto-final-jose_davi/
+├── .vscode/                          # Configurações do Visual Studio Code
+│   └── ...
+├── Etapa 1/                          # Contém o documento da entrega da Etapa 1
+│   └── README.md
+├── Etapa 2/                          # Contém o documento da entrega da Etapa 2
+│   └── README.md
+├── Etapa 3/                          # Contém o documento da entrega da Etapa 3
+│   └── README.md
+├── media/                            # Contém todos os arquivos de mídia do projeto
+│   ├── Blocos_Funcionais.png
+│   ├── Diagrama_de_Hardware.png
+│   ├── Fluxograma_de_Software.png
+│   ├── imagem_prototipo.JPG
+│   ├── Montagem_escrava.png              
+│   └── Montagem_mestre.png   
+├── src/                              # Pasta que contém todos arquivos de código do projeto
+│   ├── app/                          # Pasta que contém os arquivos principais do projeto
+│   │   ├── bitdoglab_escrava.c       # Arquivo principal da BitDogLab Escravo
+│   │   ├── bitdoglab_mestre.c        # Arquivo principal da BitDogLab Mestre
+│   │   ├── CMakeLists.txt            
+│   │   └── rfid_writter.c            # Arquivo principal para gravar dados na ta RFID
+│   ├── drivers/                      # Pasta que contém os arquivos para o uso dos periféricos 
+│   │   ├── aht10.c                   # Driver para o sensor AHT10 (umidade/temperatura)
+│   │   ├── bh1750.c                  # Driver para o sensor BH1750 (luminosidade)
+│   │   ├── bmp280.c                  # Driver para o sensor BMP280 (pressão/temperatura)
+│   │   ├── buzzer.c                  # Driver para o buzzer
+│   │   ├── CMakeLists.txt       
+│   │   ├── display_oled.c            # Driver para o display OLED
+│   │   ├── hw_config.c               # Implementação da configuração para o leitor de cartão SD.
+│   │   ├── led_rgb.c                 # Driver para o LED RGB
+│   │   ├── mfrc522.c                 # Driver para o módulo RFID-MFRC522
+│   │   ├── sd_card_handler.c         # Handler para o cartão SD
+│   │   └── wifi_conn.c               # Implementação para a conexão Wi-Fi
+│   ├── hal/                          # Pasta que contém os arquivos de abstração sobre o uso de Hardware
+│   │   ├── CMakeLists.txt
+│   │   ├── current_time.c            # Implementação para sincronização do RTC
+│   │   ├── mqtt_comm.c               # Implementação para a comunicação via MQTT
+│   │   └── uart_conn.c               # Implementação para a comunicação via UART
+│   ├── include/                      # Pasta que contém todos includes necessários
+│   |   ├── inc/                      # Biblioteca para uso do Display Oled
+|   |   |   └── ...
+│   |   ├── no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/     # Biblioteca para sistema de arquivos FatFS
+|   |   |   └── ...
+│   │   ├── aht10.h
+│   │   ├── bh1750.h
+│   │   ├── bmp280.h
+│   │   ├── buzzer.h
+│   │   ├── current_time.h
+│   │   ├── display_oled.h
+│   │   ├── i2c_config.h
+│   │   ├── led_rgb.h
+│   │   ├── lwipopts.h
+│   │   ├── mfrc522.h
+│   │   ├── mqtt_comm.h
+│   │   ├── sd_card_handler.h
+│   │   ├── uart_comm.h
+│   │   └── wifi_conn.h
+│   └── test/                         # Pasta que contém os arquivos para testes unitários com Unity
+│       ├── Unity/                    # Biblioteca de testes unitários Unity
+│       │   ├── unity_internals.h
+│       │   ├── unity.c
+│       │   └── unity.h
+│       ├── CMakeLists.txt
+│       └── tests.c                   # Arquivo com a implementação dos testes unitários
+├── .envrc                            # Script para carregar variáveis de ambiente (direnv)
+├── .gitignore                        
+├── .python-version                   # Especifica a versão do Python para o projeto (pyenv)
+├── CMakeLists.txt                    # Arquivo principal de configuração de build do projeto
+├── devenv.lock                       # Arquivo para garantir um ambiente de desenvolvimento reprodutível
+├── devenv.nix                        # Configuração do ambiente de desenvolvimento usando Nix
+├── devenv.yaml                       # Configuração do ambiente de desenvolvimento (devenv)
+├── interface.py                      # Script Python da interface web
+├── justfile                          # Comandos e scripts para automação de tarefas (Just)
+├── LICENSE                           # Arquivo de licença do projeto
+├── mbedtls_config.h                  # Arquivo de configuração para a biblioteca mbedTLS (criptografia)
+├── pico_sdk_import.cmake             # Script para importar o SDK da Raspberry Pi Pico
+├── pyproject.toml                    # Arquivo de configuração para ferramentas Python
+├── README.md                         # Documentação principal do projeto
+└── uv.lock                           # Arquivo de lock para as dependências Python 
+
+```
+
 ## **Montagem**
 
 ### **Materiais Utilizados**

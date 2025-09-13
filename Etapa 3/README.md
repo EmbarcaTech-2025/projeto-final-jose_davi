@@ -45,7 +45,7 @@ Como um detalhe extra, à direita da BitDogLab Escravo, podemos ver duas tags RF
 
 Esta montagem representa a materialização do sistema, permitindo a depuração do firmware embarcado e a verificação do funcionamento conjunto de hardware e software, passo crucial para validar a eficácia da solução integrada de segurança, auditoria e monitoramento ambiental.
 
-![Imagem do Protótipo](./imgs/imagem_prototipo.JPG)
+![Imagem do Protótipo](../media/imagem_prototipo.JPG)
 
 ---
 

@@ -53,7 +53,7 @@ Essa organização do hardware garante uma arquitetura robusta e modular, com um
 
 O diagrama apresentado ilustra de maneira clara as conexões entre os componentes físicos, bem como os protocolos de comunicação utilizados:
 
-![Diagrama de Hardware](./imgs/Diagrama_de_Hardware.png)
+![Diagrama de Hardware](../media/Diagrama_de_Hardware.png)
 
 Em razão da limitação de espaço na imagem acima, segue-se as tabelas das pinagens para ambas BitDogLabs (Mestre e Escravo):
 
@@ -126,7 +126,7 @@ A seguir é explicada a funcionalidade de cada bloco:
 
 A imagem a seguir explicita de forma visual os blocos funcionais do projeto:
 
-![Blocos Funcioanais](./imgs/Blocos_Funcionais.png)
+![Blocos Funcioanais](../media/Blocos_Funcionais.png)
 
 ---
 
@@ -164,7 +164,7 @@ verificação utilizando o buzzer, o led RGB e o display OLED. Por fim, o sistem
 sensores e manda esses dados via MQTT para a interface Web, para então repetir este mesmo ciclo
 até que o sistema seja desligado.
 
-![Fluxograma de Software](./imgs/Fluxograma_de_Software.png)
+![Fluxograma de Software](../media/Fluxograma_de_Software.png)
 
 ---
 

@@ -29,3 +29,20 @@ target_include_directories(uart_comm PUBLIC
   ${CMAKE_CURRENT_LIST_DIR}
   ${CMAKE_CURRENT_LIST_DIR}/../include
 )
+
+add_library(mqtt_comm STATIC
+  mqtt_comm.c
+)
+
+target_link_libraries(mqtt_comm
+  pico_stdlib
+  pico_cyw43_arch_lwip_threadsafe_background
+  pico_lwip_mqtt
+  pico_lwip
+  pico_cyw43_driver
+)
+
+target_include_directories(mqtt_comm PUBLIC
+  ${CMAKE_CURRENT_LIST_DIR}
+  ${CMAKE_CURRENT_LIST_DIR}/../include
+)
