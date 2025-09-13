@@ -146,21 +146,21 @@ projeto-final-jose_davi/
 
 ### **Materiais Utilizados**
 
-| Componente        | Quantidade |
-| ----------------- | ---------- |
-| **Raspberry Pi Pico W**            | 2          |
-| **Buzzer**            | 1          |
-| **Display OLED**      | 1          |
-| **LED RGB**           | 1          |
-| **Módulo Leitor RFID-RC522**            | 1          |
-| **Mini Fechadura Solenoide Eletrônica - 12V**           | 1          |
-| **Módulo Relé 5V de 1 Canal**           | 1          |
-| **Fonte de Alimentação Externa de 12V**           | 1          |
-| **Adaptador P4 Fêmea com Borne**           | 1          |
-| **Cartão SD**         | 1          |
-| **Sensor BH1750**     | 1          |
-| **Sensor AHT10**      | 1          |
-| **Sensor BMP280**     | 1          |
+| Componente                                    | Quantidade |
+| --------------------------------------------- | ---------- |
+| **Raspberry Pi Pico W**                       | 2          |
+| **Buzzer**                                    | 1          |
+| **Display OLED**                              | 1          |
+| **LED RGB**                                   | 1          |
+| **Módulo Leitor RFID-RC522**                  | 1          |
+| **Mini Fechadura Solenoide Eletrônica - 12V** | 1          |
+| **Módulo Relé 5V de 1 Canal**                 | 1          |
+| **Fonte de Alimentação Externa de 12V**       | 1          |
+| **Adaptador P4 Fêmea com Borne**              | 1          |
+| **Cartão SD**                                 | 1          |
+| **Sensor BH1750**                             | 1          |
+| **Sensor AHT10**                              | 1          |
+| **Sensor BMP280**                             | 1          |
 
 ### **Esquema de Montagem**
 
@@ -178,6 +178,7 @@ quanto as conexões do buzzer, display OLED e LED RGB.
 ---
 
 ### **Destaques Tecnológicos**
+
 Para criar uma solução robusta e inteligente, o projeto integra tecnologias-chave que o diferenciam de sistemas embarcados convencionais. A seguir, detalhamos os destaques tecnológicos do projeto:
 * **RFID**: tecnologia de identificação e transferência de dados por meio de ondas de rádio entre um leitor e uma tag. No caso de tags passivas, utilizadas no projeto, não há bateria interna; elas são energizadas pelo campo eletromagnético gerado pelo leitor. Esse campo ativa o chip da tag, que responde transmitindo os dados gravados em sua memória para o leitor. Essa tecnologia foi empregada como base para o controle de acesso e o registro dos usuários.
 * **Protocolo NTP**: o *Network Time Protocol* é um protocolo amplamente utilizado para sincronizar relógios em sistemas conectados à rede. No projeto, o microcontrolador conecta-se ao Wi-Fi e envia uma requisição a um servidor NTP, que retorna uma referência de data e hora atualizada. Esses dados são então processados pelo microcontrolador e, assim, o RTC é ajustado corretamente, garantindo o registro preciso dos horários de acesso dos usuários.
@@ -195,21 +196,37 @@ Para criar uma solução robusta e inteligente, o projeto integra tecnologias-ch
 - Com o VSCode e a extensão [Raspberry Pi Pico](https://marketplace.visualstudio.com/items?itemName=raspberry-pi.raspberry-pi-pico):
 
   Cada placa utilizada no projeto, a mestre e a escrava, possui firmware próprio e para isso é necessário
-  indicar qual será o alvo mudando a variável *Device* definida no topo do CMakeLists.txt da pasta `src/app`.
+  indicar qual será o alvo mudando a variável *Device* definida no topo do *CMakeLists.txt* da pasta `src/app`.
 
   Tendo escolhido o dispositivo desejado basta compilar e passar o código para a placa utilizando a extensão
   oficial da Raspberry Pi Pico para o VScode.
 
 - Pela linha de comando:
 
-  É possível compilar o projeto utilizando apenas a linha de comando utilizando as ferramentas *cmake*, *ninja*
-  e, opcionalmente, o *just*. Caso possua o *just* basta rodar o comando `just build MASTER` para compilar o
-  firmware da placa mestre ou `just build SLAVE` para a placa escrava. Caso o *just* não esteja instalado basta
-  copiar os comandos definidos no *justfile* presente na raiz do repositório, substituindo `{{ device }}` por `MASTER`
-  ou `SLAVE`.
+  É possível compilar o projeto utilizando apenas a linha de comando utilizando as ferramentas *cmake*, *ninja* e, opcionalmente, o *just*. Caso possua o *just* basta rodar o seguinte comando para compilar o firmware especificado na variável *Device* no *CMakeLists.txt* da pasta `src/app`.
 
-  Tendo compilado o projeto, o binário compilado pode ser passado para a placa utilizando o comando
-  `picotool load -f build/src/app/projeto_final.elf`.
+  ```bash
+  just build
+  ```
+
+  Caso não tenha o just instalado é possível compilar o projeto executando os seguintes comandos na raiz do repositório:
+
+  ```bash
+  cmake -G Ninja -S . -B build
+  ninja -C build
+  ```
+
+  Tendo compilado o projeto, o binário compilado pode ser passado para a placa utilizando o comando:
+
+  ```bash
+  just load
+  ```
+
+  Ou:
+
+  ```bash
+  picotool load -f build/src/app/projeto_final.elf
+  ```
 
 ### **Interface MQTT**
 
@@ -222,6 +239,10 @@ pelo computador. Caso não tenha o uv instalado utilize o comando `pip install u
 instalá-lo.
 
 ### **Instruções de Uso do Sistema**
+
+Para utilizar o sistema de controle de entrada utilize o programa de registro de cartões que pode ser compilado mudando a variável *Device* no *CMakeLists.txt* da pasta `src/app` para ***RFID_WRITER***. Com os cartões registrados e o sistema corretamente montado e configurado basta aproximar os cartões válidos ao leitor RFID para abrir a fechadura e registrar a entrada e saída do ambiente.
+
+Para obter os dados coletados pelos sensores certifique-se de que o broker MQTT está configurado corretamente e que a placa consegue se conectar ao broker, se for o caso execute a interface pelo computador, seguindo as instruções no tópico acima, para obter os dados dos sensores. 
 
 ---
 

@@ -1,6 +1,6 @@
 [positional-arguments]
 build device="MASTER":
-    cmake -G Ninja -S . -B build -D DEVICE={{ device }}
+    cmake -G Ninja -S . -B build
     ninja -C build
 
 [confirm("Clean build folder? (y/n)")]
