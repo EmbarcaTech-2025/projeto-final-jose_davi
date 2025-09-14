@@ -9,6 +9,7 @@
 #include "current_time.h"
 #include "uart_comm.h"
 #include "mfrc522.h"
+#include "sd_card_handler.h"
 #include "pico/stdlib.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -243,6 +244,30 @@ void test_fechadura(void){
   printf("Fechadura fechada.\n");
 }
 
+// Teste do Cartão SD para escrita e leitura de dados
+void test_sd_card(void) {
+  sleep_ms(2000);
+  printf("Iniciando teste de escrita de log no Cartao SD...\n");
+
+  TEST_ASSERT_TRUE_MESSAGE(sd_mount(), "Falha ao montar o cartao SD.");
+  printf("Cartao SD montado com sucesso.\n");
+
+  AccessLog log_para_escrever = {
+    .name = "Usuario Teste",
+    .operation = "Entrada",
+    .timestamp = "14/09/25 16:31:48" 
+  };
+
+  printf("Escrevendo log de acesso no cartao...\n");
+  uint bytes_escritos = write_log(log_para_escrever);
+
+  TEST_ASSERT_EQUAL_UINT_MESSAGE(sizeof(AccessLog), bytes_escritos, "O numero de bytes escritos nao corresponde ao esperado.");
+  printf("Log escrito com sucesso (%u bytes)! \u2705\n", bytes_escritos);
+
+  sd_unmount();
+  printf("Cartao SD desmontado. Teste concluido.\n");
+}
+
 //-----------------------------------------------------------------------------------------
 // Função Principal
 int main(void) {
@@ -252,7 +277,7 @@ int main(void) {
 
   // Escolha como argumento a função de teste desejada
   // Exemplo: RUN_TEST(test_wifi_mqtt);
-  RUN_TEST(test_fechadura);
+  RUN_TEST(test_sd_card);
 
   UNITY_END();
 }

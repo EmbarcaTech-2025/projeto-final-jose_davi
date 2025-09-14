@@ -82,6 +82,8 @@ Utilizando Unity, framework de testes unitários amplamente utilizado em sistema
 
 * **Teste de Acionamento da Fechadura (`test_fechadura`):** consiste em um teste simples e direto para verificar o controle do pino GPIO responsável por acionar o relé da fechadura eletrônica. Ele ativa o pino por 3 segundos e depois o desativa, permitindo a verificação visual do correto funcionamento do circuito da fechadura.
 
+* **Teste de Escrita de Log no Cartão SD (`test_sd_card`)**: este teste valida a capacidade do sistema de armazenar dados de forma persistente, uma função crucial para manter o histórico de acessos. Ele simula o registro de um evento, realizando as seguintes etapas: montagem do cartão SD, criação de um log de acesso com dados de teste e a chamada da função de escrita. O teste é considerado bem-sucedido se a função de escrita retornar um número de bytes igual ao tamanho da estrutura de log, confirmando que o arquivo foi criado e gravado no cartão sem erros.
+
 **Observação**: para mais detalhes acerca da implementação desses testes com a biblioteca *Unity*, confira a pasta `src/test`
 
 Com o funcionamento adequado de todos esses testes, foram realizados **testes de integração** para avaliar o comportamento do sistema completo, unindo todas as funcionalidades em seus respectivos firmwares (Mestre e Escravo).
