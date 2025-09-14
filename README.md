@@ -9,50 +9,29 @@ Instituição: EmbarcaTech - HBr
 Brasília, agosto de 2025
 
 ---
+## Descrição do Problema
 
-## **Sobre o Projeto**
+A gestão de ambientes sensíveis/críticos — como salas de servidores, laboratórios, almoxarifados de alto valor, acervos históricos, entre outros — depende de um controle rigoroso sobre quem acessa o local e das condições em que ele opera. No entanto, as abordagens tradicionais para essa gestão apresentam falhas críticas em três áreas: controle de acesso, auditoria e monitoramento ambiental.
 
-Este projeto se trata de um sistema inteligente para o sensoriamento
-e o controle de entrada de ambientes de acesso restrito, como laboratórios
-e ambientes industriais em que é importante saber quem está tendo acesso ao local
-e quais as condições do ambiente.
+No **controle de acesso**, muitas vezes não há autenticação robusta e integrada, permitindo brechas de segurança. Um grande exemplo desse problema são os roubos de medicamentos controlados, como opioides e vacinas caras, constituindo um problema crônico em hospitais. Muitas vezes, o acesso às farmácias internas é feito com chaves convencionais ou senhas compartilhadas, impossibilitando a identificação do responsável que acessou a área.
 
-Para isso, criamos um sistema que usa um sensor RFID para registrar a entrada e saída
-de pessoas, além de sensores de temperatura, pressão e umidade. Os dados do ambiente são
-mandados via MQTT para serem visualizados por uma interface Web, enquanto os registros de
-entrada e saída são armazenados internamente.
+Na **auditoria**, a ausência de registros confiáveis e com marcação temporal precisa compromete a rastreabilidade das ações dos usuários. Em casos de acidentes, roubos, entre outros, ter um histórico confiável do acesso dos inidivíduos ao ambiente é essencial para investigações. Frequentemente, em acidentes laborais, a perícia não consegue determinar se o acidente foi causado por erro operacional, falha de manutenção ou sabotagem. Se o acesso à área do acidente fosse registrado, a auditoria mostraria a identidade da última pessoa que acessou o local antes do acidente, direcionando a investigação e fornecendo dados cruciais para o processo. 
+
+Já no **monitoramento ambiental**, dados essenciais como temperatura, umidade, pressão e luminosidade frequentemente não são coletados ou analisados em tempo real, dificultando a prevenção de falhas operacionais. Em 2018, o incêndio do Museu Nacional do Rio de Janeiro, apesar da conjunta falta de monitoramento das condições elétricas, poderia ter seus danos amenizados com o monitoramento das condições do ambiente.
+
+Assim, torna-se necessário um sistema integrado que supere essas limitações e ofereça segurança, confiabilidade e visibilidade completa sobre o ambiente.
 
 ---
 
-## **Bibliotecas Utilizadas**
+## **Sobre o Projeto**
 
-- [pico-sdk](https://github.com/raspberrypi/pico-sdk)
+Este projeto propõe o desenvolvimento de um sistema inteligente e integrado para o sensoriamento e controle de acesso em ambientes sensíveis/críticos, como laboratórios, sala de medicamentos e instalações industriais, onde é crucial monitorar quem acessa o local e sob quais condições ele opera.
 
-  Autor: [Raspberry Pi](https://github.com/raspberrypi)
+Para isso, a solução unifica duas funcionalidades críticas. A primeira é um controle de acesso seguro, realizado por meio de cartões RFID que permitem a identificação confiável do usuário. No caso de uma autorização bem-sucedida, o sistema é capaz de acionar uma fechadura eletromagnética, e uma interface de interação orienta o usuário com feedback imediato. Crucialmente, cada registro de entrada e saída é associado a data e hora e armazenado de forma persistente em um cartão SD dedicado, assegurando uma auditoria histórica completa dos eventos.
 
-- [no-OS-FatFS-SD-SPI-RPi-Pico](https://github.com/carlk3/no-OS-FatFS-SD-SPI-RPi-Pico/tree/sdio)
+Complementarmente, o projeto realiza a coleta contínua de dados ambientais, utilizando sensores de temperatura, pressão, luminosidade e umidade. Essas informações são enviadas via protocolo MQTT para uma interface web, permitindo o acompanhamento remoto e em tempo real das condições do ambiente.
 
-  Autor: [Carl J Kugler III](https://github.com/carlk3)
-
-- [Unity](https://github.com/ThrowTheSwitch/Unity)
-
-  Autor: [Throw The Switch](https://github.com/ThrowTheSwitch)
-
-- [Driver AHT10](https://github.com/jrfo-hwit/hlab/tree/main/firmware/c_cpp/examples/3_aht10_i2c_uart0)
-
-  Autor: [Juliano Oliveira](https://github.com/jrfo-hwit)
-
-- [Driver BH1750](https://github.com/jrfo-hwit/hlab/tree/main/firmware/c_cpp/examples/7_bh1750_i2c_uart0)
-
-  Autor: [Juliano Oliveira](https://github.com/jrfo-hwit)
-
-- [Driver BMP280](https://github.com/jrfo-hwit/hlab/tree/main/firmware/c_cpp/examples/4_bmp280_i2c_uart0)
-
-  Autor: [Juliano Oliveira](https://github.com/jrfo-hwit)
-
-- [Driver MFRC522](https://github.com/BenjaminModica/pico-mfrc522.git)
-
-  Autor: [Benjamin Modica](https://github.com/BenjaminModica)
+A proposta, portanto, é oferecer uma solução simples, segura e acessível, que integra controle de acesso, auditoria e monitoramento ambiental em um único sistema.
 
 ---
 
@@ -177,18 +156,6 @@ quanto as conexões do buzzer, display OLED e LED RGB.
 
 ---
 
-### **Destaques Tecnológicos**
-
-Para criar uma solução robusta e inteligente, o projeto integra tecnologias-chave que o diferenciam de sistemas embarcados convencionais. A seguir, detalhamos os destaques tecnológicos do projeto:
-* **RFID**: tecnologia de identificação e transferência de dados por meio de ondas de rádio entre um leitor e uma tag. No caso de tags passivas, utilizadas no projeto, não há bateria interna; elas são energizadas pelo campo eletromagnético gerado pelo leitor. Esse campo ativa o chip da tag, que responde transmitindo os dados gravados em sua memória para o leitor. Essa tecnologia foi empregada como base para o controle de acesso e o registro dos usuários.
-* **Protocolo NTP**: o *Network Time Protocol* é um protocolo amplamente utilizado para sincronizar relógios em sistemas conectados à rede. No projeto, o microcontrolador conecta-se ao Wi-Fi e envia uma requisição a um servidor NTP, que retorna uma referência de data e hora atualizada. Esses dados são então processados pelo microcontrolador e, assim, o RTC é ajustado corretamente, garantindo o registro preciso dos horários de acesso dos usuários.
-* **MQTT**: no projeto, o MQTT foi fundamental para o envio dos dados coletados pelos sensores até a interface web de monitoramento. Ele consiste em um protocolo leve, assíncrono e orientado a mensagens, projetado para dispositivos com recursos limitados. Ele adota a arquitetura publish/subscribe, na qual:
-    - o **broker** atua como servidor, intermediando toda a comunicação;
-    - o **publisher** é o dispositivo que publica mensagens em tópicos específicos;
-    - o **subscriber** é o dispositivo que se inscreve em tópicos para receber mensagens correspondentes.
-
----
-
 ## **Como Usar**
 
 ### **Compilação**
@@ -246,6 +213,18 @@ Para obter os dados coletados pelos sensores certifique-se de que o broker MQTT 
 
 ---
 
+## **Destaques Tecnológicos**
+
+Para criar uma solução robusta e inteligente, o projeto integra tecnologias-chave que o diferenciam de sistemas embarcados convencionais. A seguir, detalhamos os destaques tecnológicos do projeto:
+* **RFID**: tecnologia de identificação e transferência de dados por meio de ondas de rádio entre um leitor e uma tag. No caso de tags passivas, utilizadas no projeto, não há bateria interna; elas são energizadas pelo campo eletromagnético gerado pelo leitor. Esse campo ativa o chip da tag, que responde transmitindo os dados gravados em sua memória para o leitor. Essa tecnologia foi empregada como base para o controle de acesso e o registro dos usuários.
+* **Protocolo NTP**: o *Network Time Protocol* é um protocolo amplamente utilizado para sincronizar relógios em sistemas conectados à rede. No projeto, o microcontrolador conecta-se ao Wi-Fi e envia uma requisição a um servidor NTP, que retorna uma referência de data e hora atualizada. Esses dados são então processados pelo microcontrolador e, assim, o RTC é ajustado corretamente, garantindo o registro preciso dos horários de acesso dos usuários.
+* **MQTT**: no projeto, o MQTT foi fundamental para o envio dos dados coletados pelos sensores até a interface web de monitoramento. Ele consiste em um protocolo leve, assíncrono e orientado a mensagens, projetado para dispositivos com recursos limitados. Ele adota a arquitetura publish/subscribe, na qual:
+    - o **broker** atua como servidor, intermediando toda a comunicação;
+    - o **publisher** é o dispositivo que publica mensagens em tópicos específicos;
+    - o **subscriber** é o dispositivo que se inscreve em tópicos para receber mensagens correspondentes.
+
+---
+
 ## **Imagens e Vídeo Demonstrativos**
 A imagem a seguir registra a montagem final do sistema, ilustrando a integração física de todos os componentes que formam o sistema de controle de acesso e monitoramento ambiental. 
 
@@ -283,3 +262,38 @@ A seguir é apresentado o **vídeo do funcionamento da montagem**:
 [Assista ao vídeo no YouTube](https://youtu.be/VB5bjEYOj1M)
 
 ---
+
+## **Bibliotecas Utilizadas**
+
+- [pico-sdk](https://github.com/raspberrypi/pico-sdk)
+
+  Autor: [Raspberry Pi](https://github.com/raspberrypi)
+
+- [no-OS-FatFS-SD-SPI-RPi-Pico](https://github.com/carlk3/no-OS-FatFS-SD-SPI-RPi-Pico/tree/sdio)
+
+  Autor: [Carl J Kugler III](https://github.com/carlk3)
+
+- [Unity](https://github.com/ThrowTheSwitch/Unity)
+
+  Autor: [Throw The Switch](https://github.com/ThrowTheSwitch)
+
+- [Driver AHT10](https://github.com/jrfo-hwit/hlab/tree/main/firmware/c_cpp/examples/3_aht10_i2c_uart0)
+
+  Autor: [Juliano Oliveira](https://github.com/jrfo-hwit)
+
+- [Driver BH1750](https://github.com/jrfo-hwit/hlab/tree/main/firmware/c_cpp/examples/7_bh1750_i2c_uart0)
+
+  Autor: [Juliano Oliveira](https://github.com/jrfo-hwit)
+
+- [Driver BMP280](https://github.com/jrfo-hwit/hlab/tree/main/firmware/c_cpp/examples/4_bmp280_i2c_uart0)
+
+  Autor: [Juliano Oliveira](https://github.com/jrfo-hwit)
+
+- [Driver MFRC522](https://github.com/BenjaminModica/pico-mfrc522.git)
+
+  Autor: [Benjamin Modica](https://github.com/BenjaminModica)
+
+---
+
+## Licença
+MIT License
