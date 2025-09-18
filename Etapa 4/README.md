@@ -155,9 +155,9 @@ queira montar o projeto sem utilizar as placas BitDogLab, utilizando
 duas Raspberry Pi Pico W, se refira ao [projeto da BitDogLab](https://github.com/BitDogLab/BitDogLab)
 quanto as conexões do buzzer, display OLED e LED RGB.
 
-![Placa Mestre](./media/Montagem_mestre.png)
+![Placa Mestre](../media/Montagem_mestre.png)
 
-![Placa Escrava](./media/Montagem_escrava.png)
+![Placa Escrava](../media/Montagem_escrava.png)
 
 ---
 
@@ -186,7 +186,7 @@ Essa organização do hardware garante uma arquitetura robusta e modular, com um
 
 O diagrama apresentado ilustra de maneira clara as conexões entre os componentes físicos, bem como os protocolos de comunicação utilizados:
 
-![Diagrama de Hardware](media/Diagrama_de_Hardware.png)
+![Diagrama de Hardware](../media/Diagrama_de_Hardware.png)
 
 Em razão da limitação de espaço na imagem acima, segue-se as tabelas das pinagens para ambas BitDogLabs (Mestre e Escravo):
 
@@ -247,7 +247,7 @@ A seguir é explicada a funcionalidade de cada bloco:
 
 A imagem a seguir explicita de forma visual os blocos funcionais do projeto:
 
-![Blocos Funcioanais](media/Blocos_Funcionais.png)
+![Blocos Funcioanais](../media/Blocos_Funcionais.png)
 
 ---
 
@@ -264,7 +264,7 @@ verificação utilizando o buzzer, o led RGB e o display OLED. Por fim, o sistem
 sensores e manda esses dados via MQTT para a interface Web, para então repetir este mesmo ciclo
 até que o sistema seja desligado.
 
-![Fluxograma de Software](media/Fluxograma_de_Software.png)
+![Fluxograma de Software](../media/Fluxograma_de_Software.png)
 
 ## **6. Como Usar**
 
@@ -357,13 +357,13 @@ Como um detalhe extra, à direita da BitDogLab Escravo, podemos ver duas tags RF
 
 Esta montagem representa a materialização do sistema, permitindo a depuração do firmware embarcado e a verificação do funcionamento conjunto de hardware e software, passo crucial para validar a eficácia da solução integrada de segurança, auditoria e monitoramento ambiental.
 
-![Imagem 1 da Montagem](media/imagem_montagem1.JPG)
+![Imagem 1 da Montagem](../media/imagem_montagem1.JPG)
 
 <br>
 
 Outras imagens do sistema são apresentadas por outros ângulos nas imagens a seguir:
-![Imagem 2 da Montagem](media/imagem_montagem2.jpeg)
-![Imagem 3 da Montagem](media/imagem_montagem3.jpeg)
+![Imagem 2 da Montagem](../media/imagem_montagem2.jpeg)
+![Imagem 3 da Montagem](../media/imagem_montagem3.jpeg)
 
 <br>
 
