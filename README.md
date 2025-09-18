@@ -6,7 +6,7 @@ Curso: Residência Tecnológica em Sistemas Embarcados
 
 Instituição: EmbarcaTech - HBr
 
-Brasília, agosto de 2025
+Brasília, setembro de 2025
 
 ---
 ## Descrição do Problema
@@ -54,6 +54,9 @@ projeto-final-jose_davi/
 │   ├── imagem_prototipo.JPG
 │   ├── Montagem_escrava.png              
 │   └── Montagem_mestre.png   
+├── slides/                           # Contém as apresentações do projeto em formato pdf
+│   ├── Apresentacão Técnica.pdf      # Apresentação detalhada do projeto
+│   └── Elevator Pitch.pdf            # Apresentação resumida do projeto
 ├── src/                              # Pasta que contém todos arquivos de código do projeto
 │   ├── app/                          # Pasta que contém os arquivos principais do projeto
 │   │   ├── bitdoglab_escrava.c       # Arquivo principal da BitDogLab Escravo
