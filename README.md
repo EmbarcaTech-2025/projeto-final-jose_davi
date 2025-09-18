@@ -9,7 +9,7 @@ Instituição: EmbarcaTech - HBr
 Brasília, setembro de 2025
 
 ---
-## Descrição do Problema
+## **1. Descrição do Problema**
 
 A gestão de ambientes sensíveis/críticos — como salas de servidores, laboratórios, almoxarifados de alto valor, acervos históricos, entre outros — depende de um controle rigoroso sobre quem acessa o local e das condições em que ele opera. No entanto, as abordagens tradicionais para essa gestão apresentam falhas críticas em três áreas: controle de acesso, auditoria e monitoramento ambiental.
 
@@ -23,7 +23,7 @@ Assim, torna-se necessário um sistema integrado que supere essas limitações e
 
 ---
 
-## **Sobre o Projeto**
+## **2. Sobre o Projeto**
 
 Este projeto propõe o desenvolvimento de um sistema inteligente e integrado para o sensoriamento e controle de acesso em ambientes sensíveis/críticos, como laboratórios, sala de medicamentos e instalações industriais, onde é crucial monitorar quem acessa o local e sob quais condições ele opera.
 
@@ -35,7 +35,7 @@ A proposta, portanto, é oferecer uma solução simples, segura e acessível, qu
 
 ---
 
-## **Estrutura do Projeto**
+## **3. Estrutura do Projeto**
 Para garantir a clareza e a manutenibilidade, o projeto foi dividido em diretórios com responsabilidades bem definidas. O código-fonte principal reside na pasta `src`, que por sua vez é modularizada em `app`, `drivers`, `hal...`. A seguir, é apresentada a árvore de arquivos completa com a descrição dos componentes relevantes.
 ```text
 projeto-final-jose_davi/
@@ -124,9 +124,9 @@ projeto-final-jose_davi/
 
 ```
 
-## **Montagem**
+## **4. Montagem**
 
-### **Materiais Utilizados**
+### **4.1. Materiais Utilizados**
 
 | Componente                                    | Quantidade |
 | --------------------------------------------- | ---------- |
@@ -144,7 +144,7 @@ projeto-final-jose_davi/
 | **Sensor AHT10**                              | 1          |
 | **Sensor BMP280**                             | 1          |
 
-### **Esquema de Montagem**
+### **4.2. Esquema de Montagem**
 
 Abaixo pode ser visto o esquema de montagem do projeto, dividido
 em um esquema mostrando a placa mestre e os componentes conectados
@@ -159,9 +159,114 @@ quanto as conexões do buzzer, display OLED e LED RGB.
 
 ---
 
-## **Como Usar**
+## **5. Diagramas**
 
-### **Compilação**
+### **5.1. Diagrama de Hardware**
+O sistema embarcado apresentado adota uma **arquitetura distribuída**, composta por dois módulos BitDogLab, nomeadas **Mestre** e **Escravo**, que operam em conjunto, interligados por meio do protocolo UART. Essa abordagem modular permite uma clara divisão de tarefas, onde o módulo mestre é responsável pelo controle de acesso e interação com o usuário, enquanto o módulo escravo gerencia o armazenamento de dados e a coleta de informações ambientais.
+
+O **módulo BitDogLab (Mestre)** é o cérebro do controle de acesso. Ele se comunica com um Módulo Leitor RFID-RC522 via SPI, que é responsável por detectar a aproximação dos cartões RFID e extrair suas informações. A interação com o usuário é feita através de um **Display OLED (SSD1306)**, conectado via I2C, que exibe instruções e feedback. Para sinalização sonora e visual, o módulo mestre controla um **Buzzer** e um **LED RGB** através de GPIO.
+
+A segurança física do ambiente é controlada por uma **Fechadura Solenoide Eletrônica - 12V**. Essa fechadura é acionada por um **Módulo Relé 5V**, que por sua vez é controlado pelo módulo mestre via GPIO. A alimentação da fechadura é fornecida por uma **Fonte 12V**, conectada através de um **Adaptador P4 Fêmea com Borne**, garantindo a energia necessária para sua operação.
+
+O **módulo BitDogLab (Escravo)** é dedicado ao monitoramento ambiental e ao registro de auditoria. Ele se comunica com o módulo mestre via UART. Para o armazenamento persistente dos registros de acesso, o módulo escravo utiliza um **Cartão SD**, conectado via SPI através de um **Conector IDC**.
+
+O monitoramento das condições ambientais é realizado por um conjunto de sensores conectados ao módulo BitDogLab (Escravo) através de um **I2C Extender**, que permite a conexão de múltiplos dispositivos I2C. Os sensores utilizados são:
+
+* **BMP280**: para medição de temperatura e pressão atmosférica.
+
+* **AHT10**: para aferição da umidade do ambiente.
+
+* **BH1750**: para captar os níveis de luminosidade.
+
+Esses dados são cruciais para garantir a integridade do ambiente sensível/crítico e são coletados e, posteriormente, enviados pelo módulo escravo para uma interface externa via conectividade sem fio (Wi-Fi), conforme descrito nos requisitos anteriormente.
+
+Essa organização do hardware garante uma arquitetura robusta e modular, com uma clara separação de responsabilidades entre os microcontroladores, otimizando o processamento e assegurando que o sistema atenda de forma confiável às suas funções de controle de acesso, auditoria e monitoramento ambiental.
+
+O diagrama apresentado ilustra de maneira clara as conexões entre os componentes físicos, bem como os protocolos de comunicação utilizados:
+
+![Diagrama de Hardware](media/Diagrama_de_Hardware.png)
+
+Em razão da limitação de espaço na imagem acima, segue-se as tabelas das pinagens para ambas BitDogLabs (Mestre e Escravo):
+
+**BitDogLab Mestre**
+| GPIO       | Função |
+| ----------------- | ---------- |
+| **0**         | TX (UART)              |
+| **1**         | RX (UART)              |
+| **4**         | Controle da Fechadura  |
+| **8**         | RST (MFRC522)          |
+| **11**        | Cor Verde (LED RGB)    |
+| **12**        | Cor Azul (LED RGB)     |
+| **13**        | Cor Vermelha (LED RGB) |
+| **14**        | SDA (Display OLED)     |
+| **15**        | SCL (Display OLED)     |
+| **16**        | MISO (MFRC522)         |
+| **17**        | CS (MFRC522)           |
+| **18**        | SCK (MFRC522)          |
+| **19**        | MOSI (MFRC522)         |
+| **21**        | Controle do Buzzer     |
+
+<br>
+
+**BitDogLab Escravo**
+| GPIO       | Função |
+| ----------------- | ---------- |
+| **0**         | TX (UART)              |
+| **1**         | RX (UART)              |
+| **2**         | SDA (Sensores)         |
+| **3**         | SCL (Sensores)         |
+| **16**        | MISO (Cartão SD)       |
+| **17**        | CS (Cartão SD)         |
+| **18**        | SCK (Cartão SD)        |
+| **19**        | MOSI (Cartão SD)       |
+
+---
+
+### **5.2. Blocos Funcionais**
+Como foi mencionado anteriormente, a arquitetura do sistema foi projetada de forma modular para garantir clareza, escalabilidade e manutenibilidade. Dessa forma, cada bloco funcional possui uma responsabilidade específica no fluxo de operação, sendo o sistema coordenado por uma arquitetura de processamento distribuída entre dois microcontroladores. Essa divisão permite um melhor desempenho e organização das tarefas.
+
+A seguir é explicada a funcionalidade de cada bloco:
+
+- **Módulo de Controle de Acesso**: Composto pelo Leitor RFID-RC522, este bloco é a principal interface de identificação do sistema. Sua função é detectar a aproximação de um cartão, ler suas informações de identificação e os dados criptográficos, e enviá-los ao Módulo de Processamento Central para validação. É o ponto de partida para qualquer operação de entrada ou saída do ambiente.
+
+- **Módulo de Feedback**: Consiste na interface de saída de informações para o usuário. Composto pelo Display OLED, LED RGB e Buzzer, este bloco fornece retornos visuais e sonoros, exibindo status da operação, instruções e alertas.
+
+- **Módulo de Atuação Física**: Este módulo é responsável pela resposta física do sistema após a autenticação. É constituído pela Fechadura Solenoide, pelo Módulo Relé e pela Fonte de 12V. Ao receber um comando de acesso autorizado do processador central, ele aciona o relé, que por sua vez energiza a fechadura, permitindo a abertura da porta.
+
+- **Módulo de Dados do Ambiente**: Este módulo é constituído pelos sensores BMP280 (temperatura e pressão), AHT10 (umidade) e BH1750 (luminosidade). Sua função é monitorar continuamente as condições físicas do local, fornecendo dados essenciais que são enviados via Módulo de Conectividade para garantir a integridade do ambiente.
+
+- **Módulo de Armazenamento**: Responsável por guardar os dados de inventário em um Cartão SD. Este módulo garante a persistência das informações, permitindo que o sistema opere de forma offline e mantenha um registro seguro de todas as transações.
+
+- **Módulo de Conectividade**: Utilizando a capacidade Wi-Fi dos microcontroladores, este módulo permite que o sistema se comunique com a rede. Ele é usado pelo Módulo de Processamento Central para obter a data e hora via NTP (garantindo a precisão dos registros) e pelo Módulo de Processamento Secundário para enviar os dados ambientais via protocolo MQTT para uma interface de monitoramento remoto.
+
+- **Módulo de Processamento Secundário**: Neste bloco está o segundo microcontrolador BitDogLab (Escrava), que atua como um processador dedicado para tarefas de suporte. Ele é responsável por gerenciar o Módulo de Dados do Ambiente, coletando as informações dos sensores, e por controlar o Módulo de Armazenamento, recebendo os dados do processador central e gravando-os no Cartão SD.
+
+- **Módulo de Processamento Central**: Representado pelo microcontrolador BitDogLab (Mestre), este bloco funciona como o núcleo do sistema de acesso. Ele recebe os dados do Módulo de Controle de Acesso, executa a lógica de autenticação criptográfica, comanda os Módulos de Atuação Física e de Feedback, e envia os dados do evento para o processador secundário registrar.
+
+A imagem a seguir explicita de forma visual os blocos funcionais do projeto:
+
+![Blocos Funcioanais](media/Blocos_Funcionais.png)
+
+---
+
+### **5.3. Fluxograma do Software**
+
+O diagrama a seguir demonstra o fluxo de processos realizados pelo sistema, mostrando uma
+abstração do que será implementado em software, sem distinguir em qual placa será executado
+cada processo. 
+
+Este fluxograma demonstra um ciclo completo executado nos loops principais de cada placa do sistema,
+começando com a checagem se o leitor RFID identifica algum cartão, se sim o sistema verifica se o
+cartão é válido e libera ou bloqueia o acesso conforme o verificado, sinalizando o estado dessa
+verificação utilizando o buzzer, o led RGB e o display OLED. Por fim, o sistema obtém os dados dos
+sensores e manda esses dados via MQTT para a interface Web, para então repetir este mesmo ciclo
+até que o sistema seja desligado.
+
+![Fluxograma de Software](media/Fluxograma_de_Software.png)
+
+## **6. Como Usar**
+
+### **6.1. Compilação**
 
 - Com o VSCode e a extensão [Raspberry Pi Pico](https://marketplace.visualstudio.com/items?itemName=raspberry-pi.raspberry-pi-pico):
 
@@ -198,7 +303,7 @@ quanto as conexões do buzzer, display OLED e LED RGB.
   picotool load -f build/src/app/projeto_final.elf
   ```
 
-### **Interface MQTT**
+### **6.2. Interface MQTT**
 
 Para obter os dados dos sensores via MQTT é preciso configurar um broker e
 alterar as configurações do Wi-Fi e do broker no arquivo `bitdoglab_escrava.c`
@@ -208,7 +313,7 @@ Com tudo configurado, utilize o comando `uv run interface.py` para rodar a inter
 pelo computador. Caso não tenha o uv instalado utilize o comando `pip install uv` para
 instalá-lo.
 
-### **Instruções de Uso do Sistema**
+### **6.3. Instruções de Uso do Sistema**
 
 Para utilizar o sistema de controle de entrada utilize o programa de registro de cartões que pode ser compilado mudando a variável *Device* no *CMakeLists.txt* da pasta `src/app` para ***RFID_WRITER***. Com os cartões registrados e o sistema corretamente montado e configurado basta aproximar os cartões válidos ao leitor RFID para abrir a fechadura e registrar a entrada e saída do ambiente.
 
@@ -216,7 +321,7 @@ Para obter os dados coletados pelos sensores certifique-se de que o broker MQTT 
 
 ---
 
-## **Destaques Tecnológicos**
+## **7. Destaques Tecnológicos**
 
 Para criar uma solução robusta e inteligente, o projeto integra tecnologias-chave que o diferenciam de sistemas embarcados convencionais. A seguir, detalhamos os destaques tecnológicos do projeto:
 * **RFID**: tecnologia de identificação e transferência de dados por meio de ondas de rádio entre um leitor e uma tag. No caso de tags passivas, utilizadas no projeto, não há bateria interna; elas são energizadas pelo campo eletromagnético gerado pelo leitor. Esse campo ativa o chip da tag, que responde transmitindo os dados gravados em sua memória para o leitor. Essa tecnologia foi empregada como base para o controle de acesso e o registro dos usuários.
@@ -228,7 +333,7 @@ Para criar uma solução robusta e inteligente, o projeto integra tecnologias-ch
 
 ---
 
-## **Imagens e Vídeo Demonstrativos**
+## **8. Imagens e Vídeo Demonstrativos**
 A imagem a seguir registra a montagem final do sistema, ilustrando a integração física de todos os componentes que formam o sistema de controle de acesso e monitoramento ambiental. 
 
 Ao centro, destacam-se as **duas placas BitDogLab**, que constituem a arquitetura de processamento distribuída do sistema. Conforme a arquitetura proposta, uma placa foi nomeada como **Mestre**, à direita, responsável por gerenciar a autenticação de usuários e a interface de feedback, enquanto a outra foi nomeada como **Escrava**, à esquerda, dedicada ao monitoramento das condições ambientais e ao armazenamento dos registros de acesso. A comunicação entre ambas é realizada via protocolo **UART**, uma das integrações mais importantes do projeto.
@@ -266,7 +371,7 @@ A seguir é apresentado o **vídeo do funcionamento da montagem**:
 
 ---
 
-## **Bibliotecas Utilizadas**
+## **9. Bibliotecas Utilizadas**
 
 - [pico-sdk](https://github.com/raspberrypi/pico-sdk)
 
@@ -298,5 +403,5 @@ A seguir é apresentado o **vídeo do funcionamento da montagem**:
 
 ---
 
-## Licença
+## **10. Licença**
 MIT License
